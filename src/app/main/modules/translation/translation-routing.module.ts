@@ -5,7 +5,7 @@ import { TranslationComponent } from './translation.component';
 
 const routes: Routes = [
 {	
-	path: '',
+	path: ':id',
     component: TranslationComponent
 },
 ];

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Translation } from '../../translation/translation'
+import { TranslationService } from '../../translation/translation.service';
+import { Router, ActivatedRoute, Params, Data } from '@angular/router';
+
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'translation',
@@ -7,9 +12,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TranslationComponent implements OnInit {
 
-  constructor() { }
+	translation: Translation;
+	
+	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit() {
-  }
+	ngOnInit() {
+		//translation/:id, translationID = ":id" param
+		const translationID = this.route.snapshot.params['id'];
+		this.translationService.getTranslations([translationID]).subscribe(translations =>
+			this.translation = translations[0]
+		);
+	}
 
 }
