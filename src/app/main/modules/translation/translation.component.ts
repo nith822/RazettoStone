@@ -14,13 +14,16 @@ export class TranslationComponent implements OnInit {
 
 	translation: Translation;
 	
+	hoveredIndex: number = -1;
+	sideBarOpened = false;
+	
 	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
 
 	ngOnInit() {
 		//translation/:id, translationID = ":id" param
 		const translationID = this.route.snapshot.params['id'];
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
-			this.translation = translations[0]
+			this.translation = translations[0],
 		);
 	}
 

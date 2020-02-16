@@ -1,4 +1,19 @@
-<div class="container-component">
-	<p> {{ translation.getText(false) }} </p>
-	<p>translation works!</p>
+<div class="container-div" [ngClass]="{ 'sidebaropened': sidebarOpened}">
+	<div class="textBox">
+		<p *ngFor="let originalLine of translation.getOriginalText(true); let i=index"
+			(mouseenter)="hoveredIndex = i"
+			(mouseleave)="hoveredIndex = -1"
+			[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}">
+			{{originalLine}}
+		</p>
+	</div>
+	<div class="textBox">
+		<p *ngFor="let translatedLine of translation.getOriginalText(false); let i=index"
+			(mouseenter)="hoveredIndex = i"
+			(mouseleave)="hoveredIndex = -1"
+			(click)="sidebarOpened = true"
+			[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}">
+			{{translatedLine}}
+		</p>
+	</div>
 </div>

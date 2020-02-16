@@ -45,7 +45,7 @@ describe('Translation', () => {
 		});
 	});
 	
-	it('should throw a getText error', () => {
+	it('should throw a getOriginalText error', () => {
 		let lineNumber = originalText.length + 1;
 		Promise.all([
 			expect(() => translation.getLine(true, lineNumber)).toThrow(new Error('OUB in text. isOriginal: ' + true)),
