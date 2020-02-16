@@ -1,4 +1,4 @@
-<div class="container-div" [ngClass]="{ 'sidebaropened': sidebarOpened}">
+<div class="container-div">
 	<div class="textBox">
 		<p *ngFor="let originalLine of translation.getOriginalText(true); let i=index"
 			(mouseenter)="hoveredIndex = i"

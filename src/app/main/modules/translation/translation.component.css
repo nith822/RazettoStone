@@ -17,24 +17,3 @@
 .textBox p {
 	text-align: center;
 }
-
-
-.sidebar {
-	display: none;
-	border: 3px solid purple;
-	background-image: linear-gradient(#F73CDE, #FA69E7, #FEA9F3);
-}
-
-.sidebar.sidebaropened {
-	width: 15%;
-	display: block;
-    transform: translate(5vw);
-}
-.sidebaropened {
-    transform: translate(-5vw);
-}
-
-.sidebarButton {
-	font-size: 32px;
-	cursor: pointer;
-}
