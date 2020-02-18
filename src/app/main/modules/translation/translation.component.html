@@ -1,19 +1,29 @@
-<div class="container-div">
+<div class = "sidebar" [ngClass]="{'sidebaropened': sidebarOpened}">
+	
+	<p class= "sidebarButton"(click)="sidebarOpened = true" *ngIf="!sidebarOpened">
+		&#9776;
+	</p>
+	<div class="sidebarInner" [ngClass]="{'sidebaropened': sidebarOpened}">
+		<button class="sidebarOption"(click)="sidebarOpened = false"><b> &times;</b></button>
+	</div>
+</div>
+<div class="container-div" [ngClass]="{ 'sidebaropened': sidebarOpened}">
 	<div class="textBox">
-		<p *ngFor="let originalLine of translation.getOriginalText(true); let i=index"
+		<span *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
 			(mouseenter)="hoveredIndex = i"
 			(mouseleave)="hoveredIndex = -1"
 			[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}">
-			{{originalLine}}
-		</p>
+			{{originalLine.getText()}}
+		</span>
 	</div>
 	<div class="textBox">
-		<p *ngFor="let translatedLine of translation.getOriginalText(false); let i=index"
+		<span *ngFor="let translatedLine of translation.getOriginalText(false).getTextLines(); let i=index"
 			(mouseenter)="hoveredIndex = i"
 			(mouseleave)="hoveredIndex = -1"
 			(click)="sidebarOpened = true"
 			[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}">
-			{{translatedLine}}
-		</p>
+			{{translatedLine.getText()}}
+		</span>
 	</div>
+
 </div>

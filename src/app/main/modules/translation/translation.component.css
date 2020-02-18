@@ -17,3 +17,37 @@
 .textBox p {
 	text-align: center;
 }
+
+.sidebar {
+	position: fixed;
+	left: 0vw;
+	transition-property: all;
+	transition-duration: 1s;
+}
+
+.sidebarInner {
+	width: 25vw;
+	height: 80vh;
+	border: 2px solid purple;
+	background-image: linear-gradient(#F73CDE, #FA69E7, #FEA9F3);
+	
+	position: fixed;
+	top: 10vh;
+	left: -26vw;
+	transition-property: all;
+	transition-duration: 1s;
+}
+
+.sidebar.sidebaropened .sidebarInner {
+	left: 1vw;
+}
+
+
+.sidebarButton {
+	position: absolute;
+	font-size: 32px;
+	float: left;
+	transform: translate(35px, -15px);
+	cursor: pointer;
+}
+

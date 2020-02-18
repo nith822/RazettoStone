@@ -1,8 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Translation } from './translation';
 import { Observable, of } from 'rxjs';
+import { Text } from './text/text';
 
-let mockTranslation: Translation = new Translation(['java','int','bad','aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \n aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a','a', 'a','a','a','a','a','a','a','a','a','a','a',],['typescript','number','good']);
+
+let originalStrings: string[] = ['java','int','this'];
+let translatedStrings: string[] = ['typescript','number','this'];
+
+let originalText: Text = new Text(originalStrings);
+let translatedText: Text = new Text(translatedStrings);
+let translatedTexts: Text[] = [translatedText];
+
+let mockTranslation: Translation = new Translation(originalText, translatedTexts);
 	
 @Injectable()
 export class TranslationService {

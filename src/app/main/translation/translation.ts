@@ -1,31 +1,38 @@
+import { Text } from './text/text';
+import { TextLine } from './text/TextLine';
+
 export class Translation {
-	originalText: string[];
-	translatedText: string[];
 	
-	constructor(originalText: string[], translatedText: string[]) {
-		if(!originalText || originalText.length == 0) {
-			throw new Error('originalText is null or length = 0');
+	originalText: Text;
+	translatedTexts: Text[];
+	
+	currentTranslatedText: Text;
+	
+	constructor(originalText: Text, translatedTexts: Text[]) {
+		if(!originalText) {
+			throw new Error('originalText is null');
 		}
-		if(!translatedText || translatedText.length == 0) {
-			throw new Error('translatedText is null or length = 0');
+		if(!translatedTexts || translatedTexts.length == 0) {
+			throw new Error('translatedText is null');
 			
 		}
 		this.originalText = originalText;
-		this.translatedText = translatedText;
+		this.translatedTexts = translatedTexts;
+		this.currentTranslatedText = translatedTexts[0];
 	}
 	
-	getOriginalText(isOriginal: boolean): string[] {
+	getOriginalText(isOriginal: boolean): Text {
 		if(isOriginal) {
 			return this.originalText;
 		} else {
-			return this.translatedText;
+			return this.currentTranslatedText;
 		}
 	}
 	
-	getLine(isOriginal: boolean, line: number): string {
-		if(this.getOriginalText(isOriginal).length < line || line < 0) {
+	getTextLine(isOriginal: boolean, line: number): TextLine {
+		if(this.getOriginalText(isOriginal).getTextLines().length < line || line < 0) {
 			throw new Error('OUB in text. isOriginal: ' + isOriginal); 
 		}
-		return this.getOriginalText(isOriginal)[line];
+		return this.getOriginalText(isOriginal).getTextLine(line);
 	}
 }
