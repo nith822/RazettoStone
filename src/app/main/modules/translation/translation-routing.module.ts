@@ -4,10 +4,10 @@ import { TranslationComponent } from './translation.component';
 
 
 const routes: Routes = [
-{	
-	path: ':id',
-    component: TranslationComponent
-},
+	{	
+		path: ':id',
+		component: TranslationComponent
+	},
 ];
 
 @NgModule({

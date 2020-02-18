@@ -1,9 +1,11 @@
 <div class = "sidebar" [ngClass]="{'sidebaropened': sidebarOpened}">
-	
-	<p class= "sidebarButton"(click)="sidebarOpened = true" *ngIf="!sidebarOpened">
-		&#9776;
-	</p>
+	<nav>
+		<p class= "sidebarButton" (click)="sidebarOpened = true;" *ngIf="!sidebarOpened" >
+			&#9776;
+		</p>
+	</nav>
 	<div class="sidebarInner" [ngClass]="{'sidebaropened': sidebarOpened}">
+		<sidebar *ngIf="sidebarOpened" [translation]="this.translation"> </sidebar>
 		<button class="sidebarOption"(click)="sidebarOpened = false"><b> &times;</b></button>
 	</div>
 </div>

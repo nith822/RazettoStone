@@ -15,7 +15,7 @@ export class TranslationComponent implements OnInit {
 	translation: Translation;
 	
 	hoveredIndex: number = -1;
-	sideBarOpened = false;
+	sideBarOpened = false; 
 	
 	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
 

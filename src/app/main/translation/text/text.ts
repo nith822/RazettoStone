@@ -3,6 +3,7 @@ import { TextLine } from './textLine';
 export class Text {
 	
 	textLines: TextLine[];
+	comments: string[];
 	
 	constructor(text: string[]) {
 		if(!text || text.length == 0) {
@@ -10,6 +11,7 @@ export class Text {
 		}
 		
 		this.textLines = [];
+		this.comments = [];
 		
 		for(let string of text) {
 			this.textLines.push(new TextLine(string));
@@ -25,5 +27,11 @@ export class Text {
 			throw new Error('OUB in textLines. Line:: ' + line); 
 		}
 		return this.getTextLines()[line];
+	}
+	
+	addComments(comments: string[]): void {
+		for(let comment of comments) {
+			this.comments.push(comment);
+		}
 	}
 }
