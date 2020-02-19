@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Translation } from '../../translation/translation'
 import { TranslationService } from '../../translation/translation.service';
-import { Router, ActivatedRoute, Params, Data } from '@angular/router';
+import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -26,7 +26,14 @@ export class TranslationComponent implements OnInit {
 			this.translation = translations[0],
 		);
 		
-		this.router.navigate([{outlets: {translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: true});
+		//jank
+		this.router.navigate([{outlets: {translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
+		this.router.events.subscribe((val) => {
+			if(val instanceof NavigationEnd && val.url === "/translation/1") {
+				console.log("hit");
+				this.router.navigate([{outlets: {translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
+			}
+		});
 	}
 
 }
