@@ -6,12 +6,14 @@ import { Text } from './text/text';
 
 let originalStrings: string[] = ['java','int','this'];
 let translatedStrings: string[] = ['typescript','number','this'];
+let translatedStrings2: string[] = ['ok','why','do'];
 
 let comments: string[] = ["epic","wow","cringe"];
 
 let originalText: Text = new Text(originalStrings);
 let translatedText: Text = new Text(translatedStrings);
-let translatedTexts: Text[] = [translatedText];
+let translatedText2: Text = new Text(translatedStrings2);
+let translatedTexts: Text[] = [translatedText, translatedText2];
 
 let mockTranslation: Translation = new Translation(originalText, translatedTexts);
 	

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'header',
@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router) { }
+	constructor(private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit() {
-  }
-
+	ngOnInit() {
+	
+	}
 }

@@ -19,13 +19,8 @@
 		</span>
 	</div>
 	<div class="textBox">
-		<span *ngFor="let translatedLine of translation.getOriginalText(false).getTextLines(); let i=index"
-			(mouseenter)="hoveredIndex = i"
-			(mouseleave)="hoveredIndex = -1"
-			(click)="sidebarOpened = true"
-			[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}">
-			{{translatedLine.getText()}}
-		</span>
+		<router-outlet name="translations">
+		</router-outlet>
 	</div>
 
 </div>

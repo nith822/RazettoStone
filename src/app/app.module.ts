@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 
 import { SharedModule } from './main/modules/shared/shared.module';
 
-import { TranslationService } from './main/translation/translation.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,7 @@ import { TranslationService } from './main/translation/translation.service';
     AppRoutingModule,
 	SharedModule
   ],
-  providers: [TranslationService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

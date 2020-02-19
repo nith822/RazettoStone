@@ -18,6 +18,11 @@
 	text-align: center;
 }
 
+.translatedTextPreview {
+	margin: 1%;
+	border: 1px dotted yellow;
+}
+
 .sidebar {
 	position: fixed;
 	left: 0vw;

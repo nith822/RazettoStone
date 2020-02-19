@@ -25,6 +25,8 @@ export class TranslationComponent implements OnInit {
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
 			this.translation = translations[0],
 		);
+		
+		this.router.navigate([{outlets: {translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: true});
 	}
 
 }

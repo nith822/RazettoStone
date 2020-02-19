@@ -29,6 +29,20 @@ export class Text {
 		return this.getTextLines()[line];
 	}
 	
+	getPreviewTextLines(): TextLine[] {
+		var previewTextLines: TextLine[] = [];
+		var maxPreviewLength: number = 3;
+		
+		if(this.textLines.length < 3) {
+			maxPreviewLength = this.textLines.length;
+		}
+		
+		for(var i = 0; i < maxPreviewLength; i++) {
+			previewTextLines.push(this.getTextLine(i));
+		}
+		return previewTextLines;
+	}
+	
 	addComments(comments: string[]): void {
 		for(let comment of comments) {
 			this.comments.push(comment);
