@@ -13,4 +13,8 @@ export class HeaderComponent implements OnInit {
 	ngOnInit() {
 	
 	}
+	
+	navigate(path) {
+		this.router.navigate([{outlets: {primary: ['translation'], translations: ['previews']}}], {relativeTo: this.route.root, skipLocationChange: false});
+	}
 }

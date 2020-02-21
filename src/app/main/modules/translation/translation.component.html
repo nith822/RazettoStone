@@ -10,7 +10,7 @@
 	</div>
 </div>
 <div class="container-div" [ngClass]="{ 'sidebaropened': sidebarOpened}">
-	<div class="textBox">
+	<div class="textBoxL">
 		<span *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
 			(mouseenter)="hoveredIndex = i"
 			(mouseleave)="hoveredIndex = -1"
@@ -18,7 +18,7 @@
 			{{originalLine.getText()}}
 		</span>
 	</div>
-	<div class="textBox">
+	<div class="textBoxR">
 		<router-outlet name="translations">
 		</router-outlet>
 	</div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params, Data } from '@angular/router';
 
 @Component({
   selector: 'app-translation-text',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TranslationTextComponent implements OnInit {
 
-  constructor() { }
+	constructor(private route: ActivatedRoute, private router: Router) {
+	}
 
   ngOnInit() {
+		console.log("init TranslationTextComponent");
+		this.router.events.subscribe((val) => {
+				console.log(val);
+		});
   }
 
 }

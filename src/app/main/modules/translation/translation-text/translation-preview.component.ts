@@ -18,6 +18,8 @@ export class TranslationPreviewComponent implements OnInit {
 	}
 
 	ngOnInit() {	
+		
+		console.log("init TranslationPreviewComponent");
 		const translationID = this.route.snapshot.params['id'];
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
 			this.translation = translations[0],
@@ -26,7 +28,7 @@ export class TranslationPreviewComponent implements OnInit {
 	
 	navigate(path: number): void {
 		console.log(path);
-		this.router.navigate([{outlets: {primary: ['1']}}], {relativeTo: this.route.parent, skipLocationChange: false});
+		this.router.navigate([{outlets: {primary: [path]}}], {relativeTo: this.route.parent, skipLocationChange: false});
 	}
 
   

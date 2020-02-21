@@ -8,8 +8,16 @@
 	overflow: auto;
 }
 
-.textBox {
-	width: 49%;
+.textBoxL {
+	
+	width: 35%;
+	margin: 1%;
+	border: 1px dotted yellow;
+	
+}
+
+.textBoxR {
+	width: 65%;
 	margin: 1%;
 	border: 1px dotted yellow;
 }

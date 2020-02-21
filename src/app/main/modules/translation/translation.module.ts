@@ -5,7 +5,6 @@ import { TranslationComponent } from './translation.component';
 import { TranslationRoutingModule } from './translation-routing.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
-import { TranslationService } from '../../translation/translation.service';
 
 
 
@@ -19,6 +18,5 @@ import { TranslationService } from '../../translation/translation.service';
 		TranslationRoutingModule
   ],
   
-  providers: [TranslationService],
 })
 export class TranslationModule { }
