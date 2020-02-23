@@ -12,6 +12,7 @@ import { Router, ActivatedRoute, Params, Data } from '@angular/router';
 export class TranslationPreviewComponent implements OnInit {
 
 	translation: Translation;
+	translationID: number = -1;
 
 	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) {
 
@@ -20,14 +21,13 @@ export class TranslationPreviewComponent implements OnInit {
 	ngOnInit() {	
 		
 		console.log("init TranslationPreviewComponent");
-		const translationID = this.route.snapshot.params['id'];
-		this.translationService.getTranslations([translationID]).subscribe(translations =>
+		this.translationID = this.route.snapshot.params['id'];
+		this.translationService.getTranslations([this.translationID]).subscribe(translations =>
 			this.translation = translations[0],
 		);
 	}
 	
 	navigate(path: number): void {
-		console.log(path);
 		this.router.navigate([{outlets: {primary: [path]}}], {relativeTo: this.route.parent, skipLocationChange: false});
 	}
 

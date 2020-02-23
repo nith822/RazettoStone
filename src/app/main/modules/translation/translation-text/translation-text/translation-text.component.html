@@ -1,1 +1,7 @@
-<p>translation-text works!</p>
+<h1> translationTextIndex:: {{ this.translationTextID }} </h1>
+
+	<p *ngFor="let translatedText of this.convertToStringArray(this.translationText.getTextLines()); let i=index"
+		[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}"
+	>
+		{{ translatedText }}
+	</p>

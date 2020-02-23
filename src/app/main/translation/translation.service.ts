@@ -35,4 +35,13 @@ export class TranslationService {
 	getComments(translationID: number): Observable<string[]>{
 		return of(comments);
 	}
+
+	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
+		var translationTexts: Text[] = [];
+		for(let translationTextID of translationTextIDs) {
+			translationTexts.push(mockTranslation.translatedTexts[translationTextID]);
+		}
+		return of(translationTexts);
+	}
+	
 }

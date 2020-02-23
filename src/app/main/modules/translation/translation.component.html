@@ -1,4 +1,5 @@
 <div class = "sidebar" [ngClass]="{'sidebaropened': sidebarOpened}">
+	<h1> Original Text </h1>
 	<nav>
 		<p class= "sidebarButton" (click)="sidebarOpened = true;" *ngIf="!sidebarOpened" >
 			&#9776;
@@ -19,6 +20,7 @@
 		</span>
 	</div>
 	<div class="textBoxR">
+		<h2> translations </h2>
 		<router-outlet name="translations">
 		</router-outlet>
 	</div>

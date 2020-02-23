@@ -15,6 +15,7 @@ export class TranslationsComponent implements OnInit {
 	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
 
 	ngOnInit() {
+		console.log("init TranslationsComponent");
 		const translationID = this.route.snapshot.params['id'];
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
 			this.translations = translations,
