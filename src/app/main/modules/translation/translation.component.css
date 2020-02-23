@@ -1,10 +1,15 @@
 .container-div {
 	display: flex;
-	height: 75vh;
+	height: 85vh;
 	justify-content: center;
 	background-color:#F73CDE;
 	transition-property: all;
 	transition-duration: 1s;
+	overflow: hidden;
+}
+
+.originalText {
+	height: 100%;
 	overflow: auto;
 }
 

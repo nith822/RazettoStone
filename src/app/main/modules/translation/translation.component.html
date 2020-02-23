@@ -1,5 +1,4 @@
 <div class = "sidebar" [ngClass]="{'sidebaropened': sidebarOpened}">
-	<h1> Original Text </h1>
 	<nav>
 		<p class= "sidebarButton" (click)="sidebarOpened = true;" *ngIf="!sidebarOpened" >
 			&#9776;
@@ -11,16 +10,17 @@
 	</div>
 </div>
 <div class="container-div" [ngClass]="{ 'sidebaropened': sidebarOpened}">
-	<div class="textBoxL">
-		<span *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
-			(mouseenter)="hoveredIndex = i"
-			(mouseleave)="hoveredIndex = -1"
-			[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}">
-			{{originalLine.getText()}}
-		</span>
+	<div class="textBoxL"> 
+		<div class="originalText">
+			<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
+				(mouseenter)="this.translationService.hoveredIndex = i"
+				(mouseleave)="this.translationService.hoveredIndex = -1"
+				[ngStyle]= "{'background-color': i == this.translationService.hoveredIndex ? '#AFFFFF' : 'inherit'}">
+				{{originalLine.getText()}}
+			</p>
+		</div>
 	</div>
 	<div class="textBoxR">
-		<h2> translations </h2>
 		<router-outlet name="translations">
 		</router-outlet>
 	</div>

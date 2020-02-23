@@ -1,7 +1,8 @@
-<h1> translationTextIndex:: {{ this.translationTextID }} </h1>
-
+<div class="originalText">
 	<p *ngFor="let translatedText of this.convertToStringArray(this.translationText.getTextLines()); let i=index"
-		[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}"
-	>
+				(mouseenter)="this.translationService.hoveredIndex = i"
+				(mouseleave)="this.translationService.hoveredIndex = -1"
+				[ngStyle]= "{'background-color': i == this.translationService.hoveredIndex ? '#AFFFFF' : 'inherit'}">
 		{{ translatedText }}
 	</p>
+</div>
