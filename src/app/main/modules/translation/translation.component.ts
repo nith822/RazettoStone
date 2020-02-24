@@ -29,10 +29,10 @@ export class TranslationComponent implements OnInit {
 		//http://localhost:4200/translation/1/(translations:previews/(0))
 		//jank
 		 
-		this.router.navigate([{outlets: {translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
+		this.router.navigate([{outlets: {sidebar: ['comments'], translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
 		this.router.events.subscribe((val) => {
 			if(val instanceof NavigationEnd && val.url === "\/translations\/1") {
-				console.log("hit");
+				//console.log("hit");
 				//this.router.navigate([{outlets: {translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
 			}
 		});

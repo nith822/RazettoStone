@@ -28,7 +28,6 @@ export class TranslationTextComponent implements OnInit {
 				console.log(val[0].path);
 		});
 		
-
 		combineLatest(this.route.url, this.route.parent.parent.url).subscribe(([translationTextIDUrl, translationIDUrl]) => {
 			this.translationID = +translationIDUrl[0].path;
 			this.translationTextID = +translationTextIDUrl[0].path;

@@ -15,6 +15,11 @@ const routes: Routes = [
 				outlet: 'translations',
 				loadChildren: () => import('./translation-text/translation-text.module').then(m => m.TranslationTextModule) 
 			},
+			{
+				path: 'comments',
+				outlet: 'sidebar',
+				loadChildren: () => import('./translation-text/translation-text.module').then(m => m.TranslationTextModule) 
+			}
 		]
 	},
 	

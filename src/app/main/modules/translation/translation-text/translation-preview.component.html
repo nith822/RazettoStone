@@ -1,8 +1,15 @@
 
-			<p *ngFor="let translatedText of translation.translatedTexts; let i=index"
+			<div *ngFor="let translatedText of translation.translatedTexts; let i=index"
 				[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}"
-				class="translatedTextPreview"
+				class="container-div"
 				(click)="this.navigate(i)"
 				>
-				{{this.convertToStringArray(translatedText.getPreviewTextLines())}}
-			</p>
+				<h3>
+					Translator: {{ translatedText.user.username }}
+					<br>
+					Title: {{ translatedText.title }}
+				</h3>
+				<p>
+					{{this.convertToStringArray(translatedText.getPreviewTextLines())}}
+				</p>
+			</div>

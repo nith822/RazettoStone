@@ -2,6 +2,45 @@ import { Injectable } from '@angular/core';
 import { Translation } from './translation';
 import { Observable, of } from 'rxjs';
 import { Text } from './text/text';
+import { User } from '../user/user';
+import { UserService } from '../user/user.service';
+
+	
+let hoveredIndex: number = -1;
+
+@Injectable()
+export class TranslationService {
+	
+	
+	constructor(private userService: UserService) {   
+	
+	}
+	
+	getTranslations(translationIDs: number[]): Observable<Translation[]> {
+		var translations: Translation[] = [];
+		translations.push(mockTranslation);
+		for(let translatedText of mockTranslation.translatedTexts) {
+			this.userService.getUsers([translatedText.id]).subscribe((users) => {
+				translatedText.user = users[0];
+			});
+		}
+		return of(translations);
+	}
+	
+	
+	getComments(translationID: number): Observable<string[]>{
+		return of(comments);
+	}
+
+	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
+		var translationTexts: Text[] = [];
+		for(let translationTextID of translationTextIDs) {
+			translationTexts.push(mockTranslation.translatedTexts[translationTextID]);
+		}
+		return of(translationTexts);
+	}
+	
+}
 
 
 let originalStrings: string[] = ["「それで天国に行くためにはどうしたらいいの？」",
@@ -114,40 +153,9 @@ let translatedStrings2: string[] = ["「 How can I go to heaven? 」",
 
 let comments: string[] = ['hello', 'world'];
 
-let originalText: Text = new Text(originalStrings);
-let translatedText: Text = new Text(translatedStrings);
-let translatedText2: Text = new Text(translatedStrings2);
+let originalText: Text = new Text(originalStrings, 1, null, "Abend, Chapter 2 Scene 1");
+let translatedText: Text = new Text(translatedStrings, 111, null, "Chad's translation");
+let translatedText2: Text = new Text(translatedStrings2, 222, null, "Google's translation");
 let translatedTexts: Text[] = [translatedText, translatedText2];
 
 let mockTranslation: Translation = new Translation(originalText, translatedTexts);
-	
-let hoveredIndex: number = -1;
-
-@Injectable()
-export class TranslationService {
-	
-	
-	constructor() {   
-	
-	}
-	
-	getTranslations(translationIDs: number[]): Observable<Translation[]> {
-		var translations: Translation[] = [];
-		translations.push(mockTranslation);
-		return of(translations);
-	}
-	
-	
-	getComments(translationID: number): Observable<string[]>{
-		return of(comments);
-	}
-
-	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
-		var translationTexts: Text[] = [];
-		for(let translationTextID of translationTextIDs) {
-			translationTexts.push(mockTranslation.translatedTexts[translationTextID]);
-		}
-		return of(translationTexts);
-	}
-	
-}

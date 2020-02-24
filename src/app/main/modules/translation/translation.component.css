@@ -11,6 +11,7 @@
 .originalText {
 	height: 100%;
 	overflow: auto;
+	border: 3px solid black;
 }
 
 .textBoxL {

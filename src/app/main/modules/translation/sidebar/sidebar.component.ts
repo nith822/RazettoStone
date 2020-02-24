@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Translation } from '../../../translation/translation'
 import { Text } from '../../../translation/text/text'
 
-import { Router, ActivatedRoute, Params, Data } from '@angular/router';
+import { Router, ActivatedRoute, Params, Data, NavigationEnd  } from '@angular/router';
 
 import { TranslationService } from '../../../translation/translation.service';
 
@@ -19,9 +19,11 @@ export class SidebarComponent implements OnInit {
 
 	ngOnInit() {
 		const translationID = this.route.snapshot.params['id'];
-		this.translationService.getComments(translationID).subscribe(comments =>
-			this.comments = comments
-		);
+		this.router.events.subscribe((val) => {
+			if(val instanceof NavigationEnd) {
+				console.log(val.url);
+			}
+		});
 	}
 
 }

@@ -1,11 +1,27 @@
 import { TextLine } from './textLine';
+import { User } from '../../user/user';
 
 export class Text {
 	
+	id: number = -1;
 	textLines: TextLine[];
 	comments: string[];
+	user: User;
+	title: string;
 	
-	constructor(text: string[]) {
+	constructor(text: string[], id?: number, user?: User, title?: string) {
+		if(user) {
+			this.user = user;
+		}
+		
+		if(id) {
+			this.id = id;
+		}
+		
+		if(title) {
+			this.title = title;
+		}
+		
 		if(!text || text.length == 0) {
 			throw new Error('text is null or length = 0');
 		}
