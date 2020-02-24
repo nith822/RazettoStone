@@ -29,13 +29,20 @@ export class TranslationComponent implements OnInit {
 		//http://localhost:4200/translation/1/(translations:previews/(0))
 		//jank
 		 
-		this.router.navigate([{outlets: {sidebar: ['comments'], translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
+		this.router.navigate([{outlets: { translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
 		this.router.events.subscribe((val) => {
-			if(val instanceof NavigationEnd && val.url === "\/translations\/1") {
-				//console.log("hit");
-				//this.router.navigate([{outlets: {translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
+			if(val instanceof NavigationEnd && this.isValidTranslationTextEndpoint(val.url)) {
+				console.log(val.url);
+				this.router.navigate([{outlets: {sidebar: ['comments']}}], {relativeTo: this.route, skipLocationChange: false});
 			}
 		});
 	}
 	
+	isValidTranslationTextEndpoint(url: string): boolean {
+		let regexp = new RegExp('');
+		if(url.match(regexp)) {
+			return true;
+		}
+		return false;
+	}
 }

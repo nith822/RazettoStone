@@ -1,10 +1,8 @@
 <div class = "sidebar" [ngClass]="{'sidebaropened': sidebarOpened}">
 	<nav>
-	<!--
 		<p class= "sidebarButton" (click)="sidebarOpened = true;" *ngIf="!sidebarOpened" >
 			&#9776;
 		</p>
-	-->
 	</nav>
 	<div class="sidebarInner" [ngClass]="{'sidebaropened': sidebarOpened}">
 		<router-outlet name="sidebar">

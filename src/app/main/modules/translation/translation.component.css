@@ -66,7 +66,7 @@
 	position: absolute;
 	font-size: 32px;
 	float: left;
-	transform: translate(35px, -15px);
+	transform: translate(90vw, -15px);
 	cursor: pointer;
 }
 

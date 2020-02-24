@@ -24,17 +24,12 @@ export class TranslationTextComponent implements OnInit {
 	ngOnInit() {
 		console.log("init TranslationTextComponent");
 		
-		this.route.url.subscribe((val) => {
-				console.log(val[0].path);
-		});
-		
 		combineLatest(this.route.url, this.route.parent.parent.url).subscribe(([translationTextIDUrl, translationIDUrl]) => {
 			this.translationID = +translationIDUrl[0].path;
 			this.translationTextID = +translationTextIDUrl[0].path;
 			
 			this.translationService.getTranslationText(this.translationID, [this.translationTextID]).subscribe((translationText) => {
 				this.translationText = translationText[0];
-				console.log(this.translationText);
 			});
 		});
 	}
