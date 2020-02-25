@@ -1,7 +1,8 @@
-<h1> translations List </h1>
+<h1> Translations List </h1>
 
 	<div *ngFor="let translation of this.translations" class="container-div">
-		<span *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
+		<h2> Title: {{ translation.getOriginalText(true).title }} </h2>
+		<span *ngFor="let originalLine of translation.getOriginalText(true).getTextLines().slice(0,5); let i=index"
 			(click)="this.navigate('1')">
 			{{originalLine.getText()}}
 		</span>

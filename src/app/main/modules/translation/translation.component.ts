@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener} from '@angular/core';
+import { Location } from '@angular/common';
 import { Translation } from '../../translation/translation'
 import { TranslationService } from '../../translation/translation.service';
 import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/router';
+import { SidebarService } from '../../sidebar/sidebar.service';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'translation',
@@ -15,9 +17,9 @@ export class TranslationComponent implements OnInit {
 	translation: Translation;
 	
 	hoveredIndex: number = -1;
-	sideBarOpened = false; 
 	
-	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
+	constructor(private route: ActivatedRoute, private router: Router, private location: Location, 
+	private translationService: TranslationService, private sidebarService: SidebarService) { }
 
 	ngOnInit() {
 		console.log("init TranslationComponent");
@@ -28,21 +30,31 @@ export class TranslationComponent implements OnInit {
 		);
 		//http://localhost:4200/translation/1/(translations:previews/(0))
 		//jank
-		 
+		//http://localhost:4200/translations/translation/1/(translations:previews//sidebar:comments)
 		this.router.navigate([{outlets: { translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
-		this.router.events.subscribe((val) => {
-			if(val instanceof NavigationEnd && this.isValidTranslationTextEndpoint(val.url)) {
-				console.log(val.url);
-				this.router.navigate([{outlets: {sidebar: ['comments']}}], {relativeTo: this.route, skipLocationChange: false});
-			}
-		});
+	}
+	
+	@HostListener('window:popstate', ['$event'])
+	onPopState(event) {
+		console.log(this.router.url);
+		if(this.router.url === '\/translations\/translation\/1\/(translations:previews)') {
+			console.log('Back button pressed on target url');
+			this.location.back();
+		}
 	}
 	
 	isValidTranslationTextEndpoint(url: string): boolean {
 		let regexp = new RegExp('');
-		if(url.match(regexp)) {
+		console.log(url);
+		if(url.charAt(url.length - 3) == '0') {	
 			return true;
 		}
 		return false;
+	}
+	
+	onClick(): void {
+		this.router.navigate([{outlets: { sidebar: ['comments']}}], {relativeTo: this.route, skipLocationChange: true});
+		this.sidebarService.toggleSideBar();
+		console.log(this.sidebarService.sideBarOpened);
 	}
 }

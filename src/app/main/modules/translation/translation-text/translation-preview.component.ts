@@ -13,7 +13,7 @@ export class TranslationPreviewComponent implements OnInit {
 
 	translation: Translation;
 	translationID: number = -1;
-
+	
 	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) {
 
 	}
@@ -21,6 +21,7 @@ export class TranslationPreviewComponent implements OnInit {
 	ngOnInit() {	
 		
 		console.log("init TranslationPreviewComponent");
+		//subscribe
 		this.translationID = this.route.snapshot.params['id'];
 		this.translationService.getTranslations([this.translationID]).subscribe(translations =>
 			this.translation = translations[0],
