@@ -19,10 +19,13 @@ export class TranslationService {
 	getTranslations(translationIDs: number[]): Observable<Translation[]> {
 		var translations: Translation[] = [];
 		translations.push(mockTranslation);
-		for(let translatedText of mockTranslation.translatedTexts) {
-			this.userService.getUsers([translatedText.id]).subscribe((users) => {
-				translatedText.user = users[0];
-			});
+		translations.push(mockTranslation2);
+		for(let translation of translations) {
+			for(let translatedText of translation.translatedTexts) {
+				this.userService.getUsers([translatedText.id]).subscribe((users) => {
+					translatedText.user = users[0];
+				});
+			}
 		}
 		return of(translations);
 	}
@@ -33,9 +36,13 @@ export class TranslationService {
 	}
 
 	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
+		console.log(translationID);
 		var translationTexts: Text[] = [];
-		for(let translationTextID of translationTextIDs) {
-			translationTexts.push(mockTranslation.translatedTexts[translationTextID]);
+		for(let translation of translations.filter(x => x.originalText.id == translationID)) {	
+			for(let translationTextID of translationTextIDs) {
+				console.log(translationTextID);
+				translationTexts.push(translation.translatedTexts[translationTextID ]);
+			}
 		}
 		return of(translationTexts);
 	}
@@ -159,3 +166,18 @@ let translatedText2: Text = new Text(translatedStrings2, 222, null, "Google's tr
 let translatedTexts: Text[] = [translatedText, translatedText2];
 
 let mockTranslation: Translation = new Translation(originalText, translatedTexts);
+
+/////
+let originalString2: string[] = ["Qu’elle ose regarder mon nez, cette camarde ! (Il lève son épée.) Que dites-vous ?… C’est inutile ?… Je le sais ! Mais on ne se bat pas dans l’espoir du succès ! Non ! non ! c’est bien plus beau lorsque c’est inutile ! – Qu’est-ce que c’est que tous ceux-là ? – Vous êtes mille ? Ah ! je vous reconnais, tous mes vieux ennemis ! Le Mensonge ? (Il frappe de son épée le vide.) Tiens, tiens ! – Ha ! ha ! les Compromis, Les Préjugés, les Lâchetés !… (Il frappe.) Que je pactise ? Jamais, jamais ! – Ah ! te voilà, toi, la Sottise ! – Je sais bien qu’à la fin vous me mettrez à bas ; N’importe : je me bats ! je me bats ! je me bats ! (Il fait des moulinets immenses et s’arrête haletant.) Oui, vous m’arrachez tout, le laurier et la rose ! Arrachez ! Il y a malgré vous quelque chose Que j’emporte, et ce soir, quand j’entrerai chez Dieu, Mon salut balaiera largement le seuil bleu, Quelque chose que sans un pli, sans une tache, J’emporte malgré vous,et c’est…C’est ?…Mon panache."
+];
+let originalText2: Text = new Text(originalString2, 2, null, "CYRANO DE BERGERAC, Mon Panache");
+let translatedStrings3: string[] = ["I see him! He, the noseless one, dares to mock my nose! How insolent! [He raises his sword.] You say it's useless. That I know. But who fights believing that every battle will be a success? I fought for lost causes and fruitless quests! You there! I see you! Thousands of you! All enemies of mine, I know you now! Ah! There's Falsehood! [He strikes the air with his sword.] And Compromise! Prejudice! Treachery! [He strikes.] Will I surrender? Strike an agreement? Never! And there you are, Folly! I know you'll be the one to take me down, at last. Yet I'll fall fighting, fighting still! [He makes passes in the air, and stops, breath- less.] You've stripped me of the laurel and the rose! Of glory and love! Take it all! But there is still one thing I hold against you, and when I enter God's house tonight, I shall wave one thing in salutation, across heaven's blue threshold. For there is one thing I have left, void of smear or stain, and I take it with me despite you. And that is—?My white plume."];
+let translatedStrings4: string[] = ["勝つ望みがある時ばかり。戦うのと訳が違うぞ。そうとも……負けると知って戦うのが、遙かに美しいのだ… …… …そうだ貴様らは、俺からすべてを奪おうとする。さあ、取れ、取るがいい！ だがな、貴様達がいくら騒いでも、あの世へ、俺が持って行くものが一つある！神の懐へ入るときにはな、俺はこう挨拶をして、青空の門を広々と掃き清めて、貴様らがなんと言おうと持って行くのだ！ 皺一つ、染み一つつけないままで！それはな、わたしの……心意気だ！"];
+
+let translatedText3: Text = new Text(translatedStrings3, 333, null, "Gutenberg's translation");
+let translatedText4: Text = new Text(translatedStrings4, 444, null, "Sca-ji's translation");
+let translatedTexts2: Text[] = [translatedText3, translatedText4];
+
+let mockTranslation2: Translation = new Translation(originalText2, translatedTexts2);
+
+let translations: Translation[] = [mockTranslation, mockTranslation2];

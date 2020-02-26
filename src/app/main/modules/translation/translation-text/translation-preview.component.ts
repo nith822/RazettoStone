@@ -22,10 +22,11 @@ export class TranslationPreviewComponent implements OnInit {
 		
 		console.log("init TranslationPreviewComponent");
 		//subscribe
-		this.translationID = this.route.snapshot.params['id'];
-		this.translationService.getTranslations([this.translationID]).subscribe(translations =>
-			this.translation = translations[0],
-		);
+		this.translationID = this.route.parent.parent.snapshot.params['id'];
+		this.translationService.getTranslations([this.translationID]).subscribe((translations) => {
+			console.log(translations.length);
+			this.translation = translations[this.translationID-1];
+		});
 	}
 	
 	navigate(path: number): void {

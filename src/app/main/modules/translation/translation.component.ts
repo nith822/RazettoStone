@@ -26,7 +26,7 @@ export class TranslationComponent implements OnInit {
 		//translation/:id, translationID = ":id" param
 		const translationID = this.route.snapshot.params['id'];
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
-			this.translation = translations[0],
+			this.translation = translations[translationID - 1],
 		);
 		//http://localhost:4200/translation/1/(translations:previews/(0))
 		//jank
