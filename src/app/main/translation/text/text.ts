@@ -8,8 +8,9 @@ export class Text {
 	comments: string[];
 	user: User;
 	title: string;
+	language: string;
 	
-	constructor(text: string[], id?: number, user?: User, title?: string) {
+	constructor(text: string[], id?: number, user?: User, title?: string, language?: string) {
 		if(user) {
 			this.user = user;
 		}
@@ -20,6 +21,10 @@ export class Text {
 		
 		if(title) {
 			this.title = title;
+		}
+		
+		if(language) {
+			this.language = language;
 		}
 		
 		if(!text || text.length == 0) {

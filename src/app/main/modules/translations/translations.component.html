@@ -1,7 +1,10 @@
 <h1> Translations List </h1>
 
 	<div *ngFor="let translation of this.translations" class="container-div">
-		<h2> Title: {{ translation.getOriginalText(true).title }} </h2>
+		<h2> Title: {{ translation.getOriginalText(true).title }} 
+			<br>
+			 Language: {{ translation.getOriginalText(true).language }}
+		</h2>
 		<span *ngFor="let originalLine of translation.getOriginalText(true).getTextLines().slice(0,5); let i=index"
 			(click)="this.navigate(translation.getOriginalText(true).id)">
 			{{originalLine.getText()}}
