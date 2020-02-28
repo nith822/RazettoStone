@@ -12,7 +12,7 @@ export class TranslationsComponent implements OnInit {
 
 	translations: Translation[] = [];
 	
-	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
+	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
 
 	ngOnInit() {
 		console.log("init TranslationsComponent");

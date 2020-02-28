@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TranslationComponent } from './translation.component';
 
 import { TranslationPreviewComponent } from './translation-text/translation-preview.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 const routes: Routes = [
@@ -11,14 +12,14 @@ const routes: Routes = [
 		component: TranslationComponent,
 		children: [
 			{	
-				path: 'previews',
+				path: ':id',
 				outlet: 'translations',
 				loadChildren: () => import('./translation-text/translation-text.module').then(m => m.TranslationTextModule) 
 			},
 			{
 				path: 'comments',
 				outlet: 'sidebar',
-				loadChildren: () => import('./translation-text/translation-text.module').then(m => m.TranslationTextModule) 
+				component: SidebarComponent,
 			}
 		]
 	},

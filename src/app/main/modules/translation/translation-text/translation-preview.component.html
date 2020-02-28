@@ -1,6 +1,5 @@
 
 			<div *ngFor="let translatedText of translation.translatedTexts; let i=index"
-				[ngStyle]= "{'background-color': i == hoveredIndex ? '#AFFFFF' : 'inherit'}"
 				class="container-div"
 				(click)="this.navigate(i)"
 				>

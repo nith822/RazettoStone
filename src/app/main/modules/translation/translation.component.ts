@@ -19,7 +19,7 @@ export class TranslationComponent implements OnInit {
 	hoveredIndex: number = -1;
 	
 	constructor(private route: ActivatedRoute, private router: Router, private location: Location, 
-	private translationService: TranslationService, private sidebarService: SidebarService) { }
+	public  translationService: TranslationService, private sidebarService: SidebarService) { }
 
 	ngOnInit() {
 		console.log("init TranslationComponent");
@@ -31,7 +31,7 @@ export class TranslationComponent implements OnInit {
 		//http://localhost:4200/translation/1/(translations:previews/(0))
 		//jank
 		//http://localhost:4200/translations/translation/1/(translations:previews//sidebar:comments)
-		this.router.navigate([{outlets: { translations: ['previews']}}], {relativeTo: this.route, skipLocationChange: false});
+		this.router.navigate([{outlets: { translations: [translationID]}}], {relativeTo: this.route, skipLocationChange: false});
 	}
 	
 	@HostListener('window:popstate', ['$event'])

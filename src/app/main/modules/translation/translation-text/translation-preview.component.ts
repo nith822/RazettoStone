@@ -14,7 +14,7 @@ export class TranslationPreviewComponent implements OnInit {
 	translation: Translation;
 	translationID: number = -1;
 	
-	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) {
+	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) {
 
 	}
 

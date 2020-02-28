@@ -18,7 +18,7 @@ export class TranslationTextComponent implements OnInit {
 	translationTextID: number = -1;
 	translationText: Text;
 	
-	constructor(private route: ActivatedRoute, private router: Router, private translationService: TranslationService) {
+	constructor(private route: ActivatedRoute, private router: Router, public  translationService: TranslationService) {
 	}
 
 	ngOnInit() {

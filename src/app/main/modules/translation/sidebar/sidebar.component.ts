@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
 
 	@Input() translation: Translation;
 	comments: string[];
-	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
+	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
 
 	ngOnInit() {
 		const translationID = this.route.snapshot.params['id'];
