@@ -10,7 +10,6 @@ import { Observable, combineLatest } from 'rxjs';
 @Component({
   selector: 'app-translation-text',
   templateUrl: './translation-text.component.html',
-  styleUrls: ['../../translation.component.css']
 })
 export class TranslationTextComponent implements OnInit {
 

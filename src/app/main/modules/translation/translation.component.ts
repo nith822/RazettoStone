@@ -23,38 +23,25 @@ export class TranslationComponent implements OnInit {
 
 	ngOnInit() {
 		console.log("init TranslationComponent");
-		//translation/:id, translationID = ":id" param
 		const translationID = this.route.snapshot.params['id'];
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
 			this.translation = translations[translationID - 1],
 		);
-		//http://localhost:4200/translation/1/(translations:previews/(0))
-		//jank
-		//http://localhost:4200/translations/translation/1/(translations:previews//sidebar:comments)
 		this.router.navigate([{outlets: { translations: [translationID]}}], {relativeTo: this.route, skipLocationChange: false});
+		this.sidebarService.setRouterAndRoute(this.router, this.route);
 	}
 	
 	@HostListener('window:popstate', ['$event'])
 	onPopState(event) {
+		let regexp = new RegExp('/translations/translation/d+/(translations:d+)');
 		console.log(this.router.url);
-		if(this.router.url === '\/translations\/translation\/1\/(translations:previews)') {
+		if(this.router.url.match(regexp)) {
 			console.log('Back button pressed on target url');
 			this.location.back();
 		}
 	}
 	
-	isValidTranslationTextEndpoint(url: string): boolean {
-		let regexp = new RegExp('');
-		console.log(url);
-		if(url.charAt(url.length - 3) == '0') {	
-			return true;
-		}
-		return false;
-	}
-	
 	onClick(): void {
-		this.router.navigate([{outlets: { sidebar: ['comments']}}], {relativeTo: this.route, skipLocationChange: true});
 		this.sidebarService.toggleSideBar();
-		console.log(this.sidebarService.sideBarOpened);
 	}
 }

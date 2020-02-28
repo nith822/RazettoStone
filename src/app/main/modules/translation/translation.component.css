@@ -5,37 +5,22 @@
 	background-color:#F73CDE;
 	transition-property: all;
 	transition-duration: 1s;
-	overflow: hidden;
 }
 
 .originalText {
-	height: 100%;
+	width: 35%;
+	margin: 1%;
 	overflow: auto;
 	border: 3px solid black;
 }
 
-.textBoxL {
-	
-	width: 35%;
-	margin: 1%;
-	border: 1px dotted yellow;
-	
-}
-
-.textBoxR {
+.translationPreviews {
 	width: 65%;
 	margin: 1%;
-	border: 1px dotted yellow;
+	border: 3px solid black;
+	overflow: auto;
 }
 
-.textBox p {
-	text-align: center;
-}
-
-.translatedTextPreview {
-	margin: 1%;
-	border: 1px dotted yellow;
-}
 
 .sidebar {
 	position: fixed;

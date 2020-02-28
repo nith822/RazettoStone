@@ -4,24 +4,24 @@
 			&#9776;
 	</p> 
 	<div class="sidebarInner" [ngClass]="{'sidebaropened': this.sidebarService.sideBarOpened}">
-		<router-outlet name="sidebar">
-		</router-outlet>
+		<div *ngIf="this.sidebarService.sideBarOpened">
+			<router-outlet name="sidebar">
+			</router-outlet>
+		</div>
 		<button class="sidebarOption"(click)="this.sidebarService.toggleSideBar()"><b> &times;</b></button>
 	</div>
 </div>
 <div class="container-div" [ngClass]="{ 'sidebaropened': this.sidebarService.sideBarOpened }">
-	<div class="textBoxL"> 
-		<div class="originalText">
-			<h3> Title: {{ translation.getOriginalText(true).title }}</h3>
-			<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
-				(mouseenter)="this.translationService.hoveredIndex = i"
-				(mouseleave)="this.translationService.hoveredIndex = -1"
-				[ngStyle]= "{'background-color': i == this.translationService.hoveredIndex ? '#AFFFFF' : 'inherit'}">
-				{{originalLine.getText()}}
-			</p>
-		</div>
+	<div class="originalText">
+		<h3> Title: {{ translation.getOriginalText(true).title }}</h3>
+		<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
+			(mouseenter)="this.translationService.hoveredIndex = i"
+			(mouseleave)="this.translationService.hoveredIndex = -1"
+			[ngStyle]= "{'background-color': i == this.translationService.hoveredIndex ? '#AFFFFF' : 'inherit'}">
+			{{originalLine.getText()}}
+		</p>
 	</div>
-	<div class="textBoxR">
+	<div class="translationPreviews">
 		<router-outlet name="translations">
 		</router-outlet>
 	</div>

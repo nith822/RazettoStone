@@ -5,6 +5,7 @@ import { Text } from '../../../translation/text/text'
 import { Router, ActivatedRoute, Params, Data, NavigationEnd  } from '@angular/router';
 
 import { TranslationService } from '../../../translation/translation.service';
+import { SidebarService } from '../../../sidebar/sidebar.service';
 
 @Component({
   selector: 'sidebar',
@@ -15,15 +16,13 @@ export class SidebarComponent implements OnInit {
 
 	@Input() translation: Translation;
 	comments: string[];
-	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
+	constructor(private route: ActivatedRoute, private router: Router, 
+	private sidebarService: SidebarService, public  translationService: TranslationService,) { }
 
 	ngOnInit() {
+		console.log("SidebarComponent init");
 		const translationID = this.route.snapshot.params['id'];
-		this.router.events.subscribe((val) => {
-			if(val instanceof NavigationEnd) {
-				console.log(val.url);
-			}
-		});
+		console.log(translationID);
 	}
 
 }
