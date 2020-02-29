@@ -27,18 +27,35 @@ export class TranslationComponent implements OnInit {
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
 			this.translation = translations[translationID - 1],
 		);
-		this.router.navigate([{outlets: { translations: [translationID]}}], {relativeTo: this.route, skipLocationChange: false});
+		if(!this.matchEndRoute(this.router.url)) {
+			this.router.navigate([{outlets: { translations: [translationID]}}], {relativeTo: this.route, skipLocationChange: false});
+		}
 		this.sidebarService.setRouterAndRoute(this.router, this.route);
+		
+		this.router.events.subscribe((val) => {
+			if(val instanceof NavigationEnd) {
+				//console.log(val.url);
+				if(val.url.indexOf('sidebar') != -1) {
+					this.sidebarService.sideBarOpened = true;
+				} else {
+					this.sidebarService.sideBarOpened = false;
+				}
+			}
+		});
 	}
 	
 	@HostListener('window:popstate', ['$event'])
 	onPopState(event) {
-		let regexp = new RegExp('/translations/translation/d+/(translations:d+)');
-		console.log(this.router.url);
+		let regexp = new RegExp('translations/translation/[0-9]+/[(]translations:[0-9]+[)]');
 		if(this.router.url.match(regexp)) {
 			console.log('Back button pressed on target url');
 			this.location.back();
 		}
+	}
+	
+	matchEndRoute(url: string) {
+		var endRegExp =  new RegExp('/translations/translation/[0-9]+/[(]translations:[0-9]+/[(][0-9]+[)][)]');
+		return url.match(endRegExp);
 	}
 	
 	onClick(): void {

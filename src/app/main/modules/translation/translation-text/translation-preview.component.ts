@@ -24,7 +24,6 @@ export class TranslationPreviewComponent implements OnInit {
 		//subscribe
 		this.translationID = this.route.parent.parent.snapshot.params['id'];
 		this.translationService.getTranslations([this.translationID]).subscribe((translations) => {
-			console.log(translations.length);
 			this.translation = translations[this.translationID-1];
 		});
 	}

@@ -36,11 +36,9 @@ export class TranslationService {
 	}
 
 	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
-		console.log(translationID);
 		var translationTexts: Text[] = [];
 		for(let translation of translations.filter(x => x.originalText.id == translationID)) {	
 			for(let translationTextID of translationTextIDs) {
-				console.log(translationTextID);
 				translationTexts.push(translation.translatedTexts[translationTextID ]);
 			}
 		}

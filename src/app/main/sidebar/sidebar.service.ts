@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,7 @@ export class SidebarService {
 	setRouterAndRoute(router: Router, route: ActivatedRoute) {
 		this.router = router;
 		this.route = route;
+		
 	}
 	
 	//route change listener
