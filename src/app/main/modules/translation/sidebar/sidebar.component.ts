@@ -22,6 +22,11 @@ export class SidebarComponent implements OnInit {
 	ngOnInit() {
 		console.log("SidebarComponent init");
 		console.log(this.sidebarService.getCurrentRouteParams().toString());
+		
 	}
 
+	navigate(path): void {
+		console.log(this.route);
+		this.router.navigate([{outlets: {inner: [path]}}], {relativeTo: this.route, skipLocationChange: false});
+	}
 }

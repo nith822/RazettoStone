@@ -15,6 +15,6 @@ export class HeaderComponent implements OnInit {
 	}
 	
 	navigate(path) {
-		this.router.navigate([{outlets: {primary: ['translation'], translations: ['previews']}}], {relativeTo: this.route.root, skipLocationChange: false});
+		this.router.navigate([{outlets: {primary: ['translation'],}}], {relativeTo: this.route.root, skipLocationChange: false});
 	}
 }

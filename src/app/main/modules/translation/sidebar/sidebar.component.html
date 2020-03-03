@@ -1,3 +1,10 @@
+<div class='container-div'>
+	<p> tabs go here</p>
+	<button class="sidebarOption"(click)="this.navigate('about')"><b> about</b></button>
+	<button class="sidebarOption"(click)="this.navigate('comments')"><b> comments</b></button>
+</div>
 
-<p>comments go here</p>
-<input>
+<div class='container-div'>
+	<router-outlet name="inner">
+	</router-outlet>
+</div>

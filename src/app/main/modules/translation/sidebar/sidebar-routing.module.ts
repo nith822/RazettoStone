@@ -3,21 +3,32 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SidebarComponent } from './sidebar.component';
 import { CommentsComponent } from './comments/comments.component';
+import { MetaDataComponent } from './meta-data/meta-data.component';
 
 const routes: Routes = [
-	{	
-		path: '',
-		redirectTo: 'comments',
+	{ 	path: '',
+		redirectTo: 'sidebar',
 	},
-	
 	{	
-		path: 'comments',
-		component: CommentsComponent,
-	},
-	
-	{	
-		path: 'henlo',
+		path: 'sidebar',
 		component: SidebarComponent,
+		children: [
+			{
+				path: '', 
+				outlet: 'inner',
+				component: CommentsComponent,
+			},
+			{
+				path: 'comments', 
+				outlet: 'inner',
+				component: CommentsComponent,
+			},
+			{
+				path: 'about',
+				outlet: 'inner',
+				component: MetaDataComponent,
+			},
+		]
 	},
 ];
 
