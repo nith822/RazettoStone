@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener} from '@angular/core';
+import { Location } from '@angular/common';
 import { Translation } from '../../translation/translation'
 import { TranslationService } from '../../translation/translation.service';
-import { Router, ActivatedRoute, Params, Data } from '@angular/router';
+import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/router';
+import { SidebarService } from '../../sidebar/sidebar.service';
 
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'translation',
@@ -15,16 +17,48 @@ export class TranslationComponent implements OnInit {
 	translation: Translation;
 	
 	hoveredIndex: number = -1;
-	sideBarOpened = false;
 	
-	constructor(private translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
+	constructor(private route: ActivatedRoute, private router: Router, private location: Location, 
+	public  translationService: TranslationService, private sidebarService: SidebarService) { }
 
 	ngOnInit() {
-		//translation/:id, translationID = ":id" param
+		console.log("init TranslationComponent");
 		const translationID = this.route.snapshot.params['id'];
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
-			this.translation = translations[0],
+			this.translation = translations[translationID - 1],
 		);
+		if(!this.matchEndRoute(this.router.url)) {
+			this.router.navigate([{outlets: { translations: [translationID]}}], {relativeTo: this.route, skipLocationChange: false});
+		}
+		this.sidebarService.setRouterAndRoute(this.router, this.route);
+		
+		this.router.events.subscribe((val) => {
+			if(val instanceof NavigationEnd) {
+				//console.log(val.url);
+				if(val.url.indexOf('sidebar') != -1) {
+					this.sidebarService.sideBarOpened = true;
+				} else {
+					this.sidebarService.sideBarOpened = false;
+				}
+			}
+		});
 	}
-
+	
+	@HostListener('window:popstate', ['$event'])
+	onPopState(event) {
+		let regexp = new RegExp('translations/translation/[0-9]+/[(]translations:[0-9]+[)]');
+		if(this.router.url.match(regexp)) {
+			console.log('Back button pressed on target url');
+			this.location.back();
+		}
+	}
+	
+	matchEndRoute(url: string) {
+		var endRegExp =  new RegExp('/translations/translation/[0-9]+/[(]translations:[0-9]+/[(][0-9]+[)][)]');
+		return url.match(endRegExp);
+	}
+	
+	onClick(): void {
+		this.sidebarService.toggleSideBar();
+	}
 }
