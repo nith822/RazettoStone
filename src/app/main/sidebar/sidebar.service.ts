@@ -14,9 +14,9 @@ export class SidebarService {
 	
 	toggleSideBar(): void {
 		this.sideBarOpened = !this.sideBarOpened;
-		console.log(this.getCurrentRouteParams().toString());
+		//console.log(this.getCurrentRouteParams().toString());
 		if(this.sideBarOpened) {
-			this.router.navigate([{outlets: { sidebar: ['comments']}}], {relativeTo: this.route, skipLocationChange: false});
+			this.router.navigate([{outlets: { sidebar: ['sidebar']}}], {relativeTo: this.route, skipLocationChange: false});
 		} else {
 			this.router.navigate([{outlets: { sidebar: null}}], {relativeTo: this.route, skipLocationChange: false});
 		}

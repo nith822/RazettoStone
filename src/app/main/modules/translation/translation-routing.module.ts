@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { TranslationComponent } from './translation.component';
 
 import { TranslationPreviewComponent } from './translation-text/translation-preview.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 const routes: Routes = [
@@ -17,9 +16,9 @@ const routes: Routes = [
 				loadChildren: () => import('./translation-text/translation-text.module').then(m => m.TranslationTextModule) 
 			},
 			{
-				path: 'comments',
+				path: 'sidebar',
 				outlet: 'sidebar',
-				component: SidebarComponent,
+				loadChildren: () => import('./sidebar/sidebar.module').then(m => m.SidebarModule) 
 			}
 		]
 	},
