@@ -21,8 +21,6 @@ export class SidebarComponent implements OnInit {
 
 	ngOnInit() {
 		console.log("SidebarComponent init");
-		const translationID = this.route.snapshot.params['id'];
-		console.log(translationID);
 	}
 
 }

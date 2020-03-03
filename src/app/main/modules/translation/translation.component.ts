@@ -27,10 +27,13 @@ export class TranslationComponent implements OnInit {
 		this.translationService.getTranslations([translationID]).subscribe(translations =>
 			this.translation = translations[translationID - 1],
 		);
+		
+		
+		this.sidebarService.setRouterAndRoute(this.router, this.route);
+		
 		if(!this.matchEndRoute(this.router.url)) {
 			this.router.navigate([{outlets: { translations: [translationID]}}], {relativeTo: this.route, skipLocationChange: false});
 		}
-		this.sidebarService.setRouterAndRoute(this.router, this.route);
 		
 		this.router.events.subscribe((val) => {
 			if(val instanceof NavigationEnd) {
@@ -54,7 +57,7 @@ export class TranslationComponent implements OnInit {
 	}
 	
 	matchEndRoute(url: string) {
-		var endRegExp =  new RegExp('/translations/translation/[0-9]+/[(]translations:[0-9]+/[(][0-9]+[)][)]');
+		var endRegExp =  new RegExp('/translations/translation/[0-9]+/[(][^]*translations:[0-9]+/[(][0-9]+[)][)]');
 		return url.match(endRegExp);
 	}
 	
