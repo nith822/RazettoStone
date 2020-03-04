@@ -30,10 +30,6 @@ export class TranslationService {
 		return of(translations);
 	}
 	
-	
-	getComments(translationID: number): Observable<string[]>{
-		return of(comments);
-	}
 
 	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
 		var translationTexts: Text[] = [];

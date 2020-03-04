@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Comment } from '../../../../sidebar/comments/comment';
+import { CommentsService } from '../../../../sidebar/comments/comments.service';
+import { UserService } from '../../../../user/user.service';
+
+
+import { SidebarService, RouteParams } from '../../../../sidebar/sidebar.service';
 
 @Component({
   selector: 'app-comments',
@@ -7,10 +13,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommentsComponent implements OnInit {
 
-	constructor() { }
+	currentComments: Comment[];
+	
+	constructor(private userService: UserService, private commentsService: CommentsService, private sidebarService: SidebarService,
+				) { }
 
 	ngOnInit() {
 		console.log("init commentsComponent");
+		this.commentsService.getComments(1).subscribe((comments) => {
+			this.currentComments = comments;
+		});
 	}
 
 }
+ 

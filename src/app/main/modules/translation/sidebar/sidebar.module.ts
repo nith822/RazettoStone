@@ -6,12 +6,14 @@ import { SidebarComponent } from './sidebar.component';
 import { CommentsComponent } from './comments/comments.component';
 import { MetaDataComponent } from './meta-data/meta-data.component';
 
+import { CommentsService } from '../../../sidebar/comments/comments.service';
 
 @NgModule({
   declarations: [SidebarComponent, CommentsComponent, MetaDataComponent],
   imports: [
     CommonModule,
     SidebarRoutingModule
-  ]
+  ],
+  providers: [CommentsService]
 })
 export class SidebarModule { }
