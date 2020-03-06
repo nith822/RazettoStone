@@ -14,15 +14,17 @@ import { SidebarService, RouteParams } from '../../../../sidebar/sidebar.service
 export class CommentsComponent implements OnInit {
 
 	currentComments: Comment[];
+	routeParams: RouteParams;
 	
 	constructor(private userService: UserService, private commentsService: CommentsService, private sidebarService: SidebarService,
-				) { }
+				) { } 
 
 	ngOnInit() {
 		console.log("init commentsComponent");
 		this.commentsService.getComments(1).subscribe((comments) => {
 			this.currentComments = comments;
 		});
+		this.routeParams = this.sidebarService.getCurrentRouteParams();
 	}
 
 }

@@ -1,3 +1,4 @@
-<p>comments works!</p>
+<p> comments for Post::{{ this.routeParams.translationID }} </p>
+<p *ngIf="this.routeParams.translationTextID"> comments for Translation:: {{ this.routeParams.translationTextID }} </p>
 <p> Commenter:: {{this.currentComments[0].user.username }} </p>
 <p> Comment: {{ this.currentComments[0].text }} </p>
