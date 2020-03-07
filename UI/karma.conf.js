@@ -24,8 +24,8 @@ module.exports = function (config) {
     reporters: ['spec', 'progress', 'kjhtml'],
     specReporter: {
       maxLogLines: 5,         // limit number of lines logged per test
-      suppressErrorSummary: true,  // do not print error summary
-      suppressFailed: true,  // do not print information about failed tests
+      suppressErrorSummary: false,  // do not print error summary
+      suppressFailed: false,  // do not print information about failed tests
       suppressPassed: false,  // do not print information about passed tests
       suppressSkipped: true,  // do not print information about skipped tests
       showSpecTiming: false // print the time elapsed for each spec
