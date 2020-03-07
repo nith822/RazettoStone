@@ -9,7 +9,7 @@ router.get('/', function (req, res) {
 });
 
 // Add new user to DB -- Pass values in request's body
-router.route('/users/create')
+router.route('/users')
     .post(userController.create);
 // Fetch all users from DB
 router.route('/users')
@@ -18,7 +18,7 @@ router.route('/users')
 router.route('/users/:user_id')
     .get(userController.view);
 // Update specific user from DB -- Pass values to be updated in request's body
-router.route('/users/update/:user_id')
+router.route('/users/:user_id')
     .put(userController.update)
 
 module.exports = router;

@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({
     extended: true
  }));
 
+app.get('/', (req, res) => res.send('Correct url'));
+
 mongoose.connect('mongodb://127.0.0.1:27017/RazettoStoneTest1', { useNewUrlParser: true});
 var db = mongoose.connection;
 
