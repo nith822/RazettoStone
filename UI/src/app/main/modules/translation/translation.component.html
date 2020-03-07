@@ -14,10 +14,7 @@
 <div class="container-div" [ngClass]="{ 'sidebaropened': this.sidebarService.sideBarOpened }">
 	<div class="originalText">
 		<h3> Title: {{ translation.getOriginalText(true).title }}</h3>
-		<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines(); let i=index"
-			(mouseenter)="this.translationService.hoveredIndex = i"
-			(mouseleave)="this.translationService.hoveredIndex = -1"
-			[ngStyle]= "{'background-color': i == this.translationService.hoveredIndex ? '#AFFFFF' : 'inherit'}">
+		<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines();">
 			{{originalLine.getText()}}
 		</p>
 	</div>

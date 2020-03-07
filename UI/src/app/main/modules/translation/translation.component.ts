@@ -19,7 +19,7 @@ export class TranslationComponent implements OnInit {
 	hoveredIndex: number = -1;
 	
 	constructor(private route: ActivatedRoute, private router: Router, private location: Location, 
-	public  translationService: TranslationService, private sidebarService: SidebarService) { }
+	public  translationService: TranslationService, public sidebarService: SidebarService) { }
 
 	ngOnInit() {
 		console.log("init TranslationComponent");
