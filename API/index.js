@@ -7,14 +7,14 @@ var port = process.env.PORT || 8080;
 let app = express();
 let apiRoutes = require("./api-routes")
 
-//app.get('/', (req, res) => res.send('Welcome to RazettoStone\'s API!'));
+app.get('/', (req, res) => res.send('Welcome to RazettoStone\'s API!'));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
  }));
 
-app.get('/', (req, res) => res.send('Correct url'));
 
 mongoose.connect('mongodb://127.0.0.1:27017/RazettoStoneTest1', { useNewUrlParser: true});
 var db = mongoose.connection;

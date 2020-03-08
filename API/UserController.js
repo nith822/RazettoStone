@@ -26,7 +26,7 @@ exports.create = function (req, res) {
         oAuthId: req.body.oAuthId
     });
     
-    
+    console.log("get called");
     user.save(function (err) {
         if (err)
             res.json(err);
