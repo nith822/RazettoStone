@@ -2,7 +2,7 @@ export class User {
 	
 	
 	private id: string;
-	username: string;
+	userName: string;
 	private email: string;
 	
 	dateCreated: Date;
@@ -10,9 +10,9 @@ export class User {
 	
 	private oAuthId: string;
 	
-	constructor(username: string, email: string, oAuthId: string,
+	constructor(userName: string, email: string, oAuthId: string,
 		dateCreated?: Date, languages?: string[], id?: string ) {
-		this.username = username;
+		this.userName = userName;
 		this.setOAuthID(oAuthId);
 		this.setEmail(email);
 		
@@ -46,7 +46,7 @@ export class User {
 	}
 	
 	toString(): string {
-		return "username:: " + this.username + "\n"
+		return "username:: " + this.userName + "\n"
 			+ "id:: " + this.id  + "\n"
 			+ "email:: " + this.email  + "\n"
 			+ "dateCreated on" + this.dateCreated + "\n"

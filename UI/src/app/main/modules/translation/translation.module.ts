@@ -13,7 +13,7 @@ import { SidebarService } from '../../sidebar/sidebar.service';
 	],
   imports: [
 		CommonModule,
-		TranslationRoutingModule
+		TranslationRoutingModule,
   ],
   providers: [SidebarService],
 })

@@ -26,7 +26,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
           },
           "configurations": {
             "production": {
@@ -63,7 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "RazettoStone:build"
+            "browserTarget": "RazettoStone:build",
+			"proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
