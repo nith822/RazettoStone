@@ -46,7 +46,8 @@ export class User {
 	}
 	
 	toString(): string {
-		return "username:: " + this.userName + "\n"
+		return "Attributes for user:: " + "\n" 
+			+ "username:: " + this.userName + "\n"
 			+ "id:: " + this.id  + "\n"
 			+ "email:: " + this.email  + "\n"
 			+ "dateCreated on" + this.dateCreated + "\n"
