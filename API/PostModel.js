@@ -93,7 +93,7 @@ const PostSchema = new Schema({
     },
     tags:{
         type: [String],
-        required: [true, 'tags field is required']
+        required: [true, 'tags field is required']          //do we require each post to have at least one tag?
     },
     comments: [CommentSchema],
     flags: [FlagSchema],
