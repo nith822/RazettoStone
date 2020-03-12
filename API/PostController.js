@@ -1,7 +1,7 @@
 Post = require('./PostModel');
 
 // create new post
-exports.create = function (req, res) {
+exports.create = function (req, res, next) {
     console.log('Attempting to create new post')
     var post = new Post({
         title: req.body.title,
@@ -17,6 +17,7 @@ exports.create = function (req, res) {
         // it might be easier to just create a post with no translation then have the user
         // to add translation once the post is created.
         translations: req.body.translations 
+
     });
     
     console.log("get called");
@@ -27,5 +28,20 @@ exports.create = function (req, res) {
                     message: 'New post created!',
                     data: post
                 });
+    });
+
+    /* this might also work isntead of the code above
+    console.log('Attempting to create new post')
+    Post.create(req.body).then(function(post){
+        res.send(post)
+    }).catch(next);
+    */
+
+};
+
+// get one post, this sends the entire post so it might needs to be changed
+exports.view = function (req,res,next){
+    Post.findOne({_id: req.param._id}).then(function(post){
+        res.send(post)
     });
 };
