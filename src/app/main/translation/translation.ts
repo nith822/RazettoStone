@@ -1,5 +1,5 @@
 import { Text } from './text/text';
-import { TextLine } from './text/TextLine';
+import { TextLine } from './text/textLine';
 
 export class Translation {
 	
