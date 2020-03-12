@@ -23,7 +23,6 @@ const FlagSchema = new Schema({
 
 });
 
-// TODO add schema for translations
 const TranslationSchema = new Schema({
     text: {
         type: String,
@@ -35,6 +34,7 @@ const TranslationSchema = new Schema({
     },
     created_date:{
         type: Date,
+        default: Date.now,
         required: [true, 'created_date field is required']
     },
     user_id:{
@@ -44,7 +44,6 @@ const TranslationSchema = new Schema({
     comments: [CommentSchema]
 });
 
-// TODO add schema for replies
 const RepliesSchema = new Schema({
     text: {
         type: String,
@@ -56,6 +55,7 @@ const RepliesSchema = new Schema({
     },
     created_date:{
         type: Date,
+        default: Date.now,
         required: [true, 'created_date field is required']
     },
     replies: [RepliesSchema]
@@ -80,6 +80,7 @@ const PostSchema = new Schema({
     },
     created_date:{
         type: Date,
+        default: Date.now,
         required: [true, 'created_date field is required']
     },
     upvotes:{
