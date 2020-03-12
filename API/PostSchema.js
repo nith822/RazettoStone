@@ -2,9 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
-// TODO add schema for comments
 const CommentSchema = new Schema({
-
+    text: {
+        type: String,
+        required: [true, 'text field is required']
+    },
+    user_id:{
+        type: String,
+        required: [true, 'user_id field is required']
+    },
+    created_date:{
+        type: Date,
+        required: [true, 'created_date field is required']
+    },
+    replies:[RepliesSchema]
 });
 
 // TODO add schema for flags
@@ -14,7 +25,40 @@ const FlagSchema = new Schema({
 
 // TODO add schema for translations
 const TranslationSchema = new Schema({
+    text: {
+        type: String,
+        required: [true, 'text field is required']
+    },
+    language: {
+        type: String,
+        required: [true, 'Language field is required']
+    },
+    created_date:{
+        type: Date,
+        required: [true, 'created_date field is required']
+    },
+    user_id:{
+        type: String,
+        required: [true, 'user_id field is required']
+    },
+    comments: [CommentSchema]
+});
 
+// TODO add schema for replies
+const RepliesSchema = new Schema({
+    text: {
+        type: String,
+        required: [true, 'text field is required']
+    },
+    user_id:{
+        type: String,
+        required: [true, 'user_id field is required']
+    },
+    created_date:{
+        type: Date,
+        required: [true, 'created_date field is required']
+    },
+    replies: [RepliesSchema]
 });
 
 const PostSchema = new Schema({
