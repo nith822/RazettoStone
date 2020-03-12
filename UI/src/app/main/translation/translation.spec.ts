@@ -18,21 +18,20 @@ describe('Translation', () => {
 		let id: number = 1;
 		let language: string = "Japanese";
 		let title: string = "Bane";
-		let userID: string = "2";
+		let user: User = new User("420yoloswag", "bobsanders@gmail.com", "123");
 		let createdDate: Date = new Date();
 	
 		let upvotes: number = 10;
 		let downvotes: number = 1;
 	
 		let tags: string[] = ["bigTag", "guyTag"];
-		let comments: Comment[] = [new Comment("for you", new User("yoloswag420", "bobsanders@gmail.com", "123"), createdDate, [], -1, -1)];
-	
+		let comments: Comment[] = [];
 		let flags: string[][] = [["good content"], ["good grammar"]];
 		
-		let originalText: Text = new Text(["You're a big guy.."]);
-		let translatedTexts: Text[] = [new Text(["For you"])];
+		let originalText: Text = new Text();
+		let translatedTexts: Text[] = [new Text()];
 		
-		let translation: Translation = new Translation(originalText, translatedTexts, id, language, title, userID,
+		let translation: Translation = new Translation(originalText, translatedTexts, id, language, title, user,
 			createdDate, upvotes, downvotes, tags, comments, flags);
 		
 		console.log(translation.toString());
