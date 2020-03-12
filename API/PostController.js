@@ -1,3 +1,3 @@
-User = require('./PostSchema');
+User = require('./PostModel');
 
 
