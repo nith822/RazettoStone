@@ -1,8 +1,13 @@
-Post = require('../models/PostModel');
+const express = require ('express');
+const router = express.Router();
+const Post = require('../models/PostModel');
+
+
+
 
 // create new post
-exports.create = function (req, res, next) {
-    console.log('Attempting to create new post')
+router.post('/', function (req, res, next) {
+    console.log('Attempting to create new post');
     var post = new Post({
         title: req.body.title,
         languages: req.body.languages,
@@ -37,11 +42,11 @@ exports.create = function (req, res, next) {
     }).catch(next);
     */
 
-};
+});
 
 // get one post, this sends the entire post so it might needs to be changed
-exports.view = function (req,res,next){
-    Post.findOne({_id: req.param._id}).then(function(post){
-        res.send(post)
-    });
-};
+router.get('/:id', function (req,res,next){
+    Post.findOne({_id: req.param._id}).then(function(post){ // find the post
+        res.send(post)                                      // return the post, TODO: need to know format on return
+    }).catch(next);                                         // catch error
+});
