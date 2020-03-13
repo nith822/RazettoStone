@@ -2,13 +2,14 @@ import { Text } from './text/text';
 import { TextLine } from './text/TextLine';
 
 import { Comment } from '../sidebar/comments/comment';
+import { User } from '../user/user';
 
-export class Translation {
+export class Translation {	//Post
 	
 	id: number;
 	language: string;
 	title: string;
-	userID: string;
+	user: User;
 	createdDate: Date;
 	
 	//only send total # of votes for now
@@ -27,14 +28,14 @@ export class Translation {
 	currentTranslatedText: Text;
 	
 	constructor(originalText?: Text, translatedTexts?: Text[], 
-		id?: number, language?: string, title?: string, userID?: string, createdDate?: Date,
+		id?: number, language?: string, title?: string, user?: User, createdDate?: Date,
 		upvotes?: number, downvotes?: number, 
 		tags?: string[], comments?: Comment[], flags?: string[][], enableProd?: boolean) {
 		if(!originalText && enableProd) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
 		if(!id && enableProd) { throw new Error('No id for Tranlsation Post'); } else { this.id = id;  }
 		if(!language && enableProd) { throw new Error('No language for Tranlsation Post'); } else { this.language = language; }
 		if(!title && enableProd) { throw new Error('No title for Tranlsation Post'); } else { this.title = title; }
-		if(!userID && enableProd) { throw new Error('No userID for Tranlsation Post'); } else { this.userID = userID; }
+		if(!user && enableProd) { throw new Error('No user for Tranlsation Post'); } else { this.user = user; }
 		if(createdDate) { this.createdDate = createdDate; }
 		if(upvotes) { this.upvotes = upvotes; } else { this.upvotes = 0; }
 		if(downvotes) { this.downvotes = downvotes; } else { this.downvotes = 0; }
@@ -70,7 +71,7 @@ export class Translation {
 			+ "id: " + this.id + "\n"
 			+ "language: " + this.language + "\n"
 			+ "title: " + this.title + "\n"
-			+ "userID: " + this.userID + "\n"
+			+ "user: " + this.user + "\n"
 			+ "createdDate: " + this.createdDate + "\n"
 			+ "upvotes: " + this.upvotes +"\n"
 			+ "downvotes: " + this.downvotes + "\n"

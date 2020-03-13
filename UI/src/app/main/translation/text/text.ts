@@ -1,42 +1,38 @@
 import { TextLine } from './textLine';
 import { User } from '../../user/user';
+import { Comment } from '../../sidebar/comments/comment'
 
-export class Text {
+export class Text {	//Translations
 	
-	id: number = -1;
-	textLines: TextLine[];
-	comments: string[];
-	user: User;
-	title: string;
+	id: string;		//TranslationID
+	textLines: TextLine[];	//Text
 	language: string;
+	createdDate: Date;
+	user: User;
+	comments: Comment[];
 	
-	constructor(text: string[], id?: number, user?: User, title?: string, language?: string) {
-		if(user) {
-			this.user = user;
+	constructor(id?: string, text?: string, language?: string, 
+		createdDate?: Date,  user?: User, comments?: Comment[], enableProd?: boolean) {
+		
+		if(!id && enableProd) { throw new Error('No id for Text') } else { this.id = id  }
+		if(!text) { this.textLines = []	} else { this.textLines = this.parseText(text) };		
+		if(!language && enableProd) { throw new Error('No language for Text') } else { this.language = language }
+		if(!user && enableProd) { throw new Error('No user for Text') } else { this.user = user }
+		if(createdDate) { this.createdDate = createdDate; }
+		if(comments) { this.comments = comments; }
+		
+	}
+	
+	parseText(text: string): TextLine[] {
+		var textLines: TextLine[] = [];
+		//remove \r from \n\r
+		var splitStrings: string[] = text.replace("\r", "").split("\n");
+		
+		for(let splitString of splitStrings) {
+			textLines.push(new TextLine(splitString));
 		}
 		
-		if(id) {
-			this.id = id;
-		}
-		
-		if(title) {
-			this.title = title;
-		}
-		
-		if(language) {
-			this.language = language;
-		}
-		
-		if(!text || text.length == 0) {
-			throw new Error('text is null or length = 0');
-		}
-		
-		this.textLines = [];
-		this.comments = [];
-		
-		for(let string of text) {
-			this.textLines.push(new TextLine(string));
-		}
+		return textLines;
 	}
 	
 	getTextLines(): TextLine[] {
@@ -64,9 +60,19 @@ export class Text {
 		return previewTextLines;
 	}
 	
-	addComments(comments: string[]): void {
+	addComments(comments: Comment[]): void {
 		for(let comment of comments) {
 			this.comments.push(comment);
 		}
+	}
+	
+	toString(): string {
+		return "Attributes for text:: " + "\n" 
+			+ "id: " + this.id + "\n"
+			+ "textLines: " + this.textLines + "\n"
+			+ "language: " + this.language + "\n"
+			+ "user: " + this.user + "\n"
+			+ "createdDate: " + this.createdDate + "\n"
+			+ "comments: " + this.comments + "\n"
 	}
 }
