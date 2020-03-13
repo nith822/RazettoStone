@@ -57,8 +57,8 @@ const RepliesSchema = new Schema({
         type: Date,
         default: Date.now,
         required: [true, 'created_date field is required']
-    },
-    replies: [RepliesSchema]
+    }
+    //replies: [RepliesSchema]
 });
 
 const PostSchema = new Schema({
