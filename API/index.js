@@ -24,7 +24,15 @@ if(!db)
 else
     console.log("Db connected successfully")
 
-app.use('/', apiRoutes)
+app.use('/', apiRoutes);
+
+app.use('/posts', require('./routes/PostController'));
+
+// TODO: error catching 
+app.use(function(err,req,res,next){
+
+});
+
 app.listen(port, function () {
      console.log("Running RazettoStone API on port " + port);
 });
