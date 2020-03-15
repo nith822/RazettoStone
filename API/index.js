@@ -19,9 +19,9 @@ app.use(bodyParser.urlencoded({
 mongoose.connect('mongodb://127.0.0.1:27017/RazettoStoneTest1', { useNewUrlParser: true});
 var db = mongoose.connection;
 
-//doesn't work
 if(!db) {
-    console.log("Error connecting db");
+	throw new Error("Can't connect to db");
+	process.exit(1);
 }	else {
 	console.log("Db connected successfully");
 }
