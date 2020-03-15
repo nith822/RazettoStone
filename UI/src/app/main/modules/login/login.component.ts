@@ -4,6 +4,9 @@ import { User } from '../../user/user';
 
 import { Observable, Subject } from 'rxjs';
 
+import { AuthService } from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider, SocialUser} from "angularx-social-login";
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,25 +14,46 @@ import { Observable, Subject } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
 
+
+	user: SocialUser;
+	loggedIn: boolean;
+
+	//mock
 	userName: string = "yoloswag420";
 	email: string = "bob.sanders@gmail.com";
 	oAuthId: string = "420"
 	
 	users: User[] ;
 	
-	constructor(public userService: UserService) { }
+	constructor(public userService: UserService, private authService: AuthService) { }
 
 	ngOnInit(): void {
+		this.authService.authState.subscribe((user) => {
+			this.user = user;
+			this.loggedIn = (user != null);
+			if(user) {
+				console.log(user);
+				this.userName = user.name;
+				this.email = user.email;
+				this.oAuthId = user.idToken;
+				this.registerUser(this.userName, this.email, this.oAuthId);
+			}
+		});
+		
+		//mock
+		/*
 		this.userService.getAllUsers().subscribe((users) => {
 			for(let user of users) {
 				console.log(user.toString());
 			}
 			this.users = users;
 		});
+		*/
+		
 	}
 
-	registerUser(): boolean {
-		this.userService.createUser(new User(this.userName, this.email, this.oAuthId));
+	registerUser(userName, email, oAuthId): boolean {
+		this.userService.createUser(new User(userName, email, oAuthId));
 		this.userService.getAllUsers().subscribe((users) => {
 			for(let user of users) {
 				console.log(user.toString());
@@ -37,5 +61,9 @@ export class LoginComponent implements OnInit {
 			this.users = users;
 		});
 		return false;
+	}
+	
+	signInWithFB(): void {
+		this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
 	}
 }

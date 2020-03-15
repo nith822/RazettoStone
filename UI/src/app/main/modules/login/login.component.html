@@ -10,8 +10,10 @@
 <label>oAuthId:</label><br>
 <input [value]="oAuthId" (input)="oAuthId = $event.target.value"><br><br>
 
+<!--
 <button (click)="registerUser()"> register </button>
-
+-->
+<button (click)="signInWithFB()"> register </button>
 
 <div *ngFor="let user of this.users">
 	<p > {{ user.userName }} <br>{{ user.email}} </p> 

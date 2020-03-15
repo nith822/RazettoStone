@@ -1,4 +1,6 @@
-User = require('./UserModel');
+let User = require('./UserModel');
+let auth = require('./auth/auth');
+
 
 exports.index = function (req, res) {
     User.get(function (err, users) {
@@ -26,15 +28,22 @@ exports.create = function (req, res) {
         oAuthId: req.body.oAuthId
     });
     
-    console.log("get called");
-    user.save(function (err) {
-        if (err)
-            res.json(err);
-        res.json({
-                    message: 'New user created!',
-                    data: user
-                });
-    });
+	//not actualy verifying
+	if(auth.verify(user.oAuthId)) {
+	
+		console.log("get called");
+	
+		user.save(function (err) {
+			if (err) {
+				res.json(err);
+			} else {
+				res.json({
+					message: 'New user created!',
+					data: user
+				});
+			}
+		});
+	}
 };
 
 exports.view = function (req, res) {

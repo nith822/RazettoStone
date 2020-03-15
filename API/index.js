@@ -19,14 +19,16 @@ app.use(bodyParser.urlencoded({
 mongoose.connect('mongodb://127.0.0.1:27017/RazettoStoneTest1', { useNewUrlParser: true});
 var db = mongoose.connection;
 
-if(!db)
-    console.log("Error connecting db")
-else
-    console.log("Db connected successfully")
+//doesn't work
+if(!db) {
+    console.log("Error connecting db");
+}	else {
+	console.log("Db connected successfully");
+}
 
 app.use('/', apiRoutes);
 
-app.use('/posts', require('./routes/PostController'));
+//app.use('/posts', require('./routes/PostController'));
 
 // TODO: error catching 
 app.use(function(err,req,res,next){
