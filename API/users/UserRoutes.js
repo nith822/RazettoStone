@@ -1,24 +1,17 @@
 let router = require('express').Router();
 var userController = require('./UserController');
 
-router.get('/', function (req, res) {
-    res.json({
-        status: 'UP',
-        message: 'Welcome to RazettoStone\'s API!'
-    });
-});
-
 // Add new user to DB -- Pass values in request's body
-router.route('/users')
+router.route('/')
     .post(userController.create);
 // Fetch all users from DB
-router.route('/users')
+router.route('/')
     .get(userController.index);
 // Fetch specific user from DB
-router.route('/users/:user_id')
+router.route('/:user_id')
     .get(userController.view);
 // Update specific user from DB -- Pass values to be updated in request's body
-router.route('/users/:user_id')
+router.route('/:user_id')
     .put(userController.update)
 
 module.exports = router;

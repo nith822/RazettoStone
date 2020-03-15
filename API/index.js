@@ -5,7 +5,7 @@ let mongoose = require('mongoose')
 var port = process.env.PORT || 8080;
 
 let app = express();
-let apiRoutes = require("./api-routes")
+let userRoutes = require('./users/UserRoutes');
 
 app.get('/', (req, res) => res.send('Welcome to RazettoStone\'s API!'));
 
@@ -26,9 +26,10 @@ if(!db) {
 	console.log("Db connected successfully");
 }
 
-app.use('/', apiRoutes);
+app.use('/users', userRoutes);
 
-//app.use('/posts', require('./routes/PostController'));
+//let postRoutes = require('./posts/PostRoutes');
+//app.use('/posts', postRoutes);
 
 // TODO: error catching 
 app.use(function(err,req,res,next){

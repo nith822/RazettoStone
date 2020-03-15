@@ -1,5 +1,5 @@
 let User = require('./UserModel');
-let auth = require('./auth/auth');
+let auth = require('../auth/auth');
 
 
 exports.index = function (req, res) {
