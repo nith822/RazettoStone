@@ -2,6 +2,8 @@ import { TextLine } from './textLine';
 import { User } from '../../user/user';
 import { Comment } from '../../sidebar/comments/comment'
 
+const MAX_CHARACTERS: number = 150;
+	
 export class Text {	//Translations
 	
 	title: string;
@@ -11,6 +13,7 @@ export class Text {	//Translations
 	dateCreated: Date;
 	user: User;
 	comments: Comment[];
+	
 	
 	constructor(title?: string, id?: string, text?: string, language?: string, 
 		dateCreated?: Date,  user?: User, comments?: Comment[], enableProd?: boolean) {
@@ -48,24 +51,25 @@ export class Text {	//Translations
 		return this.getTextLines()[line];
 	}
 	
-	getPreviewTextLines(): TextLine[] {
-		var previewTextLines: TextLine[] = [];
-		var maxPreviewLength: number = 3;
-		
-		if(this.textLines.length < 3) {
-			maxPreviewLength = this.textLines.length;
-		}
-		
-		for(var i = 0; i < maxPreviewLength; i++) {
-			previewTextLines.push(this.getTextLine(i));
-		}
-		return previewTextLines;
-	}
 	
-	addComments(comments: Comment[]): void {
-		for(let comment of comments) {
-			this.comments.push(comment);
+	//returns text as TextLine[] up to MAX_CHARACTERS
+	//loop through each textLine of this.textLines
+	//add current textLine to output_textLines
+	//if totalLength exceeds MAX_CHARACTERS then trim current line and return
+	getPreviewText(): TextLine[] {
+		var textLines: TextLine[] = [];
+		var totalLength: number = 0;
+		for(let textLine of this.textLines) {
+			if((textLine.getText().length + totalLength) > MAX_CHARACTERS) {
+				var availableCharSlots: number = MAX_CHARACTERS - totalLength;
+				console.log(new TextLine(textLine.getText().substring(0, availableCharSlots)));
+				textLines.push(new TextLine(textLine.getText().substring(0, availableCharSlots)));
+			} else {
+				textLines.push(textLine);
+				totalLength += textLine.getText().length;
+			}
 		}
+		return textLines;
 	}
 	
 	toString(): string {

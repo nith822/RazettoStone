@@ -20,7 +20,6 @@ describe('Text', () => {
 		let enableProd: boolean = true;
 		
 		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
-		console.log(text.toString());
 		expect(text).toBeTruthy();
 		
 	});
@@ -36,8 +35,74 @@ describe('Text', () => {
 		let enableProd: boolean = true;
 		
 		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
-		console.log(text.toString());
 		expect(text).toBeTruthy();
 		
+	});
+	
+	it('should return proper preview text', () => {
+		
+		let MAX_CHARACTERS: number = 150;
+		
+		let title: string = "Bane";
+		let id: string = "123";
+		let language: string = "JP"
+		let dateCreated: Date = new Date();
+		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let comments: Comment[] = [];
+		let enableProd: boolean = true;
+		
+		
+		//overflow
+		var textString: string = "";
+		for(var i = 1; i <= MAX_CHARACTERS + 10; i++) {
+			textString += "@";
+		}
+		
+		var correctString: string = "";
+		for(var i = 1; i <= MAX_CHARACTERS; i++) {
+			correctString += "@";
+		}
+		
+		var text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		expect(flattenTextLinesIntoString(text.getPreviewText())).toBe(correctString);
+		
+		
+		//underflow
+		var textString: string = "";
+		for(var i = 1; i <= MAX_CHARACTERS - 10; i++) {
+			textString += "@";
+		}
+		
+		var correctString: string = "";
+		for(var i = 1; i <= MAX_CHARACTERS - 10; i++) {
+			correctString += "@";
+		}
+		
+		var text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		expect(flattenTextLinesIntoString(text.getPreviewText())).toBe(correctString);
+		
+		//exact
+		
+		var textString: string = "";
+		for(var i = 1; i <= MAX_CHARACTERS; i++) {
+			textString += "@";
+		}
+		
+		var correctString: string = "";
+		for(var i = 1; i <= MAX_CHARACTERS; i++) {
+			correctString += "@";
+		}
+		
+		var text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		expect(flattenTextLinesIntoString(text.getPreviewText())).toBe(correctString);
+		
+		
+		function flattenTextLinesIntoString(textLines: TextLine[]): string {
+			var builtString: string = "";
+			for(let textLine of textLines) {
+				builtString += textLine.getText();
+			}
+			return builtString;
+		}
 	});
 });
