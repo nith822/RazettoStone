@@ -39,6 +39,32 @@ describe('Text', () => {
 		
 	});
 	
+	it('should parse text properly', () => {
+		let text = new Text();
+		let correctStrings: string[] = ["If I pull that off will you die?", "It would be extremely painfull...", 
+							"You're a big guy!", "For you."]; 
+		
+		//new line as \n
+		var testString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
+		expect(convertTextLinesToStringArr(text.parseText(testString))).toEqual(correctStrings);
+		
+		
+		//new line as \r\n 
+		var testString: string = "If I pull that off will you die?\r\nIt would be extremely painfull...\r\nYou're a big guy!\r\nFor you.";
+		expect(convertTextLinesToStringArr(text.parseText(testString))).toEqual(correctStrings);
+		
+		function convertTextLinesToStringArr(textLines: TextLine[]): string[] {
+			var strArr: string[] = [];
+			for(let textLine of textLines) {
+				strArr.push(textLine.getText());
+			}
+			return strArr;
+		}
+	});
+	
+	
+	
+	
 	it('should return proper preview text', () => {
 		
 		let MAX_CHARACTERS: number = 150;

@@ -31,7 +31,7 @@ export class Text {	//Translations
 	parseText(text: string): TextLine[] {
 		var textLines: TextLine[] = [];
 		//remove \r from \n\r
-		var splitStrings: string[] = text.replace("\r", "").split("\n");
+		var splitStrings: string[] = text.replace(/\r/gm, "").split("\n");
 		
 		for(let splitString of splitStrings) {
 			textLines.push(new TextLine(splitString));
@@ -62,7 +62,6 @@ export class Text {	//Translations
 		for(let textLine of this.textLines) {
 			if((textLine.getText().length + totalLength) > MAX_CHARACTERS) {
 				var availableCharSlots: number = MAX_CHARACTERS - totalLength;
-				console.log(new TextLine(textLine.getText().substring(0, availableCharSlots)));
 				textLines.push(new TextLine(textLine.getText().substring(0, availableCharSlots)));
 			} else {
 				textLines.push(textLine);
