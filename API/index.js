@@ -28,8 +28,8 @@ if(!db) {
 
 app.use('/users', userRoutes);
 
-//let postRoutes = require('./posts/PostRoutes');
-//app.use('/posts', postRoutes);
+let postRoutes = require('./posts/PostRoutes');
+app.use('/posts', postRoutes);
 
 // TODO: error catching 
 app.use(function(err,req,res,next){

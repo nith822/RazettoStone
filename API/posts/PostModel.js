@@ -1,48 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-const CommentSchema = new Schema({
-    text: {
-        type: String,
-        required: [true, 'text field is required']
-    },
-    userID:{
-        type: String,
-        required: [true, 'userID field is required']
-    },
-    dateCreated:{
-        type: Date,
-        required: [true, 'dateCreated field is required']
-    },
-    //replies:[RepliesSchema]
-});
-
-// TODO add schema for flags
-const FlagSchema = new Schema({
-
-});
-
-const TranslationSchema = new Schema({
-    text: {
-        type: String,
-        required: [true, 'text field is required']
-    },
-    language: {
-        type: String,
-        required: [true, 'Language field is required']
-    },
-    dateCreated:{
-        type: Date,
-        default: Date.now,
-        required: [true, 'dateCreated field is required']
-    },
-    userID:{
-        type: String,
-        required: [true, 'userID field is required']
-    },
-    comments: [CommentSchema]
-});
+let CommentSchema = require('./comments/CommentModel');
+let TranslationSchema = require('./translations/TranslationModel');
+let FlagSchema = require ('./flags/FlagModel');
 
 /*
 const RepliesSchema = new Schema({
