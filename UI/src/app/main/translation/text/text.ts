@@ -12,9 +12,10 @@ export class Text {	//Translations
 	user: User;
 	comments: Comment[];
 	
-	constructor(id?: string, text?: string, language?: string, 
+	constructor(title?: string, id?: string, text?: string, language?: string, 
 		dateCreated?: Date,  user?: User, comments?: Comment[], enableProd?: boolean) {
 		
+		if(!title && enableProd) { throw new Error('No title for Text') } else { this.title = title }
 		if(!id && enableProd) { throw new Error('No id for Text') } else { this.id = id  }
 		if(!text) { this.textLines = []	} else { this.textLines = this.parseText(text) };		
 		if(!language && enableProd) { throw new Error('No language for Text') } else { this.language = language }

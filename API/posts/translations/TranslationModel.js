@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 let CommentSchema = require('../comments/CommentModel');
 
 const TranslationSchema = new Schema({
+	title: {
+        type: String,
+        required: [true, 'title field is required']
+    },
     text: {
         type: String,
         required: [true, 'text field is required']
