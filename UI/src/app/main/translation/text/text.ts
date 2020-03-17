@@ -4,6 +4,7 @@ import { Comment } from '../../sidebar/comments/comment'
 
 export class Text {	//Translations
 	
+	title: string;
 	id: string;		//TranslationID
 	textLines: TextLine[];	//Text
 	language: string;
