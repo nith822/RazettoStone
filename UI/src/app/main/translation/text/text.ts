@@ -7,18 +7,18 @@ export class Text {	//Translations
 	id: string;		//TranslationID
 	textLines: TextLine[];	//Text
 	language: string;
-	createdDate: Date;
+	dateCreated: Date;
 	user: User;
 	comments: Comment[];
 	
 	constructor(id?: string, text?: string, language?: string, 
-		createdDate?: Date,  user?: User, comments?: Comment[], enableProd?: boolean) {
+		dateCreated?: Date,  user?: User, comments?: Comment[], enableProd?: boolean) {
 		
 		if(!id && enableProd) { throw new Error('No id for Text') } else { this.id = id  }
 		if(!text) { this.textLines = []	} else { this.textLines = this.parseText(text) };		
 		if(!language && enableProd) { throw new Error('No language for Text') } else { this.language = language }
 		if(!user && enableProd) { throw new Error('No user for Text') } else { this.user = user }
-		if(createdDate) { this.createdDate = createdDate; }
+		if(dateCreated) { this.dateCreated = dateCreated; }
 		if(comments) { this.comments = comments; }
 		
 	}
@@ -72,7 +72,7 @@ export class Text {	//Translations
 			+ "textLines: " + this.textLines + "\n"
 			+ "language: " + this.language + "\n"
 			+ "user: " + this.user + "\n"
-			+ "createdDate: " + this.createdDate + "\n"
+			+ "dateCreated: " + this.dateCreated + "\n"
 			+ "comments: " + this.comments + "\n"
 	}
 }

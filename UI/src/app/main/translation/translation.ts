@@ -10,7 +10,7 @@ export class Translation {	//Post
 	language: string;
 	title: string;
 	user: User;
-	createdDate: Date;
+	dateCreated: Date;
 	
 	//only send total # of votes for now
 	upvotes: number;
@@ -28,7 +28,7 @@ export class Translation {	//Post
 	currentTranslatedText: Text;
 	
 	constructor(originalText?: Text, translatedTexts?: Text[], 
-		id?: number, language?: string, title?: string, user?: User, createdDate?: Date,
+		id?: number, language?: string, title?: string, user?: User, dateCreated?: Date,
 		upvotes?: number, downvotes?: number, 
 		tags?: string[], comments?: Comment[], flags?: string[][], enableProd?: boolean) {
 		if(!originalText && enableProd) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
@@ -36,7 +36,7 @@ export class Translation {	//Post
 		if(!language && enableProd) { throw new Error('No language for Tranlsation Post'); } else { this.language = language; }
 		if(!title && enableProd) { throw new Error('No title for Tranlsation Post'); } else { this.title = title; }
 		if(!user && enableProd) { throw new Error('No user for Tranlsation Post'); } else { this.user = user; }
-		if(createdDate) { this.createdDate = createdDate; }
+		if(dateCreated) { this.dateCreated = dateCreated; }
 		if(upvotes) { this.upvotes = upvotes; } else { this.upvotes = 0; }
 		if(downvotes) { this.downvotes = downvotes; } else { this.downvotes = 0; }
 		if(tags) { this.tags = tags; }
@@ -72,7 +72,7 @@ export class Translation {	//Post
 			+ "language: " + this.language + "\n"
 			+ "title: " + this.title + "\n"
 			+ "user: " + this.user + "\n"
-			+ "createdDate: " + this.createdDate + "\n"
+			+ "dateCreated: " + this.dateCreated + "\n"
 			+ "upvotes: " + this.upvotes +"\n"
 			+ "downvotes: " + this.downvotes + "\n"
 			+ "tags: " + this.tags + "\n"

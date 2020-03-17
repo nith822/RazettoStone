@@ -13,12 +13,12 @@ describe('Text', () => {
 		let id: string = "123";
 		let textString: string = "A big guy";
 		let language: string = "JP"
-		let createdDate: Date = new Date();
+		let dateCreated: Date = new Date();
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
 		let comments: Comment[] = [];
 		let enableProd: boolean = true;
 		
-		let text = new Text(id, textString, language, createdDate, user, comments, enableProd);
+		let text = new Text(id, textString, language, dateCreated, user, comments, enableProd);
 		console.log(text.toString());
 		expect(text).toBeTruthy();
 		
@@ -28,12 +28,12 @@ describe('Text', () => {
 		let id: string = "123";
 		let textString: string = undefined;
 		let language: string = "JP"
-		let createdDate: Date = new Date();
+		let dateCreated: Date = new Date();
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
 		let comments: Comment[] = [];
 		let enableProd: boolean = true;
 		
-		let text = new Text(id, textString, language, createdDate, user, comments, enableProd);
+		let text = new Text(id, textString, language, dateCreated, user, comments, enableProd);
 		console.log(text.toString());
 		expect(text).toBeTruthy();
 		

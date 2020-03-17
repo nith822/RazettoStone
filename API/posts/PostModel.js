@@ -7,15 +7,15 @@ const CommentSchema = new Schema({
         type: String,
         required: [true, 'text field is required']
     },
-    user_id:{
+    userID:{
         type: String,
-        required: [true, 'user_id field is required']
+        required: [true, 'userID field is required']
     },
-    created_date:{
+    dateCreated:{
         type: Date,
-        required: [true, 'created_date field is required']
+        required: [true, 'dateCreated field is required']
     },
-    replies:[RepliesSchema]
+    //replies:[RepliesSchema]
 });
 
 // TODO add schema for flags
@@ -32,56 +32,58 @@ const TranslationSchema = new Schema({
         type: String,
         required: [true, 'Language field is required']
     },
-    created_date:{
+    dateCreated:{
         type: Date,
         default: Date.now,
-        required: [true, 'created_date field is required']
+        required: [true, 'dateCreated field is required']
     },
-    user_id:{
+    userID:{
         type: String,
-        required: [true, 'user_id field is required']
+        required: [true, 'userID field is required']
     },
     comments: [CommentSchema]
 });
 
+/*
 const RepliesSchema = new Schema({
     text: {
         type: String,
         required: [true, 'text field is required']
     },
-    user_id:{
+    userID:{
         type: String,
-        required: [true, 'user_id field is required']
+        required: [true, 'userID field is required']
     },
-    created_date:{
+    dateCreated:{
         type: Date,
         default: Date.now,
-        required: [true, 'created_date field is required']
+        required: [true, 'dateCreated field is required']
     }
     //replies: [RepliesSchema]
 });
+*/
 
 const PostSchema = new Schema({
-    title: {
+    originalText: {
         type: String,
-        required: [true, 'Title field is required']
+        required: [true, 'originalText field is required']
     },
     language: {
         type: String,
         required: [true, 'Language field is required']
     },
-    original_text: {
+    title: {
         type: String,
-        required: [true, 'original_text field is required']
+        required: [true, 'Title field is required']
     },
-    user_id:{
+    userID:{
         type: String,
-        required: [true, 'user_id field is required']
+        required: [true, 'userID field is required']
     },
-    created_date:{
+    dateCreated:{
         type: Date,
         default: Date.now,
-        required: [true, 'created_date field is required']
+        required: [true, 'dateCreated field is required']
     },
     upvotes:{
         type: [String],

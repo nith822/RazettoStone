@@ -19,7 +19,7 @@ describe('Translation', () => {
 		let language: string = "Japanese";
 		let title: string = "Bane";
 		let user: User = new User("420yoloswag", "bobsanders@gmail.com", "123");
-		let createdDate: Date = new Date();
+		let dateCreated: Date = new Date();
 	
 		let upvotes: number = 10;
 		let downvotes: number = 1;
@@ -32,7 +32,7 @@ describe('Translation', () => {
 		let translatedTexts: Text[] = [new Text()];
 		
 		let translation: Translation = new Translation(originalText, translatedTexts, id, language, title, user,
-			createdDate, upvotes, downvotes, tags, comments, flags);
+			dateCreated, upvotes, downvotes, tags, comments, flags);
 		
 		console.log(translation.toString());
 		expect(translation).toBeTruthy();
