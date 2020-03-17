@@ -29,9 +29,9 @@ describe('Translation', () => {
 		let flags: string[][] = [["good content"], ["good grammar"]];
 		
 		let originalText: Text = new Text();
-		let translatedTexts: Text[] = [new Text()];
+		let translations: Text[] = [new Text()];
 		
-		let translation: Translation = new Translation(originalText, translatedTexts, id, language, title, user,
+		let translation: Translation = new Translation(originalText, translations, id, language, title, user,
 			dateCreated, upvotes, downvotes, tags, comments, flags);
 		
 		console.log(translation.toString());

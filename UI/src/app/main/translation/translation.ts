@@ -23,11 +23,11 @@ export class Translation {	//Post
 	flags: string[][];
 	
 	originalText: Text;
-	translatedTexts: Text[];
-	
+	translations: Text[];
+	 
 	currentTranslatedText: Text;
 	
-	constructor(originalText?: Text, translatedTexts?: Text[], 
+	constructor(originalText?: Text, translations?: Text[], 
 		id?: number, language?: string, title?: string, user?: User, dateCreated?: Date,
 		upvotes?: number, downvotes?: number, 
 		tags?: string[], comments?: Comment[], flags?: string[][], enableProd?: boolean) {
@@ -44,9 +44,9 @@ export class Translation {	//Post
 		if(flags) { this.flags = flags; }
 		
 		
-		this.translatedTexts = translatedTexts;
-		if(this.translatedTexts) {
-			this.currentTranslatedText = translatedTexts[0];
+		this.translations = translations;
+		if(this.translations) {
+			this.currentTranslatedText = translations[0];
 		}
 	}
 	
@@ -79,7 +79,7 @@ export class Translation {	//Post
 			+ "comments: " + this.comments + "\n"
 			+ "flags: " + this.flags + "\n"
 			+ "originalText: " + this.originalText + "\n"
-			+ "translatedTexts: " + this.translatedTexts + "\n"
+			+ "translations: " + this.translations + "\n"
 			+ "currentTranslatedText: " + this.currentTranslatedText + "\n";
 	}
 }
