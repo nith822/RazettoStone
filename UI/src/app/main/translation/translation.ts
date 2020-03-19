@@ -59,8 +59,8 @@ export class Translation {	//Post
 	}
 	
 	getTextLine(isOriginal: boolean, line: number): TextLine {
-		if(this.getOriginalText(isOriginal).getTextLines().length < line && line < 0) {
-			throw new Error('OUB in text. isOriginal: ' + isOriginal); 
+		if(this.getOriginalText(isOriginal).getTextLines().length <= line && line < 0) {
+			throw new Error('OUB in text. isOriginal: ' + isOriginal + " line: " + line); 
 		}
 		return this.getOriginalText(isOriginal).getTextLine(line);
 	}
