@@ -62,7 +62,32 @@ describe('Text', () => {
 		}
 	});
 	
-	
+	it('should return proper textLine', () => {
+		let title: string = "Bane";
+		let id: string = "123";
+		let textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
+		let language: string = "JP"
+		let dateCreated: Date = new Date();
+		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let comments: Comment[] = [];
+		let enableProd: boolean = true;
+		
+		
+		let correctStrings: string[] = ["If I pull that off will you die?", "It would be extremely painfull...", 
+							"You're a big guy!", "For you."]; 
+							
+		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		
+		//matching
+		expect(text.getTextLine(2).getText()).toBe(correctStrings[2]);
+		
+		
+		//overflow
+		expect(() => { text.getTextLine(4) }).toThrow(new Error('OUB in textLines. Line:: ' + 4)); 
+		
+		//underflow
+		expect(() => { text.getTextLine(-1) }).toThrow(new Error('OUB in textLines. Line:: ' + -1)); 
+	});
 	
 	
 	it('should return proper preview text', () => {

@@ -45,7 +45,7 @@ export class Text {	//Translations
 	}
 	
 	getTextLine(line: number): TextLine {
-		if(this.textLines.length < line || line < 0) {
+		if(this.textLines.length <= line || line < 0) {
 			throw new Error('OUB in textLines. Line:: ' + line); 
 		}
 		return this.getTextLines()[line];
