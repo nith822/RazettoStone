@@ -21,7 +21,7 @@ export class Text {	//Translations
 		if(!title && enableProd) { throw new Error('No title for Text') } else { this.title = title }
 		if(!id && enableProd) { throw new Error('No id for Text') } else { this.id = id  }
 		if(!text) { this.textLines = []	} else { this.textLines = this.parseText(text) };		
-		if(!language && enableProd) { throw new Error('No language for Text') } else { this.language = language }
+		if(!language && enableProd) { throw new Error('No language for Text') } else { this.setLanguage(this.language) }
 		if(!user && enableProd) { throw new Error('No user for Text') } else { this.user = user }
 		if(dateCreated) { this.dateCreated = dateCreated; }
 		if(comments) { this.comments = comments; }
@@ -51,7 +51,6 @@ export class Text {	//Translations
 		return this.getTextLines()[line];
 	}
 	
-	
 	//returns text as TextLine[] up to MAX_CHARACTERS
 	//loop through each textLine of this.textLines
 	//add current textLine to output_textLines
@@ -69,6 +68,14 @@ export class Text {	//Translations
 			}
 		}
 		return textLines;
+	}
+	
+	setLanguage(language: string): void {
+		this.language = language;
+	}
+	
+	addComment(comment: Comment): void {
+		this.comments.push(comment);
 	}
 	
 	toString(): string {

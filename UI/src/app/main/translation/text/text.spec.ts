@@ -62,7 +62,7 @@ describe('Text', () => {
 		}
 	});
 	
-	it('should return proper textLine', () => {
+	it('should return valid textLine', () => {
 		let title: string = "Bane";
 		let id: string = "123";
 		let textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
@@ -90,7 +90,7 @@ describe('Text', () => {
 	});
 	
 	
-	it('should return proper preview text', () => {
+	it('should return valid preview text', () => {
 		
 		let MAX_CHARACTERS: number = 150;
 		
@@ -155,5 +155,30 @@ describe('Text', () => {
 			}
 			return builtString;
 		}
+	});
+	
+	it('should add a comment to comments', () => {
+		let title: string = "Bane";
+		let id: string = "123";
+		let textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
+		let language: string = "JP"
+		let dateCreated: Date = new Date();
+		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let comments: Comment[] = [];
+		let enableProd: boolean = true;
+							
+		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		
+		//confirm precondition
+		expect(text.comments.length).toEqual(0);
+		
+		//add a comment
+		let sampleText: string = "hello"
+		let testComment: Comment = new Comment(sampleText, undefined, undefined, undefined, 10, 10);
+		text.addComment(testComment);
+		expect(text.comments.length).toEqual(1);
+		
+		//is the comment 'valid'?
+		expect(testComment.text).toBe(sampleText);
 	});
 });
