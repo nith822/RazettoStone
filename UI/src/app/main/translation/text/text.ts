@@ -12,11 +12,13 @@ export class Text {	//Translations
 	language: string;
 	dateCreated: Date;
 	user: User;
+	upvotes: number;
+	downvotes: number;
 	comments: Comment[];
 	
 	
 	constructor(title?: string, id?: string, text?: string, language?: string, 
-		dateCreated?: Date,  user?: User, comments?: Comment[], enableProd?: boolean) {
+		dateCreated?: Date,  user?: User, comments?:Comment[], enableProd?: boolean, upvotes?: number, downvotes?: number) {
 		
 		if(!title && enableProd) { throw new Error('No title for Text') } else { this.title = title }
 		if(!id && enableProd) { throw new Error('No id for Text') } else { this.id = id  }
@@ -24,6 +26,8 @@ export class Text {	//Translations
 		if(!language && enableProd) { throw new Error('No language for Text') } else { this.setLanguage(this.language) }
 		if(!user && enableProd) { throw new Error('No user for Text') } else { this.user = user }
 		if(dateCreated) { this.dateCreated = dateCreated; }
+		if(upvotes) { this.upvotes = upvotes } else { this.upvotes = 0 }
+		if(downvotes) { this.downvotes = downvotes } else { this.downvotes = 0}
 		if(comments) { this.comments = comments; }
 		
 	}
