@@ -13,7 +13,7 @@ const CommentSchema = new Schema({
     dateCreated:{
         type: Date,
         required: [true, 'dateCreated field is required']
-    },
+    }
 });
 
 

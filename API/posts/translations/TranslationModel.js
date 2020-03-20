@@ -25,6 +25,14 @@ const TranslationSchema = new Schema({
         type: String,
         required: [true, 'userID field is required']
     },
+    upvotes:{
+        type: [String],
+        required: [true, 'upvotes field is required']
+    },
+    downvotes:{
+        type: [String],
+        required: [true, 'downvotes field is required']     
+    },
     comments: [CommentSchema]
 });
 

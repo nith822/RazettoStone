@@ -23,16 +23,16 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [x] PUT /users/{userid}
 
 ### Posts 
-- [ ] Model
+- [x] Model
 - [ ] GET /posts/ 
-- [ ] POST /posts/
+- [x] POST /posts/
 - [ ] GET /posts/preview
-- [ ] GET /posts/{postid}
+- [x] GET /posts/{postid}
 
 ### Translations
-- [ ] Model
+- [x] Model
 - [ ] GET /posts/{postid}/translations/{translationId}
-- [ ] POST /posts/{PostId}/translations
+- [x] POST /posts/{PostId}/translations
 - [ ] POST /posts/{postid}/translations/{TranslationID}/flag
 
 ### Comments

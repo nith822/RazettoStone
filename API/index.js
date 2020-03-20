@@ -15,9 +15,10 @@ app.use(bodyParser.urlencoded({
     extended: true
  }));
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/RazettoStoneTest1', { useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/RazettoStone', { useNewUrlParser: true});
+//mongoose.connect('mongodb://127.0.0.1:27017/RazettoStoneTest1', { useNewUrlParser: true});
 var db = mongoose.connection;
+
 
 if(!db) {
 	throw new Error("Can't connect to db");
@@ -31,10 +32,11 @@ app.use('/users', userRoutes);
 let postRoutes = require('./posts/PostRoutes');
 app.use('/posts', postRoutes);
 
-// TODO: error catching 
+// error catching 
 app.use(function(err,req,res,next){
-
-});
+	console.log(err);
+	res.status(422).send({error: err.message});
+  });
 
 app.listen(port, function () {
      console.log("Running RazettoStone API on port " + port);
