@@ -4,20 +4,12 @@ import { TextLine } from './text/textLine';
 import { Comment } from '../sidebar/comments/comment';
 import { User } from '../user/user';
 
-export class Translation {	//Post
+import { Interactible } from '../interactible/interactible'
+
+export class Translation extends Interactible {	//Post
 	
-	id: number;
-	language: string;
-	title: string;
-	user: User;
-	dateCreated: Date;
-	
-	//only send total # of votes for now
-	upvotes: number;
-	downvotes: number;
 	
 	tags: string[];
-	comments: Comment[];
 	
 	//should flags go into post? don't they go into translation?
 	//[flagIndex][userName]
@@ -28,20 +20,16 @@ export class Translation {	//Post
 	 
 	currentTranslatedText: Text;
 	
-	constructor(originalText?: Text, translations?: Text[], 
-		id?: number, language?: string, title?: string, user?: User, dateCreated?: Date,
-		upvotes?: number, downvotes?: number, 
-		tags?: string[], comments?: Comment[], flags?: string[][], enableProd?: boolean) {
+	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
+				upvotes?: number, downvotes?: number, 
+				id?: string, dateCreated?: Date, 
+				originalText?: Text, translations?: Text[], tags?: string[], flags?: string[][],
+				enableProd?: boolean) {
+			
+		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		if(!originalText && enableProd) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
-		if(!id && enableProd) { throw new Error('No id for Tranlsation Post'); } else { this.id = id;  }
-		if(!language && enableProd) { throw new Error('No language for Tranlsation Post'); } else { this.language = language; }
-		if(!title && enableProd) { throw new Error('No title for Tranlsation Post'); } else { this.title = title; }
-		if(!user && enableProd) { throw new Error('No user for Tranlsation Post'); } else { this.user = user; }
-		if(dateCreated) { this.dateCreated = dateCreated; } else { this.dateCreated = new Date() }
-		if(upvotes) { this.upvotes = upvotes; } else { this.upvotes = 0; }
-		if(downvotes) { this.downvotes = downvotes; } else { this.downvotes = 0; }
+		
 		if(tags) { this.tags = tags; }
-		if(comments) { this.comments = comments; }
 		if(flags) { this.flags = flags; }
 		
 		
@@ -64,14 +52,6 @@ export class Translation {	//Post
 			throw new Error('OUB in text. isOriginal: ' + isOriginal + " line: " + line); 
 		}
 		return this.getOriginalText(isOriginal).getTextLine(line);
-	}
-	
-	setLanguage(language: string): void {
-		this.language = language;
-	}
-	
-	addComment(comment: Comment): void {
-		this.comments.push(comment);
 	}
 	
 	addTag(tag: string): void {

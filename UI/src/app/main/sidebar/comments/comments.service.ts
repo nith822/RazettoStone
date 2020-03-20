@@ -11,7 +11,6 @@ export class CommentsService {
 	comments: Comment[];
 	
 	constructor(private userService: UserService) { 
-		
 	}
 	
 	getComments(translationID: number): Observable<Comment[]>{

@@ -2,33 +2,22 @@ import { TextLine } from './textLine';
 import { User } from '../../user/user';
 import { Comment } from '../../sidebar/comments/comment'
 
+import { Interactible } from '../../interactible/interactible'
+
 const MAX_CHARACTERS: number = 150;
 	
-export class Text {	//Translations
+export class Text extends Interactible {	//Translations
 	
-	title: string;
-	id: string;		//TranslationID
 	textLines: TextLine[];	//Text
-	language: string;
-	dateCreated: Date;
-	user: User;
-	upvotes: number;
-	downvotes: number;
-	comments: Comment[];
 	
-	
-	constructor(title?: string, id?: string, text?: string, language?: string, 
-		dateCreated?: Date,  user?: User, comments?:Comment[], enableProd?: boolean, upvotes?: number, downvotes?: number) {
+	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
+				upvotes?: number, downvotes?: number, 
+				id?: string, dateCreated?: Date, 
+				text?: string,
+				enableProd?: boolean) {
 		
-		if(!title && enableProd) { throw new Error('No title for Text') } else { this.title = title }
-		if(!id && enableProd) { throw new Error('No id for Text') } else { this.id = id  }
+		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		if(!text) { this.textLines = []	} else { this.textLines = this.parseText(text) };		
-		if(!language && enableProd) { throw new Error('No language for Text') } else { this.setLanguage(this.language) }
-		if(!user && enableProd) { throw new Error('No user for Text') } else { this.user = user }
-		if(dateCreated) { this.dateCreated = dateCreated; }
-		if(upvotes) { this.upvotes = upvotes } else { this.upvotes = 0 }
-		if(downvotes) { this.downvotes = downvotes } else { this.downvotes = 0}
-		if(comments) { this.comments = comments; }
 		
 	}
 	
@@ -72,14 +61,6 @@ export class Text {	//Translations
 			}
 		}
 		return textLines;
-	}
-	
-	setLanguage(language: string): void {
-		this.language = language;
-	}
-	
-	addComment(comment: Comment): void {
-		this.comments.push(comment);
 	}
 	
 	toString(): string {
