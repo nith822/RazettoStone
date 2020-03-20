@@ -19,6 +19,7 @@ export class Translation {	//Post
 	tags: string[];
 	comments: Comment[];
 	
+	//should flags go into post? don't they go into translation?
 	//[flagIndex][userName]
 	flags: string[][];
 	
@@ -36,7 +37,7 @@ export class Translation {	//Post
 		if(!language && enableProd) { throw new Error('No language for Tranlsation Post'); } else { this.language = language; }
 		if(!title && enableProd) { throw new Error('No title for Tranlsation Post'); } else { this.title = title; }
 		if(!user && enableProd) { throw new Error('No user for Tranlsation Post'); } else { this.user = user; }
-		if(dateCreated) { this.dateCreated = dateCreated; }
+		if(dateCreated) { this.dateCreated = dateCreated; } else { this.dateCreated = new Date() }
 		if(upvotes) { this.upvotes = upvotes; } else { this.upvotes = 0; }
 		if(downvotes) { this.downvotes = downvotes; } else { this.downvotes = 0; }
 		if(tags) { this.tags = tags; }
@@ -63,6 +64,18 @@ export class Translation {	//Post
 			throw new Error('OUB in text. isOriginal: ' + isOriginal + " line: " + line); 
 		}
 		return this.getOriginalText(isOriginal).getTextLine(line);
+	}
+	
+	setLanguage(language: string): void {
+		this.language = language;
+	}
+	
+	addComment(comment: Comment): void {
+		this.comments.push(comment);
+	}
+	
+	addTag(tag: string): void {
+		this.tags.push(tag);
 	}
 	
 	//edit to use toStrings
