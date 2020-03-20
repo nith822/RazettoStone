@@ -52,11 +52,11 @@ const PostSchema = new Schema({
     },
     downvotes:{
         type: [String],
-        required: [true, 'downvotes field is required']
+        required: [true, 'downvotes field is required']     
     },
     tags:{
         type: [String],
-        required: [true, 'tags field is required']          //do we require each post to have at least one tag?
+        required: [true, 'tags field is required']          //if there is no tag just input empty array, []
     },
     comments: [CommentSchema],
     flags: [FlagSchema],
