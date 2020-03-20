@@ -22,8 +22,7 @@ describe('Comment', () => {
 		let enableProd: boolean = true;
 		
 		let comment = new Comment(user, text, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
-		
-		console.log(comment.toString());
+
 		expect(comment).toBeTruthy();
 	});
 

@@ -64,12 +64,19 @@ export class Text extends Interactible {	//Translations
 	}
 	
 	toString(): string {
-		return "Attributes for text:: " + "\n" 
-			+ "id: " + this.id + "\n"
-			+ "textLines: " + this.textLines + "\n"
-			+ "language: " + this.language + "\n"
-			+ "user: " + this.user + "\n"
-			+ "dateCreated: " + this.dateCreated + "\n"
-			+ "comments: " + this.comments + "\n"
+		
+		function buildString(textLines: TextLine[]): string {
+			var str: string = "";
+			str += "["
+			for(let textLine of textLines) {
+				str += textLine.toString() + ", ";
+			}
+			str += "]"
+			return str;
+		}
+		
+		return "[" + "Attributes for Text:: " + "\n" 
+				+ super.toString() + "\n"
+				+ "textLines: " + buildString(this.textLines) + "]" + "\n";
 	}
 }

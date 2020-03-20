@@ -58,21 +58,32 @@ export class Translation extends Interactible {	//Post
 		this.tags.push(tag);
 	}
 	
-	//edit to use toStrings
 	toString(): string {
-		return "Attributes for translationPost:: " + "\n" 
-			+ "id: " + this.id + "\n"
-			+ "language: " + this.language + "\n"
-			+ "title: " + this.title + "\n"
-			+ "user: " + this.user + "\n"
-			+ "dateCreated: " + this.dateCreated + "\n"
-			+ "upvotes: " + this.upvotes +"\n"
-			+ "downvotes: " + this.downvotes + "\n"
-			+ "tags: " + this.tags + "\n"
-			+ "comments: " + this.comments + "\n"
-			+ "flags: " + this.flags + "\n"
-			+ "originalText: " + this.originalText + "\n"
-			+ "translations: " + this.translations + "\n"
-			+ "currentTranslatedText: " + this.currentTranslatedText + "\n";
+		
+		function buildString(tags: string[]): string {
+			var str: string = "";
+			str += "["
+			for(let tag of tags) {
+				str += tag + ", ";
+			}
+			str += "]"
+			return str;
+		}
+		
+		function buildTextsString(translatedTexts: Text[]): string {
+			var str: string = "";
+			str += "["
+			for(let translatedText of translatedTexts) {
+				str += translatedText.toString() + ", ";
+			}
+			str += "]"
+			return str;
+		}
+		
+		return "[" + "Attributes for Translation:: " + "\n" 
+				+ super.toString() + "\n"
+				+ "tags: " + buildString(this.tags) + "\n"
+				+ "originalText: " + this.originalText.toString() + "\n"
+				+ "translatedTexts: " + buildTextsString(this.translations) + "]" + "\n";
 	}
 }

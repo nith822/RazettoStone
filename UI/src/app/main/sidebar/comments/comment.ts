@@ -12,10 +12,11 @@ export class Comment extends Interactible {
 				enableProd?: boolean) {
 		super(user, text, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		this.text = text;
-		console.log(this.toString());
 	}
 	
 	toString(): string {
-		return super.toString() + "child";
+		return "[" + "Attributes for comment:: " + "\n" 
+				+ super.toString() + "\n"
+				+ "text: " + this.text + "]" + "\n";
 	}
 }

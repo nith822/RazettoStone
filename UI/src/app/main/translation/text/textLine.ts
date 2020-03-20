@@ -9,4 +9,8 @@ export class TextLine {
 	getText() {
 		return this.textLine;
 	}
+	
+	toString(): string {
+		return this.textLine;
+	}
 }

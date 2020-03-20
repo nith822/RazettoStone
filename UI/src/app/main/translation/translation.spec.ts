@@ -78,7 +78,7 @@ describe('Translation', () => {
 			id, dateCreated, 
 			originalText, translations, tags, flags,
 			enableProd);
-		
+		console.log(translation.toString());
 		
 		//test if returns original or translated && matching case
 		let originalCorrectStrings: string[] = ["If I pull that off will you die?", "It would be extremely painfull...", 

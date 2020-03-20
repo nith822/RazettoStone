@@ -93,7 +93,6 @@ describe('Text', () => {
 		let text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		let correctStrings: string[] = ["If I pull that off will you die?", "It would be extremely painfull...", 
 							"You're a big guy!", "For you."]; 
-		
 		//matching
 		expect(text.getTextLine(2).getText()).toBe(correctStrings[2]);
 		

@@ -41,6 +41,25 @@ export abstract class Interactible {
 	}
 	
 	toString(): string {
-		return "super";
+		
+		function buildString(votes: string[]): string {
+			var str: string = "";
+			str += "["
+			for(let vote of votes) {
+				str += vote + ", ";
+			}
+			str += "]"
+			return str;
+		}
+		
+		return "[" + "Attributes for interactible:: " + "\n" 
+			+ "user: " + this.user.toString() + "\n"
+			+ "title: " + this.title + "\n"
+			+ "language: " + this.language + "\n"
+			+ "comments: " + this.comments + "\n"
+			+ "upvotes: " + buildString(this.upvotes) +"\n"
+			+ "downvotes: " + buildString(this.downvotes) + "\n"
+			+ "id: " + this.id + "\n"
+			+ "dateCreated: " + this.dateCreated + "]" + "\n";
 	}
 }
