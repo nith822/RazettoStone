@@ -35,7 +35,7 @@ exports.create = function (req, res, next) {
     }).catch(next);
 };
 
-// view by id
+// view post by id
 exports.view = function (req, res, next) {
     console.log('Attempting to retrieve post from DB')
     Post.findById(req.params.post_id).then(function(post){
@@ -44,23 +44,51 @@ exports.view = function (req, res, next) {
     }).catch(next)
 };
 
+
+
 exports.addTranslation = function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
     
-    Post.findByIdAndUpdate({_id:req.params.post_id}, {$addToSet: { translations: {
-        title: req.body.title,
+    Post.findByIdAndUpdate({_id:req.params.post_id}, {translations: {$push: {
         text: req.body.text,
         language: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
         downvotes: [],
-        comments: []
-    }}}).then(function(){
+        comments: []}}}).then(function(){
         Post.findOne({_id: req.params.post_id}).then(function(post){
             res.send(post);
         });
     }).catch(next);
 }
+
+
+exports.votePost = function (req, res, next){
+    if (req.body.vote == true){
+        Post.findByIdAndUpdate({_id:req.params.post_id},{
+            $addToSet: {upvotes: req.body.userID},
+            $pull: {downvotes: req.body.userID}
+        }).then(function(){
+            console.log( req.body.userID+ ' upvoted ' + req.params.post_id)
+            res.send({"message": req.body.userID+ ' upvoted ' + req.params.post_id})
+        }
+        )
+    }else{
+        Post.findByIdAndUpdate({_id:req.params.post_id},{
+            $addToSet: {downvotes: req.body.userID},
+            $pull: {upvotes: req.body.userID}
+        }).then(function(){
+            console.log( req.body.userID+ ' upvoted ' + req.params.post_id)
+            res.send({"message": req.body.userID+ ' downvoted ' + req.params.post_id})
+        }
+        )
+    }
+}
+
+exports.voteTranslation = function(req, res, next){
+
+}
+
 
