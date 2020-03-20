@@ -10,31 +10,43 @@ describe('Text', () => {
 	beforeEach(() => TestBed.configureTestingModule({}));
 	
 	it('should create a valid text with all attributes', () => {
-		let title: string = "Bane";
-		let id: string = "123";
-		let textString: string = "A big guy";
-		let language: string = "JP"
-		let dateCreated: Date = new Date();
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let title: string = "Bane";
+		let language: string = "JP"
 		let comments: Comment[] = [];
+		
+		let upvotes: string[] = [];
+		let downvotes: string[] = [];
+		
+		let id: string = "123";
+		let dateCreated: Date = new Date();
+		
+		let textString: string = "A big guy";
+		
 		let enableProd: boolean = true;
 		
-		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		let text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		expect(text).toBeTruthy();
 		
 	});
 	
 	it('should create a valid text with an empty text', () => {
-		let title: string = "Bane";
-		let id: string = "123";
-		let textString: string = undefined;
-		let language: string = "JP"
-		let dateCreated: Date = new Date();
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let title: string = "Bane";
+		let language: string = "JP"
 		let comments: Comment[] = [];
+		
+		let upvotes: string[] = [];
+		let downvotes: string[] = [];
+		
+		let id: string = "123";
+		let dateCreated: Date = new Date();
+		
+		let textString: string = undefined;
+		
 		let enableProd: boolean = true;
 		
-		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		let text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		expect(text).toBeTruthy();
 		
 	});
@@ -63,20 +75,24 @@ describe('Text', () => {
 	});
 	
 	it('should return valid textLine', () => {
-		let title: string = "Bane";
-		let id: string = "123";
-		let textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
-		let language: string = "JP"
-		let dateCreated: Date = new Date();
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let title: string = "Bane";
+		let language: string = "JP"
 		let comments: Comment[] = [];
+		
+		let upvotes: string[] = [];
+		let downvotes: string[] = [];
+		
+		let id: string = "123";
+		let dateCreated: Date = new Date();
+		
+		let textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
+		
 		let enableProd: boolean = true;
 		
-		
+		let text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		let correctStrings: string[] = ["If I pull that off will you die?", "It would be extremely painfull...", 
 							"You're a big guy!", "For you."]; 
-							
-		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
 		
 		//matching
 		expect(text.getTextLine(2).getText()).toBe(correctStrings[2]);
@@ -94,12 +110,19 @@ describe('Text', () => {
 		
 		let MAX_CHARACTERS: number = 150;
 		
-		let title: string = "Bane";
-		let id: string = "123";
-		let language: string = "JP"
-		let dateCreated: Date = new Date();
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let title: string = "Bane";
+		let language: string = "JP"
 		let comments: Comment[] = [];
+		
+		let upvotes: string[] = [];
+		let downvotes: string[] = [];
+		
+		let id: string = "123";
+		let dateCreated: Date = new Date();
+		
+		var textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
+		
 		let enableProd: boolean = true;
 		
 		
@@ -114,7 +137,7 @@ describe('Text', () => {
 			correctString += "@";
 		}
 		
-		var text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		var text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		expect(flattenTextLinesIntoString(text.getPreviewText())).toBe(correctString);
 		
 		
@@ -129,10 +152,10 @@ describe('Text', () => {
 			correctString += "@";
 		}
 		
-		var text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		var text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		expect(flattenTextLinesIntoString(text.getPreviewText())).toBe(correctString);
 		
-		//exact
+		//exact 
 		
 		var textString: string = "";
 		for(var i = 1; i <= MAX_CHARACTERS; i++) {
@@ -144,7 +167,7 @@ describe('Text', () => {
 			correctString += "@";
 		}
 		
-		var text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		var text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		expect(flattenTextLinesIntoString(text.getPreviewText())).toBe(correctString);
 		
 		
@@ -158,23 +181,29 @@ describe('Text', () => {
 	});
 	
 	it('should add a comment to comments', () => {
-		let title: string = "Bane";
-		let id: string = "123";
-		let textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
-		let language: string = "JP"
-		let dateCreated: Date = new Date();
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
+		let title: string = "Bane";
+		let language: string = "JP"
 		let comments: Comment[] = [];
+		
+		let upvotes: string[] = [];
+		let downvotes: string[] = [];
+		
+		let id: string = "123";
+		let dateCreated: Date = new Date();
+		
+		let textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
+		
 		let enableProd: boolean = true;
-							
-		let text = new Text(title, id, textString, language, dateCreated, user, comments, enableProd);
+		
+		let text = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		
 		//confirm precondition
 		expect(text.comments.length).toEqual(0);
 		
 		//add a comment
 		let sampleText: string = "hello"
-		let testComment: Comment = new Comment(sampleText, undefined, undefined, undefined, 10, 10);
+		let testComment = new Comment(user, sampleText, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		text.addComment(testComment);
 		expect(text.comments.length).toEqual(1);
 		

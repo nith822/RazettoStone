@@ -15,24 +15,31 @@ describe('Translation', () => {
 	
 	it('should create a valid translationPost with all attributes', () => {
 		
-		let id: number = 1;
-		let language: string = "Japanese";
+		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
 		let title: string = "Bane";
-		let user: User = new User("420yoloswag", "bobsanders@gmail.com", "123");
-		let dateCreated: Date = new Date();
-	
-		let upvotes: number = 10;
-		let downvotes: number = 1;
-	
-		let tags: string[] = ["bigTag", "guyTag"];
+		let language: string = "JP"
 		let comments: Comment[] = [];
-		let flags: string[][] = [["good content"], ["good grammar"]];
+		
+		let upvotes: string[] = [];
+		let downvotes: string[] = [];
+		
+		let id: string = "123";
+		let dateCreated: Date = new Date();
 		
 		let originalText: Text = new Text();
 		let translations: Text[] = [new Text()];
+		let tags: string[] = ["bigTag", "guyTag"];
+		let flags: string[][] = [["good content"], ["good grammar"]];
 		
-		let translation: Translation = new Translation(originalText, translations, id, language, title, user,
-			dateCreated, upvotes, downvotes, tags, comments, flags);
+		let enableProd: boolean = true;
+	
+		
+		let translation = new Translation(user, title, language, comments, 
+			upvotes, downvotes, 
+			id, dateCreated, 
+			originalText, translations, tags, flags,
+			enableProd);
+		
 		
 		expect(translation).toBeTruthy();
 	});
@@ -41,40 +48,36 @@ describe('Translation', () => {
 	
 	it('should return the valid textLine', () => {
 		
-		var id: number = 1;
-		var language: string = "Japanese";
+		var user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
 		var title: string = "Bane";
-		var user: User = new User("420yoloswag", "bobsanders@gmail.com", "123");
-		var dateCreated: Date = new Date();
-	
-		var upvotes: number = 10;
-		var downvotes: number = 1;
-	
-		var tags: string[] = ["bigTag", "guyTag"];
+		var language: string = "JP"
 		var comments: Comment[] = [];
+		
+		var upvotes: string[] = [];
+		var downvotes: string[] = [];
+		
+		var id: string = "123";
+		var dateCreated: Date = new Date();
+		
+		var tags: string[] = ["bigTag", "guyTag"];
 		var flags: string[][] = [["good content"], ["good grammar"]];
 		
-		
-		//create Texts
-		var title: string = "Bane";
-		var textId: string = "123";
-		var textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
-		var language: string = "JP"
-		var dateCreated: Date = new Date();
-		var user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
-		var comments: Comment[] = [];
 		var enableProd: boolean = true;
 		
-		let originalText: Text = new Text(title, textId, textString, language, dateCreated, user, comments, enableProd);
+		//create Texts
+		var textString: string = "If I pull that off will you die?\nIt would be extremely painfull...\nYou're a big guy!\nFor you.";
+		let originalText = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
 		
 		var textString: string = "gay1\ngay2\ngay3\nFor you.";
-		let translatedText: Text = new Text(title, textId, textString, language, dateCreated, user, comments, enableProd);
+		let translatedText = new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, textString, enableProd);
+		
 		let translations: Text[] = [translatedText];
 		
-		
-		
-		let translation: Translation = new Translation(originalText, translations, id, language, title, user,
-			dateCreated, upvotes, downvotes, tags, comments, flags);
+		let translation = new Translation(user, title, language, comments, 
+			upvotes, downvotes, 
+			id, dateCreated, 
+			originalText, translations, tags, flags,
+			enableProd);
 		
 		
 		//test if returns original or translated && matching case

@@ -11,7 +11,7 @@ export class Text extends Interactible {	//Translations
 	textLines: TextLine[];	//Text
 	
 	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
-				upvotes?: number, downvotes?: number, 
+				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
 				text?: string,
 				enableProd?: boolean) {

@@ -8,12 +8,20 @@ describe('Comment', () => {
 	beforeEach(() => TestBed.configureTestingModule({}));
 	
 	it('should create a valid Comment with all attributes', () => {
-		let text: string = "hello world"
 		let user: User = new User("420yoloswag", "bob.sanders@gmail.com", "123");
-		let dateCreated: Date = new Date();
-		let replies: Comment[] = [];
+		let text: string = "hello world"
+		let language: string = "Ok";
+		let comments: Comment[] = [];
 		
-		let comment: Comment = new Comment(text, user, dateCreated, replies);
+		let upvotes: string[] = [];
+		let downvotes: string[] = [];
+		
+		let id: string = "123";
+		let dateCreated: Date = new Date();
+		
+		let enableProd: boolean = true;
+		
+		let comment = new Comment(user, text, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		
 		console.log(comment.toString());
 		expect(comment).toBeTruthy();

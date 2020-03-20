@@ -21,7 +21,7 @@ export class Translation extends Interactible {	//Post
 	currentTranslatedText: Text;
 	
 	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
-				upvotes?: number, downvotes?: number, 
+				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
 				originalText?: Text, translations?: Text[], tags?: string[], flags?: string[][],
 				enableProd?: boolean) {
