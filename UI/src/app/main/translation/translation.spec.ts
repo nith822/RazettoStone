@@ -90,9 +90,9 @@ describe('Translation', () => {
 		
 		//underflow
 		var isOriginal: boolean = true;
-		expect(() => translation.getTextLine(isOriginal, -1)).toThrow(new Error('OUB in textLines. Line:: -1')); 
+		expect(() => translation.getTextLine(isOriginal, -1)).toThrow(new Error('OUB in text. isOriginal: ' + true + " line: " + -1)); 
 		
 		//overflow
-		expect(() => translation.getTextLine(isOriginal, 4)).toThrow(new Error('OUB in textLines. Line:: 4')); 
+		expect(() => translation.getTextLine(isOriginal, 4)).toThrow(new Error('OUB in text. isOriginal: ' + true + " line: " + 4)); 
 	});
 });
