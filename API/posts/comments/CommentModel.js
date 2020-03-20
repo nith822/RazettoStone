@@ -6,6 +6,14 @@ const CommentSchema = new Schema({
         type: String,
         required: [true, 'text field is required']
     },
+    upvotes:{
+        type: [String],
+        required: [true, 'upvotes field is required']
+    },
+    downvotes:{
+        type: [String],
+        required: [true, 'downvotes field is required']
+    },
     userID:{
         type: String,
         required: [true, 'userID field is required']
