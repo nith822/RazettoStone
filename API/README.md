@@ -36,7 +36,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [ ] POST /posts/{postid}/translations/{TranslationID}/flag
 
 ### Comments
-- [ ] Model
+- [x] Model
 - [ ] POST /posts/{postid}/comments
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
@@ -45,8 +45,8 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [ ] Model
 
 ### Votes
-- [ ] POST /posts/{postid}/vote
-- [ ] POST /posts/{postid}/translations/{TranslationID}/vote
+- [x] POST /posts/{postid}/vote
+- [x] POST /posts/{postid}/translations/{TranslationID}/vote
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
 - [ ] /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}
 

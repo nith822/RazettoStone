@@ -26,7 +26,6 @@ exports.create = function (req, res, next) {
         // to add translation once the post is created.
         translations: req.body.translations,
         tags: req.body.tags
-
     });
 
     Post.create(newPost).then(function(post){
@@ -50,8 +49,9 @@ exports.addTranslation = function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
     
-    Post.findByIdAndUpdate({_id:req.params.post_id}, {translations: {$push: {
+    Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {translations: {
         text: req.body.text,
+        title: req.body.title,
         language: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
@@ -71,8 +71,8 @@ exports.votePost = function (req, res, next){
             $addToSet: {upvotes: req.body.userID},
             $pull: {downvotes: req.body.userID}
         }).then(function(){
-            console.log( req.body.userID+ ' upvoted ' + req.params.post_id)
-            res.send({"message": req.body.userID+ ' upvoted ' + req.params.post_id})
+            console.log( req.body.userID+ ' upvoted post ' + req.params.post_id)
+            res.send({"message": req.body.userID+ ' upvoted post ' + req.params.post_id})
         }
         )
     }else{
@@ -80,15 +80,29 @@ exports.votePost = function (req, res, next){
             $addToSet: {downvotes: req.body.userID},
             $pull: {upvotes: req.body.userID}
         }).then(function(){
-            console.log( req.body.userID+ ' upvoted ' + req.params.post_id)
-            res.send({"message": req.body.userID+ ' downvoted ' + req.params.post_id})
+            console.log( req.body.userID+ ' upvoted post ' + req.params.post_id)
+            res.send({"message": req.body.userID+ ' downvoted post ' + req.params.post_id})
         }
         )
     }
 }
 
 exports.voteTranslation = function(req, res, next){
-
+    if (req.body.vote == true){
+        Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
+        {$addToSet: {"translations.$.upvotes": req.body.userID},
+            $pull: {"translations.$.downvotes": req.body.userID}}).then(function(){
+                res.send({"message": req.body.userID+ ' upvoted transaltion ' + req.params.post_id})
+            })
+    }else{
+        Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
+        {$pull: {"translations.$.upvotes": req.body.userID},
+            $addToSet: {"translations.$.downvotes": req.body.userID}}).then(function(){
+                res.send({"message": req.body.userID+ ' downvoted transaltion ' + req.params.post_id})
+            })
+    }
 }
+
+
 
 

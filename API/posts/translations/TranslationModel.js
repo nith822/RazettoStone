@@ -37,6 +37,6 @@ const TranslationSchema = new Schema({
 });
 
 
-//const Translation = mongoose.model('translation', TranslationSchema);
-//module.exports = Translation;
+const Translation = mongoose.model('translation', TranslationSchema);
+module.exports = Translation;
 module.exports = TranslationSchema;
