@@ -71,7 +71,7 @@ exports.votePost = function (req, res, next){
             $addToSet: {upvotes: req.body.userID},
             $pull: {downvotes: req.body.userID}
         }).then(function(){
-            console.log( req.body.userID+ ' upvoted post ' + req.params.post_id)
+            console.log( req.body.userID+ ' upvoting post ' + req.params.post_id)
             res.send({"message": req.body.userID+ ' upvoted post ' + req.params.post_id})
         }
         )
@@ -80,7 +80,7 @@ exports.votePost = function (req, res, next){
             $addToSet: {downvotes: req.body.userID},
             $pull: {upvotes: req.body.userID}
         }).then(function(){
-            console.log( req.body.userID+ ' upvoted post ' + req.params.post_id)
+            console.log( req.body.userID+ ' upvoting post ' + req.params.post_id)
             res.send({"message": req.body.userID+ ' downvoted post ' + req.params.post_id})
         }
         )
@@ -89,18 +89,36 @@ exports.votePost = function (req, res, next){
 
 exports.voteTranslation = function(req, res, next){
     if (req.body.vote == true){
+        console.log(req.body.userID+ ' upvoting transaltion ' + req.params.post_id)
         Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
         {$addToSet: {"translations.$.upvotes": req.body.userID},
             $pull: {"translations.$.downvotes": req.body.userID}}).then(function(){
                 res.send({"message": req.body.userID+ ' upvoted transaltion ' + req.params.post_id})
             })
     }else{
+        console.log(req.body.userID+ ' downvoting transaltion ' + req.params.post_id)
         Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
         {$pull: {"translations.$.upvotes": req.body.userID},
             $addToSet: {"translations.$.downvotes": req.body.userID}}).then(function(){
                 res.send({"message": req.body.userID+ ' downvoted transaltion ' + req.params.post_id})
             })
     }
+}
+
+exports.commentOnPost = function(req,res,next){
+    console.log('Attempting to add comment to post ' + req.params.post_id)
+    Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {comments: {
+        text: req.body.text,
+        language: req.body.language,
+        dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
+        userID: req.body.userID,
+        upvotes: [req.body.userID],
+        downvotes: [],
+        }}}).then(function(){
+        Post.findOne({_id: req.params.post_id}).then(function(post){
+            res.send(post);
+        });
+    }).catch(next);
 }
 
 

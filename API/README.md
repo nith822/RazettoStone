@@ -26,7 +26,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [x] Model
 - [ ] GET /posts/ 
 - [x] POST /posts/
-- [ ] GET /posts/preview 
+- [s] GET /posts/preview 
 - [x] GET /posts/{postid}
 
 ### Translations
@@ -37,7 +37,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Comments
 - [x] Model
-- [ ] POST /posts/{postid}/comments
+- [x] POST /posts/{postid}/comments
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
 
@@ -45,10 +45,10 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [ ] Model
 
 ### Votes
-- [x] POST /posts/{postid}/vote
-- [x] POST /posts/{postid}/translations/{TranslationID}/vote
-- [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
-- [ ] /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}
+- [x] PUT /posts/{postid}/vote
+- [x] PUT /posts/{postid}/translations/{TranslationID}/vote
+- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
+- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}/vote
 
 ### Search
 - [ ] GET /search
