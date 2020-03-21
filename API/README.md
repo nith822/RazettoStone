@@ -24,6 +24,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Posts 
 - [x] Model
+- [ ] Model for replies
 - [ ] GET /posts/ 
 - [x] POST /posts/
 - [s] GET /posts/preview 
@@ -46,6 +47,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Votes
 - [x] PUT /posts/{postid}/vote
+- [x] PUT /posts/{postid}/comments/{commentID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/vote
 - [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
 - [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}/vote
