@@ -1,11 +1,14 @@
-<p>upload works!</p>
+<h2> {{this.getCurrentScreenTitle()}} </h2>
 
 
 <label>Title:</label><br>
 <input [value]="title" (input)="title = $event.target.value"><br><br>
+
 <label>language:</label><br>
 <input [value]="language" (input)="title = $event.target.value"><br><br>
+
 <label>tags:</label><br>
 <input [value]="tags" (input)="title = $event.target.value"><br><br>
-<label>Tags:</label><br>
-OriginalText<input type="file" (change)="fileChanged($event, true)">
+
+<label>Text:</label><br>
+<input type="file" (change)="fileChanged($event)">
