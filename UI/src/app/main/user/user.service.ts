@@ -16,6 +16,8 @@ export class UserService {
 	
 	
 	constructor(private http: HttpClient,) {
+		let mockUser = new User("420yoloswag", "bob.sanders@gmail.com", "123", new Date(), ["JP"], "420");
+		this.currentUser = mockUser;
 	}
 	
 	getCurrentUser(): User {

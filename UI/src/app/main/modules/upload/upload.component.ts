@@ -17,18 +17,28 @@ export class UploadComponent implements OnInit {
 	language: string;
 	tags: string;
 	
+	file: File;
+	
 	constructor(private route: ActivatedRoute, public router: Router,
 		private uploadService: UploadService, public location: Location, ) { 
-		const translationID = this.route.snapshot.params['id'];
-		if(translationID) {
-			this.uploadOriginalText = false;
-		} else {
-			this.uploadOriginalText = true;
-		}
 	}
 
 	ngOnInit() {
 		console.log("init upload component");
+		
+		const translationID = this.route.snapshot.params['id'];
+		if(translationID) {
+			this.uploadOriginalText = false;
+			this.title = this.uploadService.translatedText.title;
+			this.language = this.uploadService.translatedText.language;
+			//this.file = this.uploadService.translatedTextFile;
+		} else {
+			this.uploadOriginalText = true;
+			this.title = this.uploadService.originalText.title;
+			this.language = this.uploadService.originalText.language;
+			this.tags = this.uploadService.tags;
+			//this.file = this.uploadService.translatedTextFile;
+		}
 	}
 
 	fileChanged(event: any): void {
@@ -46,6 +56,14 @@ export class UploadComponent implements OnInit {
 	}
 	
 	navigate(path: string):void {
+		//file is saved asynch when it is uploaded in fileChanged function
+		this.uploadService.saveText(this.uploadOriginalText, this.title, this.language, this.tags);
+		if(path === "back") {
+			this.location.back();
+			return;
+		}
 		this.router.navigate([path], {relativeTo: this.route, skipLocationChange: false});
 	}
+	
+	
 }

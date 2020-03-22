@@ -12,21 +12,46 @@ import { UserService } from '../user/user.service';
 })
 export class UploadService {
 
-	originalTextString: string | ArrayBuffer;
-	translatedTextString: string | ArrayBuffer; 
+
+	originalTextFile: File;
+	translatedTextFile: File;
+	
+	originalTextString: string;
+	translatedTextString: string; 
+	
+	originalText: Text;
+	translatedText: Text;
+	
+	tags: string;
 	
 	constructor(private userService: UserService) { 
   
 	}
-  
+	
+	saveText(isOriginal: boolean, title: string, language: string, tags: string): void {
+		if(!isOriginal) {
+			this.translatedText = this.createText(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
+									this.translatedTextString);
+		} else {
+			this.originalText = this.createText(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
+									this.originalTextString);
+									
+			this.tags = tags;
+		}
+		console.log("Text created");
+	}
+	
+	//casting to string is crazy inefficient, but I have less than 50mb of data left...
 	readFile(file: File, isOriginal: boolean): void {
 		let fileReader = new FileReader();
 		fileReader.onload = () => {
 			console.log(fileReader.result);
 			if(isOriginal) {
-				this.originalTextString = fileReader.result;
+				this.originalTextFile = file;
+				this.originalTextString = <string>(fileReader.result);
 			} else {
-				this.translatedTextString = fileReader.result;
+				this.translatedTextFile = file;
+				this.translatedTextString = <string>(fileReader.result);
 			}
 		};
 		fileReader.readAsText(file);
