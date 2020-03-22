@@ -5,10 +5,15 @@ import { UploadComponent } from './upload.component';
 import { UploadPreviewComponent } from './upload-preview/upload-preview.component';
 
 const routes: Routes = [
+
 	{ 
-		//add an originalText only
-		path: '', 
-		component: UploadComponent,
+		path: 'preview', 
+		component: UploadPreviewComponent,
+	},
+	{ 
+		//the user must submit through a preview
+		path: ':id/preview', 
+		component: UploadPreviewComponent,
 	},
 	{ 
 		//add a translation to an originalText
@@ -17,9 +22,9 @@ const routes: Routes = [
 		component: UploadComponent,
 	},
 	{ 
-		//the user must submit through a preview
-		path: ':id/preview', 
-		component: UploadPreviewComponent,
+		//add an originalText only
+		path: '', 
+		component: UploadComponent,
 	},
 ];
 

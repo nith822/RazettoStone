@@ -12,3 +12,8 @@
 
 <label>Text:</label><br>
 <input type="file" (change)="fileChanged($event)">
+
+
+<button (click)="this.location.back()"> Back </button>
+<button (click)="this.navigate('preview')">Preview </button>
+<button *ngIf="this.uploadOriginalText" (click)="this.navigate('-1')">Add Translation</button>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { UploadService } from '../../upload/upload.service';
 
 import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/router';
@@ -16,8 +17,8 @@ export class UploadComponent implements OnInit {
 	language: string;
 	tags: string;
 	
-	constructor(private route: ActivatedRoute, private router: Router,
-		private uploadService: UploadService) { 
+	constructor(private route: ActivatedRoute, public router: Router,
+		private uploadService: UploadService, public location: Location, ) { 
 		const translationID = this.route.snapshot.params['id'];
 		if(translationID) {
 			this.uploadOriginalText = false;
@@ -42,5 +43,9 @@ export class UploadComponent implements OnInit {
 		} else {
 			return "Eye see you";
 		}
+	}
+	
+	navigate(path: string):void {
+		this.router.navigate([path], {relativeTo: this.route, skipLocationChange: false});
 	}
 }
