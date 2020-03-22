@@ -16,8 +16,12 @@ router.route('/:post_id/comments').post(postController.commentOnPost);
 router.route('/:post_id/translations/:translation_id/comments/').post(postController.commentOnTranslation);
 
 //Votes
-router.route('/:post_id/vote').put(postController.votePost);    // vote on post
+router.route('/:post_id/vote').put(postController.votePost);                                     // vote on post
 router.route('/:post_id/translations/:translation_id/vote').put(postController.voteTranslation); // vote on translation
-router.route('/:post_id/comments/:comment_id/vote').put(postController.votePostComment);
+router.route('/:post_id/comments/:comment_id/vote').put(postController.votePostComment);         // vote on post comment
+router.route('/:post_id/translations/:translation_id/comments/:comment_id/vote').put(postController.voteTranslationComment); // vote on translation comment
+
+
+
 
 module.exports = router;
