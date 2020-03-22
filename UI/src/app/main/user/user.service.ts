@@ -12,7 +12,14 @@ export class UserService {
 	private usersUrl: string = "/api/users";
 	headers: HttpHeaders  = new HttpHeaders(); 
 	
+	currentUser: User;
+	
+	
 	constructor(private http: HttpClient,) {
+	}
+	
+	getCurrentUser(): User {
+		return this.currentUser;
 	}
 	
 	//use a map

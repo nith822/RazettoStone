@@ -8,10 +8,18 @@ import { UploadService } from '../../upload/upload.service';
 })
 export class UploadComponent implements OnInit {
 
+	title: string;
+	language: string;
+	tags: string;
+	
 	constructor(private uploadService: UploadService) { }
 
 	ngOnInit() {
 		console.log("init upload component");
 	}
 
+	fileChanged(event: any, isOriginal: boolean): void {
+		this.uploadService.readFile(event.target.files[0], isOriginal);
+	}
+	
 }
