@@ -12,7 +12,16 @@ export class UserService {
 	private usersUrl: string = "/api/users";
 	headers: HttpHeaders  = new HttpHeaders(); 
 	
+	currentUser: User;
+	
+	
 	constructor(private http: HttpClient,) {
+		let mockUser = new User("420yoloswag", "bob.sanders@gmail.com", "123", new Date(), ["JP"], "420");
+		this.currentUser = mockUser;
+	}
+	
+	getCurrentUser(): User {
+		return this.currentUser;
 	}
 	
 	//use a map

@@ -21,7 +21,7 @@ export abstract class Interactible {
 					
 		if(!user && enableProd) { throw new Error('No user for Text') } else { this.user = user }
 		if(!title && enableProd) { throw new Error('No title for Text') } else { this.title = title }
-		if(!language && enableProd) { throw new Error('No language for Text') } else { this.setLanguage(this.language) }
+		if(!language && enableProd) { throw new Error('No language for Text') } else { this.setLanguage(language) }
 		if(comments) { this.comments = comments } else { this.comments = [] }
 		
 		if(upvotes) { this.upvotes = upvotes } else { this.upvotes = [] }

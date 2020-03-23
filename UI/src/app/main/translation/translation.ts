@@ -11,10 +11,6 @@ export class Translation extends Interactible {	//Post
 	
 	tags: string[];
 	
-	//should flags go into post? don't they go into translation?
-	//[flagIndex][userName]
-	flags: string[][];
-	
 	originalText: Text;
 	translations: Text[];
 	 
@@ -23,14 +19,13 @@ export class Translation extends Interactible {	//Post
 	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
 				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
-				originalText?: Text, translations?: Text[], tags?: string[], flags?: string[][],
+				originalText?: Text, translations?: Text[], tags?: string[],
 				enableProd?: boolean) {
 			
 		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		if(!originalText && enableProd) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
 		
 		if(tags) { this.tags = tags; }
-		if(flags) { this.flags = flags; }
 		
 		
 		this.translations = translations;
