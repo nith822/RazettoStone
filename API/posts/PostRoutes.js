@@ -21,6 +21,9 @@ router.route('/:post_id/translations/:translation_id/vote').put(postController.v
 router.route('/:post_id/comments/:comment_id/vote').put(postController.votePostComment);         // vote on post comment
 router.route('/:post_id/translations/:translation_id/comments/:comment_id/vote').put(postController.voteTranslationComment); // vote on translation comment
 
+//Flg
+router.route('/:post_id/translations/:translation_id/flag').post(postController.flagTranslation);
+
 
 
 

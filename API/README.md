@@ -43,7 +43,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
 
 ### Flags
-- [ ] Model
+- [x] Model
 
 ### Votes
 - [x] PUT /posts/{postid}/vote

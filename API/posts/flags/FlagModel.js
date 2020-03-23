@@ -7,8 +7,8 @@ const FlagSchema = new Schema({
         type: String,
         required: [true, 'user id is required']
     },
-    upvotes:{
-        type: int,
+    flag:{
+        type: Number,
         required: [true, 'upvotes field is required']
     }
 });

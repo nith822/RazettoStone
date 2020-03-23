@@ -177,5 +177,18 @@ exports.voteTranslationComment = function(req,res,next){
     }
 }
 
+exports.flagTranslation = function(req,res,next){
+    console.log(req.params)
+    console.log('Attempting to add comment to translation ' + req.params.translation_id)
+    Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
+    {$push: {"translations.$.flags": {
+        userID: req.body.userID,
+        flag: req.body.flag
+        }}}).then(function(){
+            Post.findOne({_id: req.params.post_id}).then(function(post){
+                res.send(post);
+            })
+        }).catch(next)
+}
 
 

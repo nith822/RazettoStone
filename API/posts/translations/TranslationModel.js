@@ -2,6 +2,7 @@ const mongoose = require('mongoose');;
 const Schema = mongoose.Schema;
 
 let CommentSchema = require('../comments/CommentModel');
+let FlagSchema = require ('../flags/FlagModel');
 
 const TranslationSchema = new Schema({
 	title: {
@@ -33,7 +34,8 @@ const TranslationSchema = new Schema({
         type: [String],
         required: [true, 'downvotes field is required']     
     },
-    comments: [CommentSchema]
+    comments: [CommentSchema],
+    flags: [FlagSchema]
 });
 
 
