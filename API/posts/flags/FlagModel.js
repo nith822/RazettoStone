@@ -3,10 +3,14 @@ const Schema = mongoose.Schema;
 
 // TODO add schema for flags
 const FlagSchema = new Schema({
-    //userId
-
-    //int flag 
-    
+    userID: {
+        type: String,
+        required: [true, 'user id is required']
+    },
+    upvotes:{
+        type: int,
+        required: [false, 'upvotes field is required']
+    }
 });
 
 
