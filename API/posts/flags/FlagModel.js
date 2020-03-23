@@ -9,7 +9,7 @@ const FlagSchema = new Schema({
     },
     upvotes:{
         type: int,
-        required: [false, 'upvotes field is required']
+        required: [true, 'upvotes field is required']
     }
 });
 
