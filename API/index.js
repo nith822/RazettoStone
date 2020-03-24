@@ -38,6 +38,6 @@ app.use(function(err,req,res,next){
 	res.status(422).send({error: err.message});
   });
 
-app.listen(port, function () {
+module.exports = app.listen(port, function () {
      console.log("Running RazettoStone API on port " + port);
 });
