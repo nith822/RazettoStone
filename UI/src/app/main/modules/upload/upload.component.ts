@@ -20,7 +20,7 @@ export class UploadComponent implements OnInit {
 	file: File;
 	
 	constructor(private route: ActivatedRoute, public router: Router,
-		private uploadService: UploadService, public location: Location, ) { 
+		public uploadService: UploadService, public location: Location, ) { 
 	}
 
 	ngOnInit() {

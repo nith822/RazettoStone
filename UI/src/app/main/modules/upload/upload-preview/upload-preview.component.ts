@@ -14,12 +14,12 @@ export class UploadPreviewComponent implements OnInit {
 
 	
 	constructor(private route: ActivatedRoute, public router: Router,
-		private uploadService: UploadService, public location: Location, ) {
+		public uploadService: UploadService, public location: Location, ) {
 
 	}		
 
 	ngOnInit() {
 		console.log("init upload-preview component");
 	}
-
+	
 }

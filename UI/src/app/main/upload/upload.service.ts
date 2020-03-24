@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { User } from '../user/user';
 import { Text } from '../translation/text/text';
@@ -6,12 +8,15 @@ import { Comment } from '../sidebar/comments/comment';
 import { Translation } from '../translation/translation';
 
 import { UserService } from '../user/user.service';
+import { Post, PostTranslation } from './serializer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
 
+	private postsUrl: string = "/api/posts";
+	headers: HttpHeaders  = new HttpHeaders(); 
 
 	originalTextFile: File;
 	translatedTextFile: File;
@@ -24,9 +29,36 @@ export class UploadService {
 	
 	tags: string;
 	
-	constructor(private userService: UserService) { 
+	constructor(private http: HttpClient, private userService: UserService) { 
   
 	}
+	
+	//COUPLED
+	//why is the string a seperate variable
+	submit(originalText?: Text, originalTextString?: string, 
+			tags?: string, 
+			translatedText?: Text, translatedTextString?: string): void { 
+		var post: Post;
+		var translation: PostTranslation = undefined;
+		if(this.translatedText) {
+			translation = new PostTranslation(this.translatedText.title, this.translatedText.language, this.translatedTextString, this.translatedText.user.id, this.translatedText.dateCreated, 
+									this.translatedText.upvotes, this.translatedText.downvotes, );
+		} 
+		post = new Post(this.originalText.title, this.originalText.language, this.originalTextString, this.originalText.user.id, this.originalText.dateCreated, 
+									this.originalText.upvotes, this.originalText.downvotes, this.tags.split(","), translation,);
+		this.uploadPost(post);
+	}
+	
+	
+	//refactor later
+	uploadPost(post): void {
+		this.http.post(this.postsUrl, post, {headers: this.headers}).subscribe((data) => {
+			console.log(data);
+		}, (err) => {
+			
+		});		
+	}
+	
 	
 	saveText(isOriginal: boolean, title: string, language: string, tags: string): void {
 		if(!isOriginal) {

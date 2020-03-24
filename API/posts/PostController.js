@@ -24,6 +24,7 @@ exports.create = function (req, res, next) {
         // on creation will not have comments, flags
         // it might be easier to just create a post with no translation then have the user
         // to add translation once the post is created.
+		
         translations: req.body.translations,
         tags: req.body.tags
     });
