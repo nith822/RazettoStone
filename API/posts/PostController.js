@@ -4,8 +4,6 @@ const Post = require('./PostModel');
 const Translation = require('./translations/TranslationModel')
 
 
-
-
 // create new post
 exports.create = function (req, res, next) {
 
@@ -63,6 +61,16 @@ exports.addTranslation = function (req, res, next){
             res.send(post);
         });
     }).catch(next);
+}
+
+exports.search = function (req, res, next){
+    console.log(req.params)
+    console.log('Attempting search' + req.params.search_string)
+    
+    Post.find( { $text: { $search: "\"" + req.params.search_string + "\""}}).then(function(posts){
+        res.send({message: "success!",
+                  data: posts })
+    }).catch(next)
 }
 
 
