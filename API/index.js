@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({
     extended: true
  }));
 
-mongoose.connect('mongodb://localhost/RazettoStone', { useNewUrlParser: true});
+mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/RazettoStone', { useNewUrlParser: true});
 //mongoose.connect('mongodb://127.0.0.1:27017/RazettoStoneTest1', { useNewUrlParser: true});
 var db = mongoose.connection;
 
@@ -38,6 +38,6 @@ app.use(function(err,req,res,next){
 	res.status(422).send({error: err.message});
   });
 
-app.listen(port, function () {
+module.exports = app.listen(port, function () {
      console.log("Running RazettoStone API on port " + port);
 });

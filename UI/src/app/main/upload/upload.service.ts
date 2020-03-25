@@ -8,7 +8,6 @@ import { Comment } from '../sidebar/comments/comment';
 import { Translation } from '../translation/translation';
 
 import { UserService } from '../user/user.service';
-import { Post, PostTranslation } from './serializer';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,7 @@ export class UploadService {
 	translatedTextString: string; 
 	
 	originalText: Text;
-	translatedText: Text;
+	translatedText: Text; 
 	
 	tags: string;
 	
@@ -38,15 +37,12 @@ export class UploadService {
 	submit(originalText?: Text, originalTextString?: string, 
 			tags?: string, 
 			translatedText?: Text, translatedTextString?: string): void { 
-		var post: Post;
-		var translation: PostTranslation = undefined;
-		if(this.translatedText) {
-			translation = new PostTranslation(this.translatedText.title, this.translatedText.language, this.translatedTextString, this.translatedText.user.id, this.translatedText.dateCreated, 
-									this.translatedText.upvotes, this.translatedText.downvotes, );
-		} 
-		post = new Post(this.originalText.title, this.originalText.language, this.originalTextString, this.originalText.user.id, this.originalText.dateCreated, 
-									this.originalText.upvotes, this.originalText.downvotes, this.tags.split(","), translation,);
-		this.uploadPost(post);
+		var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.language, this.originalText.comments, 
+				this.originalText.upvotes, this.originalText.downvotes, 
+				this.originalText.id, this.originalText.dateCreated, 
+				this.originalText, [this.translatedText]);
+		console.log(post.encodeJSON());
+		this.uploadPost(post.encodeJSON());
 	}
 	
 	
@@ -70,6 +66,7 @@ export class UploadService {
 									
 			this.tags = tags;
 		}
+		console.log(this.originalText.encodeJSON());
 		console.log("Text created");
 	}
 	

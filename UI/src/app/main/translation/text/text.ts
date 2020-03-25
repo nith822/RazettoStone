@@ -8,6 +8,7 @@ const MAX_CHARACTERS: number = 150;
 	
 export class Text extends Interactible {	//Translations
 	
+	text: string;
 	textLines: TextLine[];	//Text
 	//not in toString yet
 	flags: string[][];
@@ -19,7 +20,7 @@ export class Text extends Interactible {	//Translations
 				enableProd?: boolean) {
 		
 		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
-		if(!text) { this.textLines = []	} else { this.textLines = this.parseText(text) };		
+		if(!text) { this.textLines = []	} else { this.text = text; this.textLines = this.parseText(text) };		
 		if(flags) { this.flags = flags; }
 		
 	}
@@ -64,6 +65,12 @@ export class Text extends Interactible {	//Translations
 			}
 		}
 		return textLines;
+	}
+	
+	encodeJSON(): any {
+		return Object.assign({}, super.encodeJSON(), {
+			text: this.text,
+		});
 	}
 	
 	toString(): string {
