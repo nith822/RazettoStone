@@ -15,7 +15,7 @@ exports.create = function (req, res, next) {
     var newPost = new Post({
         title: req.body.title,
         language: req.body.language,
-        originalText: req.body.originalText,
+        text: req.body.text,
         userID: req.body.userID,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         upvotes: req.body.upvotes,                             // are we going to make the poster auto upvote their post?

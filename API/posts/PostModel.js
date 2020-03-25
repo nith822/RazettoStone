@@ -24,9 +24,9 @@ const RepliesSchema = new Schema({
 */
 
 const PostSchema = new Schema({
-    originalText: {
+    text: {
         type: String,
-        required: [true, 'originalText field is required']
+        required: [true, 'text field is required']
     },
     language: {
         type: String,

@@ -14,6 +14,10 @@ export class Comment extends Interactible {
 		this.text = text;
 	}
 	
+	encodeJSON(): any {
+		return super.encodeJSON();
+	}
+	
 	toString(): string {
 		return "[" + "Attributes for comment:: " + "\n" 
 				+ super.toString() + "\n"
