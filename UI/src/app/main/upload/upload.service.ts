@@ -26,21 +26,18 @@ export class UploadService {
 	originalText: Text;
 	translatedText: Text; 
 	
-	tags: string;
+	tags: string[];
 	
 	constructor(private http: HttpClient, private userService: UserService) { 
   
 	}
 	
 	//COUPLED
-	//why is the string a seperate variable
-	submit(originalText?: Text, originalTextString?: string, 
-			tags?: string, 
-			translatedText?: Text, translatedTextString?: string): void { 
+	submit(originalText?: Text, translatedText?: Text, tags?: string[]): void { 
 		var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.language, this.originalText.comments, 
 				this.originalText.upvotes, this.originalText.downvotes, 
 				this.originalText.id, this.originalText.dateCreated, 
-				this.originalText, [this.translatedText]);
+				this.originalText, [this.translatedText], this.tags);
 		console.log(post.encodeJSON());
 		this.uploadPost(post.encodeJSON());
 	}
@@ -56,7 +53,7 @@ export class UploadService {
 	}
 	
 	
-	saveText(isOriginal: boolean, title: string, language: string, tags: string): void {
+	saveText(isOriginal: boolean, title: string, language: string, tags: string[]): void {
 		if(!isOriginal) {
 			this.translatedText = this.createText(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
 									this.translatedTextString);
