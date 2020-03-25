@@ -5,13 +5,15 @@ let CommentSchema = require('../comments/CommentModel');
 let FlagSchema = require ('../flags/FlagModel');
 
 const TranslationSchema = new Schema({
-	title: {
+    title: {
         type: String,
-        required: [true, 'title field is required']
+        required: [true, 'title field is required'],
+        text: true
     },
     text: {
         type: String,
-        required: [true, 'text field is required']
+        required: [true, 'text field is required'],
+        text: true
     },
     language: {
         type: String,
