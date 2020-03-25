@@ -24,10 +24,11 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Posts 
 - [x] Model
-- [ ] GET /posts/ 
+- [ ] Model for replies
+- [ ] GET /posts/                   // get post previews
 - [x] POST /posts/
 - [s] GET /posts/preview 
-- [x] GET /posts/{postid}
+- [x] GET /posts/{postid}           // get preview of one post, contains full text and preview of trans
 
 ### Translations
 - [x] Model
@@ -38,16 +39,17 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 ### Comments
 - [x] Model
 - [x] POST /posts/{postid}/comments
-- [ ] POST /posts/{postid}/translations/{TranslationID}/comments/
+- [x] POST /posts/{postid}/translations/{TranslationID}/comments/
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
 
 ### Flags
-- [ ] Model
+- [x] Model
 
 ### Votes
 - [x] PUT /posts/{postid}/vote
+- [x] PUT /posts/{postid}/comments/{commentID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/vote
-- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
+- [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
 - [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}/vote
 
 ### Search

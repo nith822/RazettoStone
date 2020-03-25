@@ -1,1 +1,24 @@
-<p>upload works!</p>
+<h2> {{this.getCurrentScreenTitle()}} </h2>
+
+
+<label>Title:</label><br>
+<input [value]="title" (input)="title = $event.target.value"><br><br>
+
+<label>language:</label><br>
+<input [value]="language" (input)="language = $event.target.value"><br><br>
+
+<div *ngIf="this.uploadOriginalText">
+<label>tags:</label><br>
+<input [value]="tags" (input)="tags = $event.target.value"><br><br>
+</div>
+
+<label>Text:</label><br>
+<input type="file" (change)="fileChanged($event)">
+
+<label>Preview Text:</label><br>
+<p *ngIf="this.uploadOriginalText"> {{ this.uploadService.originalTextString }} </p>
+<p *ngIf="!this.uploadOriginalText"> {{ this.uploadService.translatedTextString }} </p>
+
+<button (click)="this.navigate('back')"> Back </button>
+<button (click)="this.navigate('preview')">Preview </button>
+<button *ngIf="this.uploadOriginalText" (click)="this.navigate('-1')">Add Translation</button>

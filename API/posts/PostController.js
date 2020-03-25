@@ -24,6 +24,7 @@ exports.create = function (req, res, next) {
         // on creation will not have comments, flags
         // it might be easier to just create a post with no translation then have the user
         // to add translation once the post is created.
+		
         translations: req.body.translations,
         tags: req.body.tags
     });
@@ -89,22 +90,42 @@ exports.votePost = function (req, res, next){
 
 exports.voteTranslation = function(req, res, next){
     if (req.body.vote == true){
-        console.log(req.body.userID+ ' upvoting transaltion ' + req.params.post_id)
+        console.log(req.body.userID+ ' upvoting transaltion ' + req.params.translation_id)
         Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
         {$addToSet: {"translations.$.upvotes": req.body.userID},
             $pull: {"translations.$.downvotes": req.body.userID}}).then(function(){
-                res.send({"message": req.body.userID+ ' upvoted transaltion ' + req.params.post_id})
+                res.send({"message": req.body.userID+ ' upvoted transaltion ' + req.params.translation_id})
             })
     }else{
-        console.log(req.body.userID+ ' downvoting transaltion ' + req.params.post_id)
+        console.log(req.body.userID+ ' downvoting transaltion ' + req.params.translation_id)
         Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
         {$pull: {"translations.$.upvotes": req.body.userID},
             $addToSet: {"translations.$.downvotes": req.body.userID}}).then(function(){
-                res.send({"message": req.body.userID+ ' downvoted transaltion ' + req.params.post_id})
+                res.send({"message": req.body.userID+ ' downvoted transaltion ' + req.params.translation_id})
             })
     }
 }
 
+exports.votePostComment = function(req, res, next){
+    if (req.body.vote == true){
+        console.log(req.body.userID+ ' upvoting post comment ' + req.params.comment_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "comments._id" : req.params.comment_id},
+        {$addToSet: {"comments.$.upvotes": req.body.userID},
+            $pull: {"comments.$.downvotes": req.body.userID}}).then(function(){
+                res.send({"message": req.body.userID+ ' upvoted post comment ' + req.params.comment_id})
+            })
+    }else{
+        console.log(req.body.userID+ ' downvoting post comment ' + req.params.comment_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "comments._id" : req.params.comment_id},
+        {$pull: {"comments.$.upvotes": req.body.userID},
+            $addToSet: {"comments.$.downvotes": req.body.userID}}).then(function(){
+                res.send({"message": req.body.userID+ ' downvoted post comment ' + req.params.comment_id})
+            })
+    }
+}
+
+
+// replies not added yet
 exports.commentOnPost = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {comments: {
@@ -121,6 +142,54 @@ exports.commentOnPost = function(req,res,next){
     }).catch(next);
 }
 
+exports.commentOnTranslation = function(req,res,next){
+    console.log(req.params)
+    console.log('Attempting to add comment to translation ' + req.params.translation_id)
+    Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
+    {$push: {"translations.$.comments": {
+        text: req.body.text,
+        language: req.body.language,
+        dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
+        userID: req.body.userID,
+        upvotes: [req.body.userID],
+        downvotes: [],
+        }}}).then(function(){
+            Post.findOne({_id: req.params.post_id}).then(function(post){
+                res.send(post);
+            })
+        }).catch(next)
+}
 
+exports.voteTranslationComment = function(req,res,next){
+    if (req.body.vote == true){
+        console.log(req.body.userID+ ' upvoting translation comment ' + req.params.comment_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "translations._id": req.params.translation_id},
+        {$addToSet: {"translations.$[].comments.$[comment].upvotes": req.body.userID},
+            $pull: {"translations.$[].comments.$[comment].downvotes": req.body.userID}}, { arrayFilters: [{ 'comment._id': req.params.comment_id }] }).then(function(){
+                res.send({"message": req.body.userID+ ' upvoted translation comment ' + req.params.comment_id})
+            })
+    }else{
+        console.log(req.body.userID+ ' downvoting translation comment ' + req.params.comment_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "translations._id": req.params.translation_id},
+        {$pull: {"translations.$[].comments.$[comment].upvotes": req.body.userID},
+            $addToSet: {"translations.$[].comments.$[comment].downvotes": req.body.userID}}, { arrayFilters: [{ 'comment._id': req.params.comment_id }] }).then(function(){
+                res.send({"message": req.body.userID+ ' downvoted translation comment ' + req.params.comment_id})
+            })
+    }
+}
+
+exports.flagTranslation = function(req,res,next){
+    console.log(req.params)
+    console.log('Attempting to add comment to translation ' + req.params.translation_id)
+    Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
+    {$push: {"translations.$.flags": {
+        userID: req.body.userID,
+        flag: req.body.flag
+        }}}).then(function(){
+            Post.findOne({_id: req.params.post_id}).then(function(post){
+                res.send(post);
+            })
+        }).catch(next)
+}
 
 

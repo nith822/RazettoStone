@@ -5,8 +5,9 @@
 ### Components
 - [ ] Login
 - [ ] Shared
+- [X] Upload
+  - [ ] Upload-preview
 - [X] Translations
-- [ ] Upload
   - [X] Translation
     - [X] Sidebar
       - [ ] Comments
@@ -32,3 +33,5 @@
 - [X] Model
 - [ ] Service
 
+### Upload
+- [50%] Service - Extremely poor quality, needs refactoring

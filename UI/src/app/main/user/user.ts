@@ -1,14 +1,14 @@
 export class User {
 	
 	
-	private id: string;
+	id: string;
 	userName: string;
-	private email: string;
+	email: string;
 	
 	dateCreated: Date;
 	languages: string[];
 	
-	private oAuthId: string;
+	oAuthId: string;
 	
 	constructor(userName: string, email: string, oAuthId: string,
 		dateCreated?: Date, languages?: string[], id?: string ) {

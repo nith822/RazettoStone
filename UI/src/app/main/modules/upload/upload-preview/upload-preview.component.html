@@ -1,0 +1,11 @@
+<p>upload-preview works!</p>
+
+
+<label>Original Text:</label><br>
+<p> {{ this.uploadService.originalTextString }} </p>
+<label>Translated Text:</label><br>
+<p> {{ this.uploadService.translatedTextString }} </p>
+
+<button (click)="this.location.back()"> Back </button>
+
+<button (click)="this.uploadService.submit()"> Submit </button>

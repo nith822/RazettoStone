@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 let CommentSchema = require('./comments/CommentModel');
 let TranslationSchema = require('./translations/TranslationModel');
-let FlagSchema = require ('./flags/FlagModel');
 
 /*
 const RepliesSchema = new Schema({
@@ -59,7 +58,6 @@ const PostSchema = new Schema({
         required: [true, 'tags field is required']          //if there is no tag just input empty array, []
     },
     comments: [CommentSchema],
-    flags: [FlagSchema],
     translations: [TranslationSchema]
 });
 

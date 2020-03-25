@@ -9,15 +9,18 @@ const MAX_CHARACTERS: number = 150;
 export class Text extends Interactible {	//Translations
 	
 	textLines: TextLine[];	//Text
+	//not in toString yet
+	flags: string[][];
 	
 	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
 				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
-				text?: string,
+				text?: string, flags?: string[][], 
 				enableProd?: boolean) {
 		
 		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		if(!text) { this.textLines = []	} else { this.textLines = this.parseText(text) };		
+		if(flags) { this.flags = flags; }
 		
 	}
 	
