@@ -9,7 +9,7 @@
 
 <div *ngIf="this.uploadOriginalText">
 <label>tags:</label><br>
-<input [value]="tags.join(', ')" (input)="tags = $event.target.value"><br><br>
+<input [value]="tags" (input)="tags = $event.target.value"><br><br>
 </div>
 
 <label>Text:</label><br>
