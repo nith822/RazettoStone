@@ -53,6 +53,18 @@ export class Translation extends Interactible {	//Post
 		this.tags.push(tag);
 	}
 	
+	encodeJSON(): any {
+		let translationsJSON: any[] = [];
+		for(let translation of this.translations) {
+			translationsJSON.push(translation.encodeJSON());
+		}
+		return Object.assign({}, super.encodeJSON(), {
+			text: this.originalText.text,
+			tags: this.tags,
+			translations: translationsJSON,
+		});
+	}
+	
 	toString(): string {
 		
 		function buildString(tags: string[]): string {

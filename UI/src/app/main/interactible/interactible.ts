@@ -40,6 +40,25 @@ export abstract class Interactible {
 		this.comments.push(comment);
 	}
 	
+	encodeJSON(): any {
+		let commentsJSON: any[] = [];
+		for(let comment of this.comments) {
+			commentsJSON.push(comment.encodeJSON());
+		}
+		return {
+			userID: this.user.id,
+			title: this.title,
+			language: this.language,
+			comments: commentsJSON,
+	
+			upvotes: this.upvotes,
+			downvotes: this.downvotes,
+	
+			id: this.id,
+			dateCreated: this.dateCreated,
+		}
+	}
+	
 	toString(): string {
 		
 		function buildString(votes: string[]): string {

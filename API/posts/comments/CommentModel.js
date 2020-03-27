@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const CommentSchema = new Schema({
     text: {
         type: String,
-        required: [true, 'text field is required']
+        required: [true, 'text field is required'],
+        text: true
     },
     upvotes:{
         type: [String],

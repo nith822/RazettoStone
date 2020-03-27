@@ -9,7 +9,8 @@ router.route('/').post(postController.create);
 router.route('/:post_id').get(postController.view);
 // add translation to post
 router.route('/:post_id/translations/').post(postController.addTranslation);
-
+// search for a post
+router.route('/search/:search_string').get(postController.search);
 
 //Comments
 router.route('/:post_id/comments').post(postController.commentOnPost);

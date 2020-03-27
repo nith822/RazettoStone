@@ -29,7 +29,7 @@ exports.create = function (req, res) {
     });
     
 	//not actualy verifying
-	if(auth.verify(user.oAuthId)) {
+	//if(auth.verify(user.oAuthId)) {
 	
 		console.log("get called");
 	
@@ -43,7 +43,7 @@ exports.create = function (req, res) {
 				});
 			}
 		});
-	}
+	//}
 };
 
 exports.view = function (req, res) {
