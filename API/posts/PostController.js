@@ -18,7 +18,7 @@ exports.create = function (req, res, next) {
         originalText: req.body.originalText,
         userID: req.body.userID,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        upvotes: req.body.upvotes,                             // are we going to make the poster auto upvote their post?
+        upvotes: [req.body.userID],                             // are we going to make the poster auto upvote their post?
         downvotes: [],  // on creation there shouldn't be any downvotes
         //tags: req.body.tags,                                   // tags might be not required
         // on creation will not have comments, flags
