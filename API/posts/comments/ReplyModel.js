@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');;
 const Schema = mongoose.Schema;
-let ReplySchema = require('./ReplyModel');
 
-const CommentSchema = new Schema({
+const ReplySchema = new Schema({
     text: {
         type: String,
         required: [true, 'text field is required'],
@@ -26,13 +25,10 @@ const CommentSchema = new Schema({
     },
     language:{
         type: String
-    },
-    replies:{
-        type: [ReplySchema]
     }
 });
 
 
-const Comment = mongoose.model('comment', CommentSchema);
-module.exports = Comment;
-module.exports = CommentSchema;
+const Reply = mongoose.model('reply', ReplySchema);
+module.exports = Reply;
+module.exports = ReplySchema;

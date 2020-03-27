@@ -1,7 +1,7 @@
 let router = require('express').Router();
 let postController = require('./PostController');
 
-// I think postController can be broken down but I'm a lazy fuck
+// I think postController can be broken down but I'm a lazy 
 
 // create post
 router.route('/').post(postController.create);
@@ -22,8 +22,11 @@ router.route('/:post_id/translations/:translation_id/vote').put(postController.v
 router.route('/:post_id/comments/:comment_id/vote').put(postController.votePostComment);         // vote on post comment
 router.route('/:post_id/translations/:translation_id/comments/:comment_id/vote').put(postController.voteTranslationComment); // vote on translation comment
 
-//Flg
+//Flag
 router.route('/:post_id/translations/:translation_id/flag').post(postController.flagTranslation);
+
+
+
 
 
 

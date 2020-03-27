@@ -9,20 +9,20 @@ exports.create = function (req, res, next) {
 
     // this might also work isntead of the code above
     console.log('Attempting to create new post')
+    console.log(req.body)
     
     var newPost = new Post({
         title: req.body.title,
         language: req.body.language,
-        text: req.body.text,
+        originalText: req.body.originalText,
         userID: req.body.userID,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        upvotes: req.body.upvotes,                             // are we going to make the poster auto upvote their post?
+        upvotes: [req.body.userID],                             // are we going to make the poster auto upvote their post?
         downvotes: [],  // on creation there shouldn't be any downvotes
         //tags: req.body.tags,                                   // tags might be not required
         // on creation will not have comments, flags
         // it might be easier to just create a post with no translation then have the user
         // to add translation once the post is created.
-		
         translations: req.body.translations,
         tags: req.body.tags
     });

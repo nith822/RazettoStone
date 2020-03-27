@@ -24,7 +24,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Posts 
 - [x] Model
-- [ ] Model for replies
+- [x] Model for replies
 - [ ] GET /posts/                   // get post previews
 - [x] POST /posts/
 - [s] GET /posts/preview 
@@ -32,9 +32,9 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Translations
 - [x] Model
-- [?] GET /posts/{postid}/translations/{translationId}
+- [ ] GET /posts/{postid}/translations/{translationId}
 - [x] POST /posts/{PostId}/translations
-- [ ] POST /posts/{postid}/translations/{TranslationID}/flag
+- [x] POST /posts/{postid}/translations/{TranslationID}/flag
 
 ### Comments
 - [x] Model
