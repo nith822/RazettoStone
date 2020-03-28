@@ -43,7 +43,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 
 ### Replies
-- [ ] POST /posts/{postid}/comments/{commentID}/replies
+- [x] POST /posts/{postid}/comments/{commentID}/replies
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
 
 ### Flags

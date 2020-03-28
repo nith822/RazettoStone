@@ -201,15 +201,17 @@ exports.flagTranslation = function(req,res,next){
 }
 
 exports.replyToPostComment = function(req,res,next){
-    Post.findOneAndUpdate({_id: req.params.post_id},
-    {$push: {"translations.$.comments": {
+    console.log("Replying to post comment " + req.params.comment_id)
+    Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
+    {$push: {"comments.$.replies":{
         text: req.body.text,
         language: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
-        downvotes: [],
-        }}}).then(function(){
+        downvotes: []
+    }}
+        }).then(function(){
             Post.findOne({_id: req.params.post_id}).then(function(post){
                 res.send(post);
             })
