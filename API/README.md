@@ -53,4 +53,4 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}/vote
 
 ### Search
-- [ ] GET /search
+- [x] GET /search
