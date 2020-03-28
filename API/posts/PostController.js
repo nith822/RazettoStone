@@ -115,6 +115,7 @@ exports.voteTranslation = function(req, res, next){
 }
 
 exports.votePostComment = function(req, res, next){
+    console.log(req.body);
     if (req.body.vote == true){
         console.log(req.body.userID+ ' upvoting post comment ' + req.params.comment_id)
         Post.findOneAndUpdate({_id: req.params.post_id, "comments._id" : req.params.comment_id},
@@ -219,14 +220,26 @@ exports.replyToPostComment = function(req,res,next){
 }
 
 exports.replyToTranslationComment = function(req,res,next){
+   Post.findOneAndUpdate({_id: req.params.post_id, "translations._id": req.params.translation_id},
+   {$push: {"translations.$[].comments.$[comment].replies": {
+    text: req.body.text,
+    language: req.body.language,
+    dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
+    userID: req.body.userID,
+    upvotes: [req.body.userID],
+    downvotes: []
+}}}, { arrayFilters: [{ 'comment._id': req.params.comment_id }] }).then(function(){
+    Post.findOne({_id: req.params.post_id}).then(function(post){
+        res.send(post);
+    })
+       }).catch(next)
+}
+
+exports.votePostCommentReply = function(req,res,next){
 
 }
 
-exports.votePostComment = function(req,res,next){
-
-}
-
-exports.voteTranslationComment = function(req,res,next){
+exports.voteTranslationCommentReply = function(req,res,next){
 
 }
 
