@@ -40,6 +40,10 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [x] Model
 - [x] POST /posts/{postid}/comments
 - [x] POST /posts/{postid}/translations/{TranslationID}/comments/
+
+
+### Replies
+- [ ] POST /posts/{postid}/comments/{commentID}/replies
 - [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
 
 ### Flags
@@ -50,7 +54,8 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [x] PUT /posts/{postid}/comments/{commentID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
-- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}/vote
+- [ ] PUT /posts/{postid}/comments/{commentID}/replies/{replyID}/vote
+- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{replyID}/vote
 
 ### Search
 - [ ] GET /search

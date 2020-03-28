@@ -200,4 +200,36 @@ exports.flagTranslation = function(req,res,next){
         }).catch(next)
 }
 
+exports.replyToPostComment = function(req,res,next){
+    Post.findOneAndUpdate({_id: req.params.post_id},
+    {$push: {"translations.$.comments": {
+        text: req.body.text,
+        language: req.body.language,
+        dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
+        userID: req.body.userID,
+        upvotes: [req.body.userID],
+        downvotes: [],
+        }}}).then(function(){
+            Post.findOne({_id: req.params.post_id}).then(function(post){
+                res.send(post);
+            })
+        }).catch(next)
+}
+
+exports.replyToTranslationComment = function(req,res,next){
+
+}
+
+exports.votePostComment = function(req,res,next){
+
+}
+
+exports.voteTranslationComment = function(req,res,next){
+
+}
+
+
+
+
+
 
