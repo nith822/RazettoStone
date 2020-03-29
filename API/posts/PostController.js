@@ -236,7 +236,22 @@ exports.replyToTranslationComment = function(req,res,next){
 }
 
 exports.votePostCommentReply = function(req,res,next){
+    if (req.body.vote == true){
+        console.log(req.body.userID+ ' upvoting post comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
+        {$addToSet: {"comments.$[].replies.$[reply].upvotes": req.body.userID},
+            $pull: {"comments.$[].replies.$[reply].downvotes": req.body.userID}}, { arrayFilters: [{ 'reply._id': req.params.reply_id }] }).then(function(){
+                res.send({"message": req.body.userID+ ' upvoted post comment reply ' + req.params.comment_id})
+            })
+    }else{
+        console.log(req.body.userID+ ' downvoting post comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
+        {$pull: {"comments.$[].replies.$[reply].upvotes": req.body.userID},
+            $addToSet: {"comments.$[].replies.$[reply].downvotes": req.body.userID}}, { arrayFilters: [{ 'reply._id': req.params.reply_id }] }).then(function(){
+                res.send({"message": req.body.userID+ ' downvoted post comment reply ' + req.params.comment_id})
+            })
 
+    }
 }
 
 exports.voteTranslationCommentReply = function(req,res,next){
