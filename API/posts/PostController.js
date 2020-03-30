@@ -135,7 +135,6 @@ exports.votePostComment = function(req, res, next){
 }
 
 
-// replies not added yet
 exports.commentOnPost = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {comments: {
@@ -188,6 +187,7 @@ exports.voteTranslationComment = function(req,res,next){
     }
 }
 
+// need to check if duplicate
 exports.flagTranslation = function(req,res,next){
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)

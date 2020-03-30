@@ -29,7 +29,7 @@ var CommentSchema = new Schema({
         type: String
     },
     replies:{
-        type: [CommentSchema]
+        type: [ReplySchema]
     }
 });
 

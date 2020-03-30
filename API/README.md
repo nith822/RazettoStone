@@ -44,11 +44,12 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 
 ### Replies
-- [x] POST /posts/{postid}/comments/{commentID}/replies
-- [x] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
+- [!] POST /posts/{postid}/comments/{commentID}/replies                                 // dateCreated will show up as int if we do nested on commentModel
+- [!] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
 
 ### Flags
 - [x] Model
+- [!] PUT  /posts/{postid}/translations/{translationId}/flag    // need to make sure a person cant put the same flag twice 
 
 ### Votes
 - [x] PUT /posts/{postid}/vote
