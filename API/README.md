@@ -56,7 +56,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [x] PUT /posts/{postid}/translations/{TranslationID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
 - [x] PUT /posts/{postid}/comments/{commentID}/replies/{replyID}/vote
-- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{replyID}/vote
+- [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{replyID}/vote
 
 ### Search
 - [x] GET /search

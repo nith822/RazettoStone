@@ -192,7 +192,7 @@ exports.flagTranslation = function(req,res,next){
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
-    {$push: {"translations.$.flags": {
+    {$addToSet: {"translations.$.flags": {
         userID: req.body.userID,
         flag: req.body.flag
         }}}).then(function(){
@@ -274,7 +274,6 @@ exports.voteTranslationCommentReply = function(req,res,next){
         { 'reply._id': mongoose.Types.ObjectId(req.params.reply_id) }]}).then(function(){
              res.send({"message": req.body.userID+ ' downvoted post comment reply ' + req.params.comment_id})
         })
-
     }
 }
 
