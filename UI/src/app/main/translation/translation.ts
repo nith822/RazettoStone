@@ -56,7 +56,9 @@ export class Translation extends Interactible {	//Post
 	encodeJSON(): any {
 		let translationsJSON: any[] = [];
 		for(let translation of this.translations) {
-			translationsJSON.push(translation.encodeJSON());
+			if(translation) {
+				translationsJSON.push(translation.encodeJSON());
+			}
 		}
 		return Object.assign({}, super.encodeJSON(), {
 			text: this.originalText.text,

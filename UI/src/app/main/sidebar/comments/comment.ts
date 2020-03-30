@@ -15,7 +15,10 @@ export class Comment extends Interactible {
 	}
 	
 	encodeJSON(): any {
-		return super.encodeJSON();
+		return Object.assign({}, super.encodeJSON(), {
+			title: undefined,
+			text: this.text,
+		});
 	}
 	
 	toString(): string {

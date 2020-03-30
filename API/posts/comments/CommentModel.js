@@ -2,7 +2,8 @@ const mongoose = require('mongoose');;
 const Schema = mongoose.Schema;
 let ReplySchema = require('./ReplyModel');
 
-const CommentSchema = new Schema({
+
+var CommentSchema = new Schema({
     text: {
         type: String,
         required: [true, 'text field is required'],
@@ -28,7 +29,7 @@ const CommentSchema = new Schema({
         type: String
     },
     replies:{
-        type: [ReplySchema]
+        type: [CommentSchema]
     }
 });
 

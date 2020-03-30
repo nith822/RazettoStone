@@ -8,7 +8,7 @@ import { Comment } from '../../sidebar/comments/comment'
 
 describe('Text', () => {
 	beforeEach(() => TestBed.configureTestingModule({}));
-	
+	/*
 	it('should create a valid text with all attributes', () => {
 		let user: User = new User("420yoloswag","bobsanders@gmail.com","o123",new Date(), ["Japanese", "English"], "123");
 		let title: string = "Bane";
@@ -209,4 +209,5 @@ describe('Text', () => {
 		//is the comment 'valid'?
 		expect(testComment.text).toBe(sampleText);
 	});
+	*/
 });
