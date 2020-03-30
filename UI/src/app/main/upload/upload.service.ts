@@ -33,37 +33,51 @@ export class UploadService {
 	}
 	
 	//COUPLED
-	submit(originalText?: Text, translatedText?: Text, tags?: string[]): void { 
-		var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.language, this.originalText.comments, 
-				this.originalText.upvotes, this.originalText.downvotes, 
-				this.originalText.id, this.originalText.dateCreated, 
-				this.originalText, [this.translatedText], this.tags);
-		console.log(post.encodeJSON());
-		this.uploadPost(post.encodeJSON());
+	submit(postID?: string): void { 
+		if(this.originalText) {
+			var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.language, this.originalText.comments, 
+					this.originalText.upvotes, this.originalText.downvotes, 
+					this.originalText.id, this.originalText.dateCreated, 
+					this.originalText, [this.translatedText], this.tags);
+			console.log(post.encodeJSON());
+			this.uploadPost(post.encodeJSON());
+		} else {
+			this.addTranslationToPost(postID, this.translatedText);
+		}
 	}
 	
 	
 	//refactor later
+	//create post
 	uploadPost(post): void {
 		this.http.post(this.postsUrl, post, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
 		}, (err) => {
-			
+			console.log(err);
 		});		
+	}
+	
+	//add translation to post
+	addTranslationToPost(postID: string, translation): void {
+		this.http.post(this.postsUrl + "/" + postID + "/" + "translations", translation, {headers: this.headers}).subscribe((data) => {
+			console.log(data);
+		}, (err) => {
+			console.log(err);
+		});	
 	}
 	
 	
 	saveText(isOriginal: boolean, title: string, language: string, tags: string[]): void {
 		if(!isOriginal) {
-			this.translatedText = this.createText(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
+			this.translatedText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
 									this.translatedTextString);
 		} else {
-			this.originalText = this.createText(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
+			this.originalText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
 									this.originalTextString);
 									
 			this.tags = tags;
+			console.log(this.originalText.encodeJSON());
 		}
-		console.log(this.originalText.encodeJSON());
 		console.log("Text created");
 	}
 	
@@ -82,23 +96,4 @@ export class UploadService {
 		};
 		fileReader.readAsText(file);
 	}
-	
-	createTranslation(user?: User, title?: string, language?: string, comments?: Comment[], 
-				upvotes?: string[], downvotes?: string[], 
-				id?: string, dateCreated?: Date, 
-				originalText?: Text, translations?: Text[], tags?: string[]): Translation {
-					
-		return new Translation(user, title, language, comments, upvotes, downvotes, id, dateCreated, originalText, translations, tags);
-		
-	}
-	
-	createText(user?: User, title?: string, language?: string, comments?: Comment[], 
-				upvotes?: string[], downvotes?: string[], 
-				id?: string, dateCreated?: Date, 
-				text?: string, flags?: string[][]): Text {
-					
-		return new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, text, flags);			
-					
-	}
-	
 }
