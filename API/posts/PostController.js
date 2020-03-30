@@ -2,6 +2,7 @@ const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
 const Translation = require('./translations/TranslationModel')
+var mongoose = require('mongoose');
 
 
 // create new post
@@ -255,7 +256,26 @@ exports.votePostCommentReply = function(req,res,next){
 }
 
 exports.voteTranslationCommentReply = function(req,res,next){
+    if (req.body.vote == true){
+        console.log(req.body.userID+ ' upvoting translation comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.params.post_id)},
+        {$addToSet: {"translations.$[translation].comments.$[comment].replies.$[reply].upvotes": req.body.userID},
+         $pull: {"translations.$[translation].comments.$[comment].replies.$[reply].downvotes": req.body.userID}},
+        {arrayFilters: [{'translation._id': mongoose.Types.ObjectId(req.params.translation_id)},{'comment._id': mongoose.Types.ObjectId(req.params.comment_id)},
+        { 'reply._id': mongoose.Types.ObjectId(req.params.reply_id) }]}).then(function(){
+             res.send({"message": req.body.userID+ ' upvoted post comment reply ' + req.params.comment_id})
+        })
+    }else{
+        console.log(req.body.userID+ ' downvoting translation comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.params.post_id)},
+        {$pull: {"translations.$[translation].comments.$[comment].replies.$[reply].upvotes": req.body.userID},
+         $addToSet: {"translations.$[translation].comments.$[comment].replies.$[reply].downvotes": req.body.userID}},
+        {arrayFilters: [{'translation._id': mongoose.Types.ObjectId(req.params.translation_id)},{'comment._id': mongoose.Types.ObjectId(req.params.comment_id)},
+        { 'reply._id': mongoose.Types.ObjectId(req.params.reply_id) }]}).then(function(){
+             res.send({"message": req.body.userID+ ' downvoted post comment reply ' + req.params.comment_id})
+        })
 
+    }
 }
 
 
