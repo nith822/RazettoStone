@@ -58,7 +58,6 @@ exports.addTranslation = function (req, res, next){
         downvotes: [],
         comments: []}}}).then(function(){
         Post.findOne({_id: req.params.post_id}).then(function(post){
-			//why does this send back the entire post
             res.send(post);
         });
     }).catch(next);
