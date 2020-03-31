@@ -48,58 +48,69 @@ exports.create = async function (req, res) {
         oAuthId: req.body.oAuthId
     });
     
-    var errorMessage = '';
-    // Checking for required parameters
-    if (req.body.userName == undefined || !req.body.userName.trim())
+    var isAuthenticated = await auth.verify(user.oAuthId);
+    if (isAuthenticated)
     {
-        console.log('Request did not have userName');
-        errorMessage = errorMessage.concat('Need username. ');
-    }
-    if (req.body.email == undefined || !req.body.email.trim())
-    {
-        console.log('Request did not have email');
-        errorMessage = errorMessage.concat('Need email. ');
-    }
-    if (errorMessage.length)
-    {
-        res.status(422).json({
-            message: errorMessage,
-            status: 'failed'
-        })
-        return res;
-    }
-    // Resetting error message for future use
-    errorMessage = '';
+        var errorMessage = '';
+        // Checking for required parameters
+        if (req.body.userName == undefined || !req.body.userName.trim())
+        {
+            console.log('Request did not have userName');
+            errorMessage = errorMessage.concat('Need username. ');
+        }
+        if (req.body.email == undefined || !req.body.email.trim())
+        {
+            console.log('Request did not have email');
+            errorMessage = errorMessage.concat('Need email. ');
+        }
+        if (errorMessage.length)
+        {
+            res.status(422).json({
+                message: errorMessage,
+                status: 'failed'
+            })
+            return res;
+        }
+        // Resetting error message for future use
+        errorMessage = '';
 
-    errorMessage = await validateUser(req.body.userName, req.body.email)
-    
-    if (errorMessage != undefined && errorMessage.length)
-    {
-        res.status(409).json({
-            message: errorMessage,
-            status: 'failed'
-        })
-        return res;
+        errorMessage = await validateUser(req.body.userName, req.body.email)
+        
+        if (errorMessage != undefined && errorMessage.length)
+        {
+            res.status(409).json({
+                message: errorMessage,
+                status: 'failed'
+            })
+            return res;
+        }
+        else
+        {
+            //not actualy verifying
+            //if(isAuthenticated) {
+            
+                user.save(function (err) {
+                    console.log('save called')
+                    if (err) {
+                        res.status(500).json(err);
+                    } else {
+                        res.json({
+                            message: 'New user created!',
+                            data: user
+                        });
+                    }
+                });
+            //}
+        }
     }
     else
     {
-        //not actualy verifying
-        //if(auth.verify(user.oAuthId)) {
-        
-            user.save(function (err) {
-                console.log('save called')
-                if (err) {
-                    res.status(500).json(err);
-                } else {
-                    res.json({
-                        message: 'New user created!',
-                        data: user
-                    });
-                }
-            });
-        //}
+        res.status(401).json({
+            status: 'failed',
+            message: 'User could not be validated'
+        })
     }
-};
+}
 
 exports.view = function (req, res) {
     console.log('Attempting to retrieve user from DB')

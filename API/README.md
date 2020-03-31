@@ -32,6 +32,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Translations
 - [x] Model
+- [ ] GET /posts/{postid}/translations/     // this gets translation previews
 - [ ] GET /posts/{postid}/translations/{translationId}
 - [x] POST /posts/{PostId}/translations
 - [x] POST /posts/{postid}/translations/{TranslationID}/flag
@@ -40,17 +41,23 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 - [x] Model
 - [x] POST /posts/{postid}/comments
 - [x] POST /posts/{postid}/translations/{TranslationID}/comments/
-- [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
+
+
+### Replies
+- [!] POST /posts/{postid}/comments/{commentID}/replies                                 // dateCreated will show up as int if we do nested on commentModel
+- [!] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
 
 ### Flags
 - [x] Model
+- [!] PUT  /posts/{postid}/translations/{translationId}/flag    // need to make sure a person cant put the same flag twice 
 
 ### Votes
 - [x] PUT /posts/{postid}/vote
 - [x] PUT /posts/{postid}/comments/{commentID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
-- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}/vote
+- [x] PUT /posts/{postid}/comments/{commentID}/replies/{replyID}/vote
+- [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{replyID}/vote
 
 ### Search
 - [x] GET /search

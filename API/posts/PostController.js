@@ -2,6 +2,7 @@ const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
 const Translation = require('./translations/TranslationModel')
+var mongoose = require('mongoose');
 
 
 // create new post
@@ -115,6 +116,7 @@ exports.voteTranslation = function(req, res, next){
 }
 
 exports.votePostComment = function(req, res, next){
+    console.log(req.body);
     if (req.body.vote == true){
         console.log(req.body.userID+ ' upvoting post comment ' + req.params.comment_id)
         Post.findOneAndUpdate({_id: req.params.post_id, "comments._id" : req.params.comment_id},
@@ -133,7 +135,6 @@ exports.votePostComment = function(req, res, next){
 }
 
 
-// replies not added yet
 exports.commentOnPost = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {comments: {
@@ -186,11 +187,12 @@ exports.voteTranslationComment = function(req,res,next){
     }
 }
 
+// need to check if duplicate
 exports.flagTranslation = function(req,res,next){
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
-    {$push: {"translations.$.flags": {
+    {$addToSet: {"translations.$.flags": {
         userID: req.body.userID,
         flag: req.body.flag
         }}}).then(function(){
@@ -199,5 +201,84 @@ exports.flagTranslation = function(req,res,next){
             })
         }).catch(next)
 }
+
+exports.replyToPostComment = function(req,res,next){
+    console.log("Replying to post comment " + req.params.comment_id)
+    Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
+    {$push: {"comments.$.replies":{
+        text: req.body.text,
+        language: req.body.language,
+        dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
+        userID: req.body.userID,
+        upvotes: [req.body.userID],
+        downvotes: []
+    }}
+        }).then(function(){
+            Post.findOne({_id: req.params.post_id}).then(function(post){
+                res.send(post);
+            })
+        }).catch(next)
+}
+
+exports.replyToTranslationComment = function(req,res,next){
+   Post.findOneAndUpdate({_id: req.params.post_id, "translations._id": req.params.translation_id},
+   {$push: {"translations.$[].comments.$[comment].replies": {
+    text: req.body.text,
+    language: req.body.language,
+    dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
+    userID: req.body.userID,
+    upvotes: [req.body.userID],
+    downvotes: []
+}}}, { arrayFilters: [{ 'comment._id': req.params.comment_id }] }).then(function(){
+    Post.findOne({_id: req.params.post_id}).then(function(post){
+        res.send(post);
+    })
+       }).catch(next)
+}
+
+exports.votePostCommentReply = function(req,res,next){
+    if (req.body.vote == true){
+        console.log(req.body.userID+ ' upvoting post comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
+        {$addToSet: {"comments.$[].replies.$[reply].upvotes": req.body.userID},
+            $pull: {"comments.$[].replies.$[reply].downvotes": req.body.userID}}, { arrayFilters: [{ 'reply._id': req.params.reply_id }] }).then(function(){
+                res.send({"message": req.body.userID+ ' upvoted post comment reply ' + req.params.comment_id})
+            })
+    }else{
+        console.log(req.body.userID+ ' downvoting post comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
+        {$pull: {"comments.$[].replies.$[reply].upvotes": req.body.userID},
+            $addToSet: {"comments.$[].replies.$[reply].downvotes": req.body.userID}}, { arrayFilters: [{ 'reply._id': req.params.reply_id }] }).then(function(){
+                res.send({"message": req.body.userID+ ' downvoted post comment reply ' + req.params.comment_id})
+            })
+
+    }
+}
+
+exports.voteTranslationCommentReply = function(req,res,next){
+    if (req.body.vote == true){
+        console.log(req.body.userID+ ' upvoting translation comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.params.post_id)},
+        {$addToSet: {"translations.$[translation].comments.$[comment].replies.$[reply].upvotes": req.body.userID},
+         $pull: {"translations.$[translation].comments.$[comment].replies.$[reply].downvotes": req.body.userID}},
+        {arrayFilters: [{'translation._id': mongoose.Types.ObjectId(req.params.translation_id)},{'comment._id': mongoose.Types.ObjectId(req.params.comment_id)},
+        { 'reply._id': mongoose.Types.ObjectId(req.params.reply_id) }]}).then(function(){
+             res.send({"message": req.body.userID+ ' upvoted post comment reply ' + req.params.comment_id})
+        })
+    }else{
+        console.log(req.body.userID+ ' downvoting translation comment reply ' + req.params.reply_id)
+        Post.findOneAndUpdate({_id: mongoose.Types.ObjectId(req.params.post_id)},
+        {$pull: {"translations.$[translation].comments.$[comment].replies.$[reply].upvotes": req.body.userID},
+         $addToSet: {"translations.$[translation].comments.$[comment].replies.$[reply].downvotes": req.body.userID}},
+        {arrayFilters: [{'translation._id': mongoose.Types.ObjectId(req.params.translation_id)},{'comment._id': mongoose.Types.ObjectId(req.params.comment_id)},
+        { 'reply._id': mongoose.Types.ObjectId(req.params.reply_id) }]}).then(function(){
+             res.send({"message": req.body.userID+ ' downvoted post comment reply ' + req.params.comment_id})
+        })
+    }
+}
+
+
+
+
 
 
