@@ -18,7 +18,7 @@ exports.index = function (req, res) {
     });
 };
 
-exports.create = function (req, res) {
+exports.create = async function (req, res) {
     console.log('Attempting to insert an user')
     var user = new User({
         userName: req.body.userName,
@@ -28,8 +28,10 @@ exports.create = function (req, res) {
         oAuthId: req.body.oAuthId
     });
     
+	var isAuthenticated = await auth.verify(user.oAuthId);
 	//not actualy verifying
-	//if(auth.verify(user.oAuthId)) {
+	//is it verifying now?
+	if(isAuthenticated) {
 	
 		console.log("get called");
 	
@@ -43,7 +45,7 @@ exports.create = function (req, res) {
 				});
 			}
 		});
-	//}
+	}
 };
 
 exports.view = function (req, res) {
