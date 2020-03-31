@@ -29,7 +29,7 @@ router.route('/:post_id/comments/:comment_id/replies/:reply_id/vote').put(postCo
 router.route('/:post_id/translations/:translation_id/comments/:comment_id/replies/:reply_id/vote').put(postController.voteTranslationCommentReply);
 
 //Flag
-router.route('/:post_id/translations/:translation_id/flag').post(postController.flagTranslation);
+router.route('/:post_id/translations/:translation_id/flag').put(postController.flagTranslation);
 
 
 
