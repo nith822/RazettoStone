@@ -292,10 +292,16 @@ exports.getOneTranslation = function(req,res,next){
         }
     ]).then(function(post){
         console.log(post)
-        res.send({"message": "ok", "data": post})
+        res.send(post[0].translation[0])
     }).catch(next)
-}
+};
 
 
+exports.listPosts =  function(req,res,next){
 
+};
+
+exports.listTranslations = function(req,res,next){
+
+};
 

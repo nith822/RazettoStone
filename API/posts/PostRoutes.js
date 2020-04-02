@@ -35,7 +35,9 @@ router.route('/:post_id/translations/:translation_id/flag').put(postController.f
 router.route('/:post_id/translations/:translation_id').get(postController.getOneTranslation);
 
 
-
+// get list
+router.route("").get(postController.listPosts);
+router.route("/:post_id/translation").get(postController.listTranslations);
 
 
 
