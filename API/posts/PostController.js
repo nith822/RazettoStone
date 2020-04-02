@@ -38,8 +38,7 @@ exports.create = function (req, res, next) {
 exports.view = function (req, res, next) {
     console.log('Attempting to retrieve post from DB')
     Post.findById(req.params.post_id).then(function(post){
-        res.send({message: "success!",
-                  data: post })
+        res.send({message: "success!", data: post })
     }).catch(next)
 };
 
@@ -277,7 +276,25 @@ exports.voteTranslationCommentReply = function(req,res,next){
     }
 }
 
-
+exports.getOneTranslation = function(req,res,next){
+    console.log('Attempting to translation ' + req.params.translation_id + ' from DB')
+    Post.aggregate([
+        { $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
+        { $project : {
+            translation: {
+                $filter:{
+                    "input": "$translations",
+                    "as": "translation",
+                    "cond": {"$eq":["$$translation._id", mongoose.Types.ObjectId(req.params.translation_id)]}
+                }
+            }
+          }
+        }
+    ]).then(function(post){
+        console.log(post)
+        res.send({"message": "ok", "data": post})
+    }).catch(next)
+}
 
 
 

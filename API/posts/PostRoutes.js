@@ -31,6 +31,9 @@ router.route('/:post_id/translations/:translation_id/comments/:comment_id/replie
 //Flag
 router.route('/:post_id/translations/:translation_id/flag').put(postController.flagTranslation);
 
+// get one translation
+router.route('/:post_id/translations/:translation_id').get(postController.getOneTranslation);
+
 
 
 
