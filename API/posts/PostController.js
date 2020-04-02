@@ -276,11 +276,14 @@ exports.voteTranslationCommentReply = function(req,res,next){
     }
 }
 
+
+// TODO: hide user id from upvotes and downvotes ????????
 exports.getOneTranslation = function(req,res,next){
     console.log('Attempting to translation ' + req.params.translation_id + ' from DB')
     Post.aggregate([
         { $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
         { $project : {
+            _id: false,
             translation: {
                 $filter:{
                     "input": "$translations",
@@ -298,7 +301,45 @@ exports.getOneTranslation = function(req,res,next){
 
 
 exports.listPosts =  function(req,res,next){
+    console.log("getting page " + req.body.pageNumber + " of posts");
+    var page;
+    var sizeOfPreview;
+    var postPerPage;
 
+    if (req.params.pg == null){
+        page = 0;
+    }else{
+        page = req.params.pg;
+    }
+
+    if (req.params.sizeOfPreview == null){
+        sizeOfPreview = 100;
+    }else{
+        sizeOfPreview = req.params.sizeOfPreview;
+    }
+
+    if (req.params.postPerPage == null){
+        postPerPage = 100;
+    }else{
+        postPerPage = req.params.postPerPage;
+    }
+
+    Post.aggregate([{$skip: postPerPage*page},{$limit: postPerPage},
+       {$project: {
+           _id: "$_id",
+           title: "$title",
+           language: "$language",
+           tags: "$tags",
+           userID: "$userID",
+           dateCreated: "$dateCreated",
+           upvotes: "$upvotes", // do we want user or front end to see who voted?
+           downvotes: "$downvotes", // do we want user or front end to see who voted?
+           previewText: {$substr: ["$originalText",0,sizeOfPreview]},
+           numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
+       }}                                 
+    ]).then(function(posts){
+        res.send(posts);
+    })
 };
 
 exports.listTranslations = function(req,res,next){
