@@ -25,7 +25,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 ### Posts 
 - [x] Model
 - [x] Model for replies
-- [ ] GET /posts/                   // get post previews
+- [x] GET /posts/                   // get post previews
 - [x] POST /posts/
 - [s] GET /posts/preview 
 - [x] GET /posts/{postid}           // get preview of one post, contains full text and preview of trans

@@ -188,6 +188,7 @@ exports.voteTranslationComment = function(req,res,next){
 
 // need to check if duplicate
 exports.flagTranslation = function(req,res,next){
+
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
@@ -345,7 +346,7 @@ exports.listPosts =  function(req,res,next){
 
 exports.listTranslations = function(req,res,next){
     var page;
-    var postPerPage;
+    var translationsPerPage;
 
     if (req.params.page == null){
         page = 0;
@@ -353,10 +354,10 @@ exports.listTranslations = function(req,res,next){
         page = req.params.page;
     }
 
-    if (req.params.postPerPage == null){
-        postPerPage = 10;
+    if (req.params.translationsPerPage == null){
+        translationsPerPage = 10;
     }else{
-        postPerPage = req.params.translationsPerPage;
+        translationsPerPage = req.params.translationsPerPage;
     }
 
     console.log("getting page " + page + " of translations for post " + req.params.post_id);
@@ -364,27 +365,10 @@ exports.listTranslations = function(req,res,next){
     
     Post.aggregate([{ $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
         {$project: {
-            _id: "$_id",
-            title: "$title",
-            language: "$language",
-            tags: "$tags",
-            userID: "$userID",
-            dateCreated: "$dateCreated",
-            upvotes: "$upvotes", // do we want user or front end to see who voted?
-            downvotes: "$downvotes", // do we want user or front end to see who voted?
-            originalText: "$originalText",
-            comments: '$comments',
-            "translations._id" : 1,
-            "translations.upvotes": 1, // do we want user or front end to see who voted?
-            "translations.downvotes": 1, // do we want user or front end to see who voted?
-            "translations.title": 1,
-            "translations.language": 1,
-            "translations.userID": 1,
-            "translations.text": 1,
-            "translations.flags": 1
+            translations: "$translations"
         }}                   
      ]).then(function(post){
-        res.send(post[0])
+        res.send(post[0].translations.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
      }).catch(next)
 };
 
