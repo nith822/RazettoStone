@@ -37,7 +37,7 @@ router.route('/:post_id/translations/:translation_id').get(postController.getOne
 
 // get list
 router.route("").get(postController.listPosts);
-router.route("/:post_id/translation").get(postController.listTranslations);
+router.route("/:post_id/translations").get(postController.listTranslations);
 
 
 

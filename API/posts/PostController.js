@@ -303,12 +303,12 @@ exports.getOneTranslation = function(req,res,next){
 exports.listPosts =  function(req,res,next){
     var page;
     var sizeOfPreview;
-    var postPerPage;
+    var postsPerPage;
 
     if (req.params.pg == null){
         page = 0;
     }else{
-        page = req.params.pg;
+        page = req.params.page;
     }
 
     if (req.params.sizeOfPreview == null){
@@ -317,15 +317,15 @@ exports.listPosts =  function(req,res,next){
         sizeOfPreview = req.params.sizeOfPreview;
     }
 
-    if (req.params.postPerPage == null){
-        postPerPage = 100;
+    if (req.params.postsPerPage == null){
+        postsPerPage = 10;
     }else{
-        postPerPage = req.params.postPerPage;
+        postsPerPage = req.params.postsPerPage;
     }
 
     console.log("getting page " + page + " of posts");
 
-    Post.aggregate([{$skip: postPerPage*page},{$limit: postPerPage},
+    Post.aggregate([{$skip: postsPerPage*page},{$limit: postsPerPage},
        {$project: {
            _id: "$_id",
            title: "$title",
@@ -340,10 +340,51 @@ exports.listPosts =  function(req,res,next){
        }}                                 
     ]).then(function(posts){
         res.send(posts);
-    })
+    }).catch(next)
 };
 
 exports.listTranslations = function(req,res,next){
+    var page;
+    var postPerPage;
 
+    if (req.params.page == null){
+        page = 0;
+    }else{
+        page = req.params.page;
+    }
+
+    if (req.params.postPerPage == null){
+        postPerPage = 10;
+    }else{
+        postPerPage = req.params.translationsPerPage;
+    }
+
+    console.log("getting page " + page + " of translations for post " + req.params.post_id);
+
+    
+    Post.aggregate([{ $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
+        {$project: {
+            _id: "$_id",
+            title: "$title",
+            language: "$language",
+            tags: "$tags",
+            userID: "$userID",
+            dateCreated: "$dateCreated",
+            upvotes: "$upvotes", // do we want user or front end to see who voted?
+            downvotes: "$downvotes", // do we want user or front end to see who voted?
+            originalText: "$originalText",
+            comments: '$comments',
+            "translations._id" : 1,
+            "translations.upvotes": 1, // do we want user or front end to see who voted?
+            "translations.downvotes": 1, // do we want user or front end to see who voted?
+            "translations.title": 1,
+            "translations.language": 1,
+            "translations.userID": 1,
+            "translations.text": 1,
+            "translations.flags": 1
+        }}                   
+     ]).then(function(post){
+        res.send(post[0])
+     }).catch(next)
 };
 
