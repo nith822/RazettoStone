@@ -301,7 +301,6 @@ exports.getOneTranslation = function(req,res,next){
 
 
 exports.listPosts =  function(req,res,next){
-    console.log("getting page " + req.body.pageNumber + " of posts");
     var page;
     var sizeOfPreview;
     var postPerPage;
@@ -323,6 +322,8 @@ exports.listPosts =  function(req,res,next){
     }else{
         postPerPage = req.params.postPerPage;
     }
+
+    console.log("getting page " + page + " of posts");
 
     Post.aggregate([{$skip: postPerPage*page},{$limit: postPerPage},
        {$project: {
