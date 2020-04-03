@@ -1,7 +1,6 @@
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
-const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
@@ -16,7 +15,7 @@ exports.create = function (req, res, next) {
     var newPost = new Post({
         title: req.body.title,
         language: req.body.language,
-        text: req.body.text,
+        originalText: req.body.originalText,
         userID: req.body.userID,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         upvotes: [req.body.userID],                             // are we going to make the poster auto upvote their post?
@@ -35,7 +34,6 @@ exports.create = function (req, res, next) {
     }).catch(next);
 };
 
-// TODO: project out comments
 // view post by id
 exports.view = function (req, res, next) {
     console.log('Attempting to retrieve post from DB')
@@ -279,7 +277,7 @@ exports.voteTranslationCommentReply = function(req,res,next){
     }
 }
 
-// TODO: hide comments
+
 // TODO: hide user id from upvotes and downvotes ????????
 exports.getOneTranslation = function(req,res,next){
     console.log('Attempting to translation ' + req.params.translation_id + ' from DB')
@@ -338,7 +336,7 @@ exports.listPosts =  function(req,res,next){
            dateCreated: "$dateCreated",
            upvotes: "$upvotes", // do we want user or front end to see who voted?
            downvotes: "$downvotes", // do we want user or front end to see who voted?
-           previewText: {$substr: ["$text",0,sizeOfPreview]},
+           previewText: {$substr: ["$originalText",0,sizeOfPreview]},
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
     ]).then(function(posts){
@@ -363,6 +361,7 @@ exports.listTranslations = function(req,res,next){
     }
 
     console.log("getting page " + page + " of translations for post " + req.params.post_id);
+
     
     Post.aggregate([{ $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
         {$project: {
