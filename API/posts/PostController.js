@@ -334,7 +334,7 @@ exports.listPosts =  function(req,res,next){
            title: "$title",
            language: "$language",
            tags: "$tags",
-           user: User.findById("$userID"),
+           userID: "$userID",
            dateCreated: "$dateCreated",
            upvotes: "$upvotes", // do we want user or front end to see who voted?
            downvotes: "$downvotes", // do we want user or front end to see who voted?
