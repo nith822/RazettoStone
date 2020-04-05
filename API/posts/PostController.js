@@ -12,6 +12,44 @@ exports.create = function (req, res, next) {
     console.log('Attempting to create new post')
     console.log(req.body)
     
+    var errorMessage = '';
+    // Checking for required parameters
+    if (req.body.title == undefined || !req.body.title.trim())
+    {
+        console.log('Request did not have title');
+        errorMessage = errorMessage.concat('Need title. ');
+    }
+    if (req.body.language == undefined || !req.body.language.trim())
+    {
+        console.log('Request did not have language');
+        errorMessage = errorMessage.concat('Need language. ');
+    }
+    if (req.body.originalText == undefined || !req.body.originalText.trim())
+    {
+        console.log('Request did not have originalText');
+        errorMessage = errorMessage.concat('Need originalText. ');
+    }
+    if (req.body.userID == undefined || !req.body.userID.trim())
+    {
+        console.log('Request did not have userID');
+        errorMessage = errorMessage.concat('Need userID. ');
+    }
+    if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
+    {
+        console.log('Request did not have tags');
+        errorMessage = errorMessage.concat('Need tags. ');
+    }
+    if (errorMessage.length)
+    {
+        res.status(422).json({
+            message: errorMessage,
+            status: 'failed'
+        })
+        return res;
+    }
+    // Resetting error message for future use
+    errorMessage = '';
+
     var newPost = new Post({
         title: req.body.title,
         language: req.body.language,
@@ -49,6 +87,49 @@ exports.addTranslation = function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
     
+    var errorMessage = '';
+    // Checking for required parameters
+    if (req.body.title == undefined || !req.body.title.trim())
+    {
+        console.log('Request did not have title');
+        errorMessage = errorMessage.concat('Need title. ');
+    }
+    if (req.body.language == undefined || !req.body.language.trim())
+    {
+        console.log('Request did not have language');
+        errorMessage = errorMessage.concat('Need language. ');
+    }
+    if (req.body.originalText == undefined || !req.body.originalText.trim())
+    {
+        console.log('Request did not have originalText');
+        errorMessage = errorMessage.concat('Need originalText. ');
+    }
+    if (req.body.userID == undefined || !req.body.userID.trim())
+    {
+        console.log('Request did not have userID');
+        errorMessage = errorMessage.concat('Need userID. ');
+    }
+    if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
+    {
+        console.log('Request did not have tags');
+        errorMessage = errorMessage.concat('Need tags. ');
+    }
+    if (req.body.text == undefined || !req.body.text.trim())
+    {
+        console.log('Request did not have text');
+        errorMessage = errorMessage.concat('Need text. ');
+    }
+    if (errorMessage.length)
+    {
+        res.status(422).json({
+            message: errorMessage,
+            status: 'failed'
+        })
+        return res;
+    }
+    // Resetting error message for future use
+    errorMessage = '';
+
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {translations: {
         text: req.body.text,
         title: req.body.title,
@@ -76,6 +157,23 @@ exports.search = function (req, res, next){
 
 
 exports.votePost = function (req, res, next){
+    var errorMessage = '';
+    // Checking for required parameters
+    if (req.body.userID == undefined || !req.body.userID.trim())
+    {
+        console.log('Request did not have userID');
+        errorMessage = errorMessage.concat('Need userID. ');
+    }
+    if (errorMessage.length)
+    {
+        res.status(422).json({
+            message: errorMessage,
+            status: 'failed'
+        })
+        return res;
+    }
+    // Resetting error message for future use
+    errorMessage = '';
     if (req.body.vote == true){
         Post.findByIdAndUpdate({_id:req.params.post_id},{
             $addToSet: {upvotes: req.body.userID},
