@@ -1,6 +1,7 @@
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
+const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
@@ -53,7 +54,7 @@ exports.create = function (req, res, next) {
     var newPost = new Post({
         title: req.body.title,
         language: req.body.language,
-        originalText: req.body.originalText,
+        text: req.body.text,
         userID: req.body.userID,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         upvotes: [req.body.userID],                             // are we going to make the poster auto upvote their post?
@@ -72,12 +73,12 @@ exports.create = function (req, res, next) {
     }).catch(next);
 };
 
+// TODO: project out comments
 // view post by id
 exports.view = function (req, res, next) {
     console.log('Attempting to retrieve post from DB')
     Post.findById(req.params.post_id).then(function(post){
-        res.send({message: "success!",
-                  data: post })
+        res.send({message: "success!", data: post })
     }).catch(next)
 };
 
@@ -287,6 +288,7 @@ exports.voteTranslationComment = function(req,res,next){
 
 // need to check if duplicate
 exports.flagTranslation = function(req,res,next){
+
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
@@ -375,8 +377,97 @@ exports.voteTranslationCommentReply = function(req,res,next){
     }
 }
 
+// TODO: hide comments
+// TODO: hide user id from upvotes and downvotes ????????
+exports.getOneTranslation = function(req,res,next){
+    console.log('Attempting to translation ' + req.params.translation_id + ' from DB')
+    Post.aggregate([
+        { $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
+        { $project : {
+            _id: false,
+            translation: {
+                $filter:{
+                    "input": "$translations",
+                    "as": "translation",
+                    "cond": {"$eq":["$$translation._id", mongoose.Types.ObjectId(req.params.translation_id)]}
+                }
+            }
+          }
+        }
+    ]).then(function(post){
+        console.log(post)
+        res.send(post[0].translation[0])
+    }).catch(next)
+};
 
 
+exports.listPosts =  function(req,res,next){
+    var page;
+    var sizeOfPreview;
+    var postsPerPage;
 
+    if (req.params.pg == null){
+        page = 0;
+    }else{
+        page = req.params.page;
+    }
 
+    if (req.params.sizeOfPreview == null){
+        sizeOfPreview = 100;
+    }else{
+        sizeOfPreview = req.params.sizeOfPreview;
+    }
+
+    if (req.params.postsPerPage == null){
+        postsPerPage = 10;
+    }else{
+        postsPerPage = req.params.postsPerPage;
+    }
+
+    console.log("getting page " + page + " of posts");
+
+    Post.aggregate([{$skip: postsPerPage*page},{$limit: postsPerPage},
+       {$project: {
+           _id: "$_id",
+           title: "$title",
+           language: "$language",
+           tags: "$tags",
+           userID: "$userID",
+           dateCreated: "$dateCreated",
+           upvotes: "$upvotes", // do we want user or front end to see who voted?
+           downvotes: "$downvotes", // do we want user or front end to see who voted?
+           previewText: {$substr: ["$text",0,sizeOfPreview]},
+           numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
+       }}                                 
+    ]).then(function(posts){
+        res.send(posts);
+    }).catch(next)
+};
+
+exports.listTranslations = function(req,res,next){
+    var page;
+    var translationsPerPage;
+
+    if (req.params.page == null){
+        page = 0;
+    }else{
+        page = req.params.page;
+    }
+
+    if (req.params.translationsPerPage == null){
+        translationsPerPage = 10;
+    }else{
+        translationsPerPage = req.params.translationsPerPage;
+    }
+
+    console.log("getting page " + page + " of translations for post " + req.params.post_id);
+    
+    Post.aggregate([{ $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
+        {$project: {
+            translations: "$translations"
+        }}                   
+     ]).then(function(post){
+        res.send(post[0].translations.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
+     }).catch(next)
+};
 
