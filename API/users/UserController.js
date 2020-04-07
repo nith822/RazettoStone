@@ -1,5 +1,5 @@
 let User = require('./UserModel');
-let auth = require('../auth/auth');
+let auth = require('../auth');
 
 // Function: Checking DB for duplicate entries
 // Input: userName and email
@@ -50,7 +50,7 @@ exports.create = async function (req, res) {
     
     var isAuthenticated = await auth.verify(user.oAuthId);
     if (isAuthenticated)
-    {
+    {console.log('verified')
         var errorMessage = '';
         // Checking for required parameters
         if (req.body.userName == undefined || !req.body.userName.trim())

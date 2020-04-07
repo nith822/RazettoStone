@@ -1,0 +1,1 @@
+exports.verify = async function (token) {return true}
