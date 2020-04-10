@@ -1,24 +1,25 @@
 <h2> {{this.getCurrentScreenTitle()}} </h2>
 
+<div class="div-upload">
+    <input class="input-title" placeholder="Title" (input)="title = $event.target.value"><br><br>
 
-<label>Title:</label><br>
-<input [value]="title" (input)="title = $event.target.value"><br><br>
+    <input class="input-language" placeholder="Language" (input)="language = $event.target.value"><br><br>
 
-<label>language:</label><br>
-<input [value]="language" (input)="language = $event.target.value"><br><br>
-
-<div *ngIf="this.uploadOriginalText">
-<label>tags:</label><br>
-<input [value]="tags" (input)="tags = $event.target.value"><br><br>
+    <div *ngIf="this.uploadOriginalText">
+        <input class="input-tags" placeholder="Tag1, Tag2, ..." (input)="tags = $event.target.value"><br><br>
+    </div>
+    <br>
+    <div class="div-upload-text">
+        <label>Text:</label><br>
+        <input type="file" (change)="fileChanged($event)">
+        <br>
+        <br>
+        <label>Preview Text:</label><br>
+        <p *ngIf="this.uploadOriginalText"> {{ this.uploadService.originalTextString }} </p>
+        <p *ngIf="!this.uploadOriginalText"> {{ this.uploadService.translatedTextString }} </p>
+    </div>
+    <br><br>
+    <button class="button-upload" (click)="this.navigate('back')"> Back </button>
+    <button class="button-upload" (click)="this.navigate('preview')">Preview </button>
+    <button *ngIf="this.uploadOriginalText" class="button-upload" (click)="this.navigate('-1')">Add Translation</button>
 </div>
-
-<label>Text:</label><br>
-<input type="file" (change)="fileChanged($event)">
-
-<label>Preview Text:</label><br>
-<p *ngIf="this.uploadOriginalText"> {{ this.uploadService.originalTextString }} </p>
-<p *ngIf="!this.uploadOriginalText"> {{ this.uploadService.translatedTextString }} </p>
-
-<button (click)="this.navigate('back')"> Back </button>
-<button (click)="this.navigate('preview')">Preview </button>
-<button *ngIf="this.uploadOriginalText" (click)="this.navigate('-1')">Add Translation</button>
