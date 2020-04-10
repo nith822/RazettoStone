@@ -1,11 +1,9 @@
-<p>upload-preview works!</p>
-
-
+<div class="div-preview">
 <label>Original Text:</label><br>
 <p> {{ this.uploadService.originalTextString }} </p>
 <label>Translated Text:</label><br>
 <p> {{ this.uploadService.translatedTextString }} </p>
+</div>
+<button class="button-preview" (click)="this.location.back()"> Back </button>
 
-<button (click)="this.location.back()"> Back </button>
-
-<button (click)="this.uploadService.submit(translationID)"> Submit </button>
+<button class="button-preview" (click)="this.uploadService.submit(translationID)"> Submit </button>

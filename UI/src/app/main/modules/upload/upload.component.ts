@@ -15,7 +15,7 @@ export class UploadComponent implements OnInit {
 	
 	title: string;
 	language: string;
-	tags: string[];
+	tags: string;
 	
 	file: File;
 	
@@ -47,9 +47,9 @@ export class UploadComponent implements OnInit {
 	
 	getCurrentScreenTitle(): string {
 		if(this.uploadOriginalText) {
-			return "Creating a new Post";
+			return "Create a new Post";
 		} else if(!this.uploadOriginalText) {
-			return "Creating a new translation for a Post"
+			return "Create a new translation for the Post"
 		} else {
 			return "Eye see you";
 		}

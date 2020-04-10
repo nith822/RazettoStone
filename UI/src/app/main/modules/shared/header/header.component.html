@@ -1,9 +1,8 @@
 <div class="container-div">
-	<a href="https://github.com/nith822/RazettoStone/tree/master/src/app"> source code </a>
-	<nav>
-		<button  (click)="this.router.navigateByUrl('')"> Front Page </button >
-		<button  (click)="this.router.navigateByUrl('translations')"> Translation List </button >
-		<button  (click)="this.router.navigateByUrl('upload')"> Upload </button >
-		<button  (click)="this.router.navigateByUrl('login')"> Login </button >
+	<nav class="nav-bar">
+		<button class="nav-button" (click)="this.router.navigateByUrl('')"> Front Page </button >
+		<button class="nav-button" (click)="this.router.navigateByUrl('translations')"> Translation List </button >
+		<button class="nav-button" (click)="this.router.navigateByUrl('upload')"> Upload </button >
+		<button class="nav-button" style="float:right; background-color:cornflowerblue;" (click)="this.router.navigateByUrl('login')"> Login </button >
 	</nav>
 </div>
