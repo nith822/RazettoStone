@@ -41,6 +41,18 @@ export class UserService {
 		});		
 		return of(userCreated);
 	}
+
+	updateUser(user: User): Observable<boolean> {
+		var userUpdated: boolean;
+		this.headers.set('Content-Type', 'application/json');
+		this.http.put(this.usersUrl, user, {headers: this.headers}).subscribe((data) => {
+			console.log(data);
+			userUpdated = true;
+		}, (err) => {
+			userUpdated = false;
+		});
+		return of(userUpdated);
+	}
 	
 	/*
 	getAllUsers(): Observable<any> {

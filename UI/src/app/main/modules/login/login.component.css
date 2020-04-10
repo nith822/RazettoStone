@@ -1,0 +1,21 @@
+.div-login {
+    margin-left: 40%;
+    margin-top: 20%;
+    padding: 20px;
+}
+
+.input-login {
+    padding: 1.3vh 5vh;
+    text-align: center;
+    font-size: 15px;
+    background-size: 5vh;
+}
+
+.button-login {
+    padding: 1.5vh 11.2vh;
+    background-size: 7vh;
+    text-align: center;
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 15px;
+}

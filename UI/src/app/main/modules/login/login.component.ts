@@ -19,9 +19,9 @@ export class LoginComponent implements OnInit {
 	loggedIn: boolean;
 
 	//mock
-	userName: string = "yoloswag420";
-	email: string = "bob.sanders@gmail.com";
-	oAuthId: string = "420"
+	userName: string;
+	email: string;
+	oAuthId: string;
 	
 	users: User[] ;
 	
@@ -51,13 +51,13 @@ export class LoginComponent implements OnInit {
 		*/
 		
 	}
-
+	// <------------------- register only if new, otherwise don't create user ---------------------------------->
 	registerUser(userName, email, oAuthId): boolean {
 		this.userService.createUser(new User(userName, email, oAuthId));
 		this.userService.getAllUsers().subscribe((users) => {
-			for(let user of users) {
+			/*for(let user of users) {
 				console.log(user.toString());
-			}
+			}*/
 			this.users = users;
 		});
 		return false;

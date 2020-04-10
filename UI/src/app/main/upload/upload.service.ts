@@ -26,7 +26,7 @@ export class UploadService {
 	originalText: Text;
 	translatedText: Text; 
 	
-	tags: string[];
+	tags: string;
 	
 	constructor(private http: HttpClient, private userService: UserService) { 
   
@@ -38,7 +38,7 @@ export class UploadService {
 			var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.language, this.originalText.comments, 
 					this.originalText.upvotes, this.originalText.downvotes, 
 					this.originalText.id, this.originalText.dateCreated, 
-					this.originalText, [this.translatedText], this.tags);
+					this.originalText, [this.translatedText], this.tags.split(','));
 			console.log(post.encodeJSON());
 			this.uploadPost(post.encodeJSON());
 		} else {
