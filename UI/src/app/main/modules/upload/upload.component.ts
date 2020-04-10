@@ -15,7 +15,7 @@ export class UploadComponent implements OnInit {
 	
 	title: string;
 	language: string;
-	tags: string[];
+	tags: string;
 	
 	file: File;
 	

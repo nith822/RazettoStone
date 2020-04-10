@@ -67,7 +67,7 @@ export class UploadService {
 	}
 	
 	
-	saveText(isOriginal: boolean, title: string, language: string, tags: string[]): void {
+	saveText(isOriginal: boolean, title: string, language: string, tags: string): void {
 		if(!isOriginal) {
 			this.translatedText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
 									this.translatedTextString);
