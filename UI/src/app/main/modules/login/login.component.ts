@@ -6,6 +6,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { AuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider, SocialUser} from "angularx-social-login";
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +37,9 @@ export class LoginComponent implements OnInit {
 				this.userName = user.name;
 				this.email = user.email;
 				this.oAuthId = user.idToken;
-				this.registerUser(this.userName, this.email, this.oAuthId);
+				var result = this.registerUser(this.userName, this.email, this.oAuthId);
+				if (result == false)
+					this.loginUser(this.userName, this.email, this.oAuthId);
 			}
 		});
 		
@@ -53,11 +56,30 @@ export class LoginComponent implements OnInit {
 	}
 	// <------------------- register only if new, otherwise don't create user ---------------------------------->
 	registerUser(userName, email, oAuthId): boolean {
+		console.log("Attempting to register user");
 		this.userService.createUser(new User(userName, email, oAuthId));
+
 		this.userService.getAllUsers().subscribe((users) => {
 			/*for(let user of users) {
 				console.log(user.toString());
 			}*/
+			this.users = users;
+		});
+		return false;
+	}
+
+	loginUser(userName, email, oAuthId): boolean {
+		console.log("Attempting to login existing user");
+		var user_id;
+		this.userService.getAllUsers().subscribe((users) => {
+			for(let user of users) {
+				if (user.userName == userName && user.email == email)
+				{
+					user_id = user.id
+					console.log(user_id);
+					this.userService.updateUser(new User(userName, email, oAuthId, null, null, user_id));
+				}
+			}
 			this.users = users;
 		});
 		return false;
