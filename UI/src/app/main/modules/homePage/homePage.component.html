@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="div-homePage">
+    This is where the search bar will be.
+    <br><br>
+    <div class="div-searchBar">
+        <input class="input-search" placeholder="Search RazettoStone" (input)="searchString = $event.target.value">
+        <button class="button-search" (click)="this.homePageService.search()"><i class="fa fa-search"></i></button>
+    </div>
+    <br>
+    <p>search for {{searchString}}</p>
+</div>

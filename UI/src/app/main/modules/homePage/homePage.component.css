@@ -1,0 +1,30 @@
+  
+.div-homePage {
+    padding-left: 6%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+
+
+.button-search {
+    padding: 8px 10px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.button-search:hover {
+    background-color: rgb(179, 179, 179);
+}
+
+.input-search {
+    font-size: 15px;
+    width: 50%;
+    line-height: 4vh;
+    padding-left: 3%;
+    margin-left: 20%
+}
+  
