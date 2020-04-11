@@ -7,6 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { AuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider, SocialUser} from "angularx-social-login";
 import { stringify } from 'querystring';
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
 	
 	users: User[] ;
 	
-	constructor(public userService: UserService, private authService: AuthService) { }
+	constructor(public userService: UserService, private authService: AuthService, private cookieService: CookieService) { }
 
 	ngOnInit(): void {
 		this.authService.authState.subscribe((user) => {
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
 				var result = this.registerUser(this.userName, this.email, this.oAuthId);
 				if (result == false)
 					this.loginUser(this.userName, this.email, this.oAuthId);
+				this.cookieService.set('user_auth', this.oAuthId);
 			}
 		});
 		
