@@ -18,6 +18,7 @@
 }
 
 .div-translation {
+	display: inline-block;
     max-height: 8%;
     border-color:grey;
     border-style: solid;
