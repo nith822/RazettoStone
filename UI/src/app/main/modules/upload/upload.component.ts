@@ -29,15 +29,19 @@ export class UploadComponent implements OnInit {
 		const translationID = this.route.snapshot.params['id'];
 		if(translationID) {
 			this.uploadOriginalText = false;
-			this.title = this.uploadService.translatedText.title;
-			this.language = this.uploadService.translatedText.language;
-			//this.file = this.uploadService.translatedTextFile;
+			if(this.uploadService.translatedText) {
+				this.title = this.uploadService.translatedText.title;
+				this.language = this.uploadService.translatedText.language;
+				this.file = this.uploadService.translatedTextFile;
+			}
 		} else {
 			this.uploadOriginalText = true;
-			this.title = this.uploadService.originalText.title;
-			this.language = this.uploadService.originalText.language;
-			this.tags = this.uploadService.tags;
-			//this.file = this.uploadService.translatedTextFile;
+			if(this.uploadService.originalText) {
+				this.title = this.uploadService.originalText.title;
+				this.language = this.uploadService.originalText.language;
+				this.tags = this.uploadService.tags;
+				this.file = this.uploadService.translatedTextFile;
+			}
 		}
 	}
 
