@@ -13,20 +13,17 @@
 
 .div-translationBody {
     margin-left: 10%;
-	width: 90%;
     border-left: inherit;
     height: inherit;
 }
 
 .div-translation {
-	float: clear;
     max-height: 8%;
     border-color:grey;
     border-style: solid;
     border-width: 1px;
     width: 90%;
     text-align: center;
-	display: inline-block;
 }
 
 .button-search {

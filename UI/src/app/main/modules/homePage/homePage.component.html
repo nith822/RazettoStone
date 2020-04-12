@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="div-homePage">
     <div class="div-searchBar">
         <input class="input-search" placeholder="Search RazettoStone" (input)="this.homePageService.searchString = $event.target.value">
@@ -6,19 +6,17 @@
     </div>
     <br><br>
     <div class="div-searchResult">
-        <div *ngFor="let translation of this.translations;">
-			<div class="div-translation">
-				<div class="div-translationVote">
-					<br>
-					VOTES:
-					<h3> {{translation.upvotes.length - translation.downvotes.length}}</h3>
-				</div>
+        <div class="div-translation" *ngFor="let translation of this.translations;">
+            <div class="div-translationVote">
+                <br>
+                VOTES:
+                <h3> {{translation.upvotes.length - translation.downvotes.length}}</h3>
+            </div>
 
-				<div class="div-translationBody">
-					<h4> {{translation.title}} </h4>
-					<p>{{translation.originalText}}</p>
-				</div>
-			</div>
+            <div class="div-translationBody">
+                <h4> {{translation.title}} </h4>
+                <p>{{translation.originalText}}</p>
+            </div>
         </div>
     </div>
 </div>
