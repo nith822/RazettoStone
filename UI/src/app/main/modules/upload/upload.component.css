@@ -44,3 +44,7 @@
     font-size: 15px;
     margin: 1vh
 }
+
+input[type='file'] {
+  color: transparent;
+}

@@ -1,16 +1,17 @@
 <h2> {{this.getCurrentScreenTitle()}} </h2>
 
 <div class="div-upload">
-    <input class="input-title" placeholder="Title" (input)="title = $event.target.value"><br><br>
+    <input class="input-title" placeholder="Title" (input)="this.title = $event.target.value" [value]="this.title ? this.title : ''"><br><br>
 
-    <input class="input-language" placeholder="Language" (input)="language = $event.target.value"><br><br>
+    <input class="input-language" placeholder="Language" (input)="this.language = $event.target.value" [value]="this.language ? this.language : ''"><br><br>
 
     <div *ngIf="this.uploadOriginalText">
-        <input class="input-tags" placeholder="Tag1, Tag2, ..." (input)="tags = $event.target.value"><br><br>
+        <input class="input-tags" placeholder="Tag1, Tag2, ..." (input)="this.tags = $event.target.value" [value]="this.tags ? this.tags : ''"><br><br>
     </div>
     <br>
     <div class="div-upload-text">
         <label>Text:</label><br>
+		<label>Currently selected: {{ this.file? this.file.name : '' }} </label><br>
         <input type="file" (change)="fileChanged($event)">
         <br>
         <br>
