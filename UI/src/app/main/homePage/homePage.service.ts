@@ -24,6 +24,7 @@ export class HomePageService {
   translatedText: Text; 
   
   searchString: string;
+  translations: Translation[];
 	
 	constructor(private http: HttpClient) { 
   

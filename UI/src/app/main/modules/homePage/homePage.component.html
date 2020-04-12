@@ -3,9 +3,18 @@
     This is where the search bar will be.
     <br><br>
     <div class="div-searchBar">
-        <input class="input-search" placeholder="Search RazettoStone" (input)="searchString = $event.target.value">
-        <button class="button-search" (click)="this.homePageService.search()"><i class="fa fa-search"></i></button>
+        <input class="input-search" placeholder="Search RazettoStone" (input)="this.homePageService.searchString = $event.target.value">
+        <button class="button-search" (click)="this.submit()"><i class="fa fa-search"></i></button>
     </div>
-    <br>
-    <p>search for {{searchString}}</p>
+    <br><br>
+    <div class="div-searchResult">
+        <ul>
+            <li *ngFor="let translation of this.translations; let i = index">
+              <br>
+              Title: {{translation.title}}
+              <br>
+              Original Text: {{translation.originalText}}
+            </li>
+          </ul>
+    </div>
 </div>

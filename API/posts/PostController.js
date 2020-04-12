@@ -146,6 +146,7 @@ exports.search = function (req, res, next){
     console.log('Attempting search' + req.params.search_string)
     
     Post.find( { $text: { $search: "\"" + req.params.search_string + "\""}}).then(function(posts){
+        console.log(posts)
         res.send({message: "success!",
                   data: posts })
     }).catch(next)
