@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
 	ngOnInit(): void {
         console.log('init homePage component')
 		this.searchString = this.homePageService.searchString;
+		this.submit();
 		//this.homePageService.searchString = this.searchString;
 	}
 

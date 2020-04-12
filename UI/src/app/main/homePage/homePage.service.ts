@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, filter, catchError, mergeMap } from 'rxjs/operators'
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { User } from '../user/user';
 import { Text } from '../translation/text/text';
@@ -14,7 +14,8 @@ import { Translation } from '../translation/translation';
 })
 export class HomePageService {
 
-	private searchUrl: string = "/api/posts/search/";
+  private searchUrl: string = "/api/posts/search/";
+  private postsUrl: string = "/api/posts/"
 	headers: HttpHeaders  = new HttpHeaders(); 
 	
 	originalTextString: string;
@@ -33,23 +34,49 @@ export class HomePageService {
     // map user id and comments and translation array
     search(): Observable<Translation[]> {
       console.log('search string = '+this.searchString)
-		return this.http.get(this.searchUrl+this.searchString).pipe(
-			map(res => {
-			let response: any = res;
-			return response.data.map((translation) => {
-                var _translation = new Translation(null, 
-                                                    translation.title, 
-                                                    translation.language, 
-                                                    null,
-                                                    translation.upvotes,
-                                                    translation.downvotes,
-                                                    translation._id,
-                                                    translation.dateCreated,
-                                                    translation.text,
-                                                    null,
-                                                    translation.tags);
-				return _translation;
-			});
-		}));
+      if (this.searchString != undefined && this.searchString.trim())
+      {
+        return this.http.get(this.searchUrl+this.searchString).pipe(
+          map(res => {
+          let response: any = res;
+          return response.data.map((translation) => {
+                    var _translation = new Translation(null, 
+                                                        translation.title, 
+                                                        translation.language, 
+                                                        null,
+                                                        translation.upvotes,
+                                                        translation.downvotes,
+                                                        translation._id,
+                                                        translation.dateCreated,
+                                                        translation.text,
+                                                        null,
+                                                        translation.tags);
+            return _translation;
+        });
+      }));
+    }
+    else
+    {
+      //let param = new HttpParams()
+      //param.append('postsPerPage', '20');
+      return this.http.get(this.postsUrl).pipe(
+        map(res => {
+        let response: any = res;
+        return response.map((translation) => {
+                  var _translation = new Translation(null, 
+                                                      translation.title, 
+                                                      translation.language, 
+                                                      null,
+                                                      translation.upvotes,
+                                                      translation.downvotes,
+                                                      translation._id,
+                                                      translation.dateCreated,
+                                                      translation.text,
+                                                      null,
+                                                      translation.tags);
+          return _translation;
+        });
+      }));
+    }
 	}
 }

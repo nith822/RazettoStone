@@ -667,8 +667,8 @@ exports.listPosts =  function(req,res,next){
         postsPerPage = req.params.postsPerPage;
     }
 
-    console.log("getting page " + page + " of posts");
-
+    console.log("getting page " + page + " of posts with " + postsPerPage + " per page");
+    console.log(req.params.postsPerPage)
     Post.aggregate([{$skip: postsPerPage*page},{$limit: postsPerPage},
        {$project: {
            _id: "$_id",
