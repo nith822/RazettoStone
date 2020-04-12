@@ -11,6 +11,7 @@
     <br>
     <div class="div-upload-text">
         <label>Text:</label><br>
+		<label>Currently selected: {{ this.file? this.file.name : '' }} </label><br>
         <input type="file" (change)="fileChanged($event)">
         <br>
         <br>

@@ -40,12 +40,13 @@ export class UploadComponent implements OnInit {
 				this.title = this.uploadService.originalText.title;
 				this.language = this.uploadService.originalText.language;
 				this.tags = this.uploadService.tags;
-				this.file = this.uploadService.translatedTextFile;
+				this.file = this.uploadService.originalTextFile;
 			}
 		}
 	}
 
 	fileChanged(event: any): void {
+		this.file = event.target.files[0];
 		this.uploadService.readFile(event.target.files[0], this.uploadOriginalText);
 	}
 	
