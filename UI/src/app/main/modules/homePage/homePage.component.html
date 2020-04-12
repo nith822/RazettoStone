@@ -6,13 +6,17 @@
     </div>
     <br><br>
     <div class="div-searchResult">
-        <ul>
-            <li *ngFor="let translation of this.translations; let i = index">
-              <br>
-              Title: {{translation.title}}
-              <br>
-              Original Text: {{translation.originalText}}
-            </li>
-          </ul>
+        <div class="div-translation" *ngFor="let translation of this.translations;">
+            <div class="div-translationVote">
+                <br>
+                VOTES:
+                <h3> {{translation.upvotes.length - translation.downvotes.length}}</h3>
+            </div>
+
+            <div class="div-translationBody">
+                <h4> {{translation.title}} </h4>
+                <p>{{translation.originalText}}</p>
+            </div>
+        </div>
     </div>
 </div>

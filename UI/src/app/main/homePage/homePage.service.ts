@@ -71,7 +71,7 @@ export class HomePageService {
                                                       translation.downvotes,
                                                       translation._id,
                                                       translation.dateCreated,
-                                                      translation.text,
+                                                      translation.previewText,
                                                       null,
                                                       translation.tags);
           return _translation;

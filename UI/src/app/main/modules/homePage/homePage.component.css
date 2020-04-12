@@ -5,7 +5,26 @@
     padding-bottom: 3%;
 }
 
+.div-translationVote {
+    float: left;
+    width: 10%;
+    text-align: center;
+}
 
+.div-translationBody {
+    margin-left: 10%;
+    border-left: inherit;
+    height: inherit;
+}
+
+.div-translation {
+    max-height: 8%;
+    border-color:grey;
+    border-style: solid;
+    border-width: 1px;
+    width: 90%;
+    text-align: center;
+}
 
 .button-search {
     padding: 8px 10px;
