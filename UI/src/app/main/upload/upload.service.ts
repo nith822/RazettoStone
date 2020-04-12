@@ -67,14 +67,18 @@ export class UploadService {
 	}
 	
 	
+	//don't create a text if the user has not uploaded a file yet
 	saveText(isOriginal: boolean, title: string, language: string, tags: string): void {
 		if(!isOriginal) {
-			this.translatedText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
-									this.translatedTextString);
+			if(!this.translatedTextString) {
+				return;
+			}
+			this.translatedText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), this.translatedTextString);
 		} else {
-			this.originalText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
-									this.originalTextString);
-									
+			if(!this.originalTextString) {
+				return;
+			}
+			this.originalText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), this.originalTextString);
 			this.tags = tags;
 			console.log(this.originalText.encodeJSON());
 		}
