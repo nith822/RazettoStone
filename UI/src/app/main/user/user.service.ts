@@ -45,7 +45,7 @@ export class UserService {
 	updateUser(user: User): Observable<boolean> {
 		var userUpdated: boolean;
 		this.headers.set('Content-Type', 'application/json');
-		this.http.put(this.usersUrl, user, {headers: this.headers}).subscribe((data) => {
+		this.http.put(this.usersUrl+'/'+user.getID(), user, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
 			userUpdated = true;
 		}, (err) => {
@@ -65,7 +65,7 @@ export class UserService {
 			map(res => {
 			let response: any = res;
 			return response.data.map((user) => {
-				var _user = new User(user.userName, user.email, user.oAuthId, user.dateCreated, user.languages, user.id);
+				var _user = new User(user.userName, user.email, user.oAuthId, user.dateCreated, user.languages, user._id);
 				return _user;
 			});
 		}));

@@ -1,0 +1,50 @@
+  
+.div-homePage {
+    padding-left: 6%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+.div-translationVote {
+    float: left;
+    width: 10%;
+    text-align: center;
+}
+
+.div-translationBody {
+    margin-left: 10%;
+    border-left: inherit;
+    height: inherit;
+}
+
+.div-translation {
+	display: inline-block;
+    max-height: 8%;
+    border-color:grey;
+    border-style: solid;
+    border-width: 1px;
+    width: 90%;
+    text-align: center;
+}
+
+.button-search {
+    padding: 8px 10px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.button-search:hover {
+    background-color: rgb(179, 179, 179);
+}
+
+.input-search {
+    font-size: 15px;
+    width: 50%;
+    line-height: 4vh;
+    padding-left: 3%;
+    margin-left: 20%
+}
+  

@@ -5,6 +5,7 @@ import { LoginComponent } from './login.component';
 import { LoginRoutingModule } from './login-routing.module';
 
 import { UserService } from '../../user/user.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -13,7 +14,8 @@ import { UserService } from '../../user/user.service';
     LoginRoutingModule
   ],
   providers: [
-	UserService,
+  UserService,
+  CookieService
   ]
 })
 export class LoginModule { }
