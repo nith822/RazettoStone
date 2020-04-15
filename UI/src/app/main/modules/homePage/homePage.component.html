@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="div-homePage">
     <div class="div-searchBar">
-        <input class="input-search" placeholder="Search RazettoStone" (input)="this.homePageService.searchString = $event.target.value">
+        <input class="input-search" placeholder="Search RazettoStone" (input)="this.homePageService.searchString = $event.target.value" (keyup.enter)="this.submit()">
         <button class="button-search" (click)="this.submit()"><i class="fa fa-search"></i></button>
     </div>
     <br><br>
