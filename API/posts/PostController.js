@@ -1,10 +1,11 @@
+const cookieParser = require('cookie-parser'); 
+
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
 const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
-
 
 // create new post
 exports.create = function (req, res, next) {
@@ -34,6 +35,29 @@ exports.create = function (req, res, next) {
     {
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
+    }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
     }
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
@@ -110,6 +134,30 @@ exports.addTranslation = function (req, res, next){
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
     }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
+    }
+
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
         console.log('Request did not have tags');
@@ -146,7 +194,6 @@ exports.search = function (req, res, next){
     console.log('Attempting search' + req.params.search_string)
     
     Post.find( { $text: { $search: "\"" + req.params.search_string + "\""}}).then(function(posts){
-        console.log(posts)
         res.send({message: "success!",
                   data: posts })
     }).catch(next)
@@ -161,6 +208,31 @@ exports.votePost = function (req, res, next){
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
     }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
+    }
+
+
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -205,6 +277,29 @@ exports.voteTranslation = function(req, res, next){
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
     }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
+    }
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -245,6 +340,29 @@ exports.votePostComment = function(req, res, next){
     {
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
+    }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
     }
     if (req.body.vote == undefined)
     {
@@ -377,6 +495,30 @@ exports.voteTranslationComment = function(req,res,next){
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
     }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
+    }
+
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -420,6 +562,30 @@ exports.flagTranslation = function(req,res,next){
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
     }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
+    }
+
     // add more check
     if (req.body.flag == undefined)
     {
@@ -543,6 +709,30 @@ exports.votePostCommentReply = function(req,res,next){
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
     }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
+    }
+
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -584,6 +774,30 @@ exports.voteTranslationCommentReply = function(req,res,next){
         console.log('Request did not have userID');
         errorMessage = errorMessage.concat('Need userID. ');
     }
+    else
+    {
+	var cook = req.headers.cookie;
+	var comp = cook.split(" ");
+	var x;
+	var value;
+	for(x of comp)
+	{
+		var s = x.split("=");
+		if(s[0] == 'oAuthId') value = s[1];
+	}
+	if(!value)
+	{
+	console.log('Request did not have Auth ID');
+	console.log(comp);
+	errorMessage = errorMessage.concat('Need authID. ');
+	}
+        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
+        {
+	console.log('Please Log in to make a post');
+	errorMessage = errorMessage.concat('Need to log in ');
+        }
+    }
+
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -667,8 +881,8 @@ exports.listPosts =  function(req,res,next){
         postsPerPage = req.params.postsPerPage;
     }
 
-    console.log("getting page " + page + " of posts with " + postsPerPage + " per page");
-    console.log(req.params.postsPerPage)
+    console.log("getting page " + page + " of posts");
+
     Post.aggregate([{$skip: postsPerPage*page},{$limit: postsPerPage},
        {$project: {
            _id: "$_id",
