@@ -201,8 +201,7 @@ exports.flagTranslation = function(req,res,next){
 }
 
 
-// TODO: hide comments
-// TODO: hide user id from upvotes and downvotes ????????
+
 exports.getOneTranslation = function(req,res,next){
     console.log('Attempting to translation ' + req.params.translation_id + ' from DB')
     Post.aggregate([
@@ -220,7 +219,9 @@ exports.getOneTranslation = function(req,res,next){
         }
     ]).then(function(post){
         console.log(post)
-        res.send(post[0].translation[0])
+        var temp = post[0].translation[0];
+        delete temp.comments;
+        res.send(temp)
     }).catch(next)
 };
 
