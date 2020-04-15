@@ -32,7 +32,7 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Translations
 - [x] Model
-- [ ] GET /posts/{postid}/translations/     // this gets translation previews
+- [x] GET /posts/{postid}/translations/                          // this gets translation previews
 - [x] GET /posts/{postid}/translations/{translationId}
 - [x] POST /posts/{PostId}/translations
 - [x] POST /posts/{postid}/translations/{TranslationID}/flag
