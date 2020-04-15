@@ -34,7 +34,8 @@ export class TranslationService {
 		map(res => {
 		let response: any = res;
 		return response.map((translation) => {
-			var _translation = new Translation(null, 
+			var _translation = new Translation(
+					null, 
 					translation.title, 
 					translation.language, 
 					null,
@@ -50,15 +51,64 @@ export class TranslationService {
 		}));
 	}
 	
-	getTranslations(translationIDs: number[]): Observable<Translation[]> {
-		var translations: Translation[];
-		return of(translations);
+	getPost(translationID: string): Observable<Translation> {
+		var translation: Translation;
+		return this.http.get(this.postsUrl + "/" + translationID).pipe(map((translation: any) => {
+			//console.log(translation);
+			var _translation = new Translation(
+					null, 
+					translation.data.title, 
+					translation.data.language, 
+					null,
+					translation.data.upvotes,
+					translation.data.downvotes,
+					translation.data._id,
+					translation.data.dateCreated,
+					new Text(null, 
+						translation.data.title, 
+						translation.data.text,
+						translation.data.language, 
+						null,
+						translation.data.upvotes,
+						translation.data.downvotes,
+						translation.data._id,
+						translation.data.dateCreated,
+						translation.data.text,
+						null),
+					null,
+					translation.data.tags);
+				
+				return _translation;
+			}));
 	}
 	
+	getTranslationPreview(translationID: string): Observable<Text[]> {
+		return this.http.get(this.postsUrl + "/" + translationID + "/translations").pipe(
+		map(res => {
+		let response: any = res;
+		return response.map((_text) => {
+			console.log(_text);
+			var _text_ = new Text(
+					null, 
+					_text.title, 
+					_text.language, 
+					null,
+					_text.upvotes,
+					_text.downvotes,
+					_text._id,
+					_text.dateCreated,
+					_text.text,
+					null,
+					_text.tags);
+				return _text_
+			});
+		}));
+	}
 
 	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
 		var texts: Text[];
 		return of(texts);
 	}
+	
 	
 }

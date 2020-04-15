@@ -24,10 +24,9 @@ export class TranslationComponent implements OnInit {
 	ngOnInit() {
 		console.log("init TranslationComponent");
 		const translationID = this.route.snapshot.params['id'];
-		this.translationService.getTranslations([translationID]).subscribe(translations =>
-			this.translation = translations[translationID - 1],
-		);
-		
+		this.translationService.getPost(translationID).subscribe((translation) => {
+			this.translation = translation;
+		});
 		
 		this.sidebarService.setRouterAndRoute(this.router, this.route);
 		

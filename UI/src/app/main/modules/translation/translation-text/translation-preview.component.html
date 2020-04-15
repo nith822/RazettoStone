@@ -1,16 +1,18 @@
 
-			<div *ngFor="let translatedText of translation.translations; let i=index"
+			<div *ngFor="let translatedText of translationTexts; let i=index"
 				class="container-div"
 				(click)="this.navigate(i)"
 				>
 				<h3>
-					Translator: {{ translatedText.user.username }}
+					<p *ngIf="translatedText.user">
+						Translator: {{ translatedText.user.username }}
+					</p>
 					<br>
 					Title: {{ translatedText.title }}
 					<br>
 					Language: {{ translatedText.language }}
 				</h3>
 				<p>
-					{{this.convertToStringArray(translatedText.getPreviewTextLines())}}
+					{{this.convertToStringArray(translatedText.getPreviewText())}}
 				</p>
 			</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Translation } from '../../../translation/translation'
+import { Text } from '../../../translation/text/Text'
 import { TextLine } from '../../../translation/text/textLine'
 import { TranslationService } from '../../../translation/translation.service';
 import { Router, ActivatedRoute, Params, Data } from '@angular/router';
@@ -11,8 +12,7 @@ import { Router, ActivatedRoute, Params, Data } from '@angular/router';
 })
 export class TranslationPreviewComponent implements OnInit {
 
-	translation: Translation;
-	translationID: number = -1;
+	translationTexts: Text;
 	
 	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) {
 
@@ -21,10 +21,10 @@ export class TranslationPreviewComponent implements OnInit {
 	ngOnInit() {	
 		
 		console.log("init TranslationPreviewComponent");
-		//subscribe
-		this.translationID = this.route.parent.parent.snapshot.params['id'];
-		this.translationService.getTranslations([this.translationID]).subscribe((translations) => {
-			this.translation = translations[this.translationID-1];
+		
+		var translationID = this.route.parent.parent.snapshot.params['id'];
+		this.translationService.getTranslationPreview(translationID).subscribe((texts) => {
+			this.translationTexts = texts;
 		});
 	}
 	

@@ -18,15 +18,11 @@ export class TranslationsComponent implements OnInit {
 	ngOnInit() {
 		console.log("init TranslationsComponent");
 		const translationID = this.route.snapshot.params['id'];
-		this.translationService.getTranslations([translationID]).subscribe(translations =>
-			this.translations = translations,
-		);
-
 		this.retrievePosts();
 	}
 
 	
-	navigate(path: number): void {
+	navigate(path): void {
 		this.router.navigate(['translation' + "\/" + path], {relativeTo: this.route, skipLocationChange: false});
 	}
 
