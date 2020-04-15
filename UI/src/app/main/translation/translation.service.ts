@@ -66,7 +66,6 @@ export class TranslationService {
 					translation.data.dateCreated,
 					new Text(null, 
 						translation.data.title, 
-						translation.data.text,
 						translation.data.language, 
 						null,
 						translation.data.upvotes,

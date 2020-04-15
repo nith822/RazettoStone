@@ -26,6 +26,7 @@ export class TranslationComponent implements OnInit {
 		const translationID = this.route.snapshot.params['id'];
 		this.translationService.getPost(translationID).subscribe((translation) => {
 			this.translation = translation;
+			console.log(this.translation.getOriginalText(true).getTextLines());
 		});
 		
 		this.sidebarService.setRouterAndRoute(this.router, this.route);
