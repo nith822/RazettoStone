@@ -73,12 +73,24 @@ exports.create = function (req, res, next) {
     }).catch(next);
 };
 
-// TODO: project out comments
+
 // view post by id
 exports.view = function (req, res, next) {
     console.log('Attempting to retrieve post from DB')
     Post.findById(req.params.post_id).then(function(post){
-        res.send({message: "success!", data: post })
+        // temp fix there is probably a better way to do this
+        var temp = {
+            _id: post._id,
+            upvotes: post.upvotes,
+            downvotes: post.downvotes,
+            tags: post.tags,
+            title: post.title,
+            language: post.language,
+            text: post.text,
+            userID: post.userID,
+            dateCreated: post.dateCreated
+        }
+        res.send({message: "success!", data: temp })
     }).catch(next)
 };
 
