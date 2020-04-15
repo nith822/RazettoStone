@@ -270,6 +270,7 @@ exports.listPosts =  function(req,res,next){
 
 exports.listTranslations = function(req,res,next){
     var page;
+    var withComments;
     var translationsPerPage;
     if (req.params.page == null){
         page = 0;
@@ -283,11 +284,17 @@ exports.listTranslations = function(req,res,next){
         translationsPerPage = req.params.translationsPerPage;
     }
 
+    if (req.params.withComments == null){
+        withComments = false;
+    }else{
+        withComments = true;;
+    }
+
     console.log("getting page " + page + " of translations for post " + req.params.post_id);
     
     Post.aggregate([{ $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
         {$project: {
-            translations: "$translations"
+            "translations.comments": withComments
         }}                   
      ]).then(function(post){
         res.send(post[0].translations.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
