@@ -48,7 +48,7 @@ export class TranslationComponent implements OnInit {
 	
 	@HostListener('window:popstate', ['$event'])
 	onPopState(event) {
-		let regexp = new RegExp('translations/translation/[0-9]+/[(]translations:[0-9]+[)]');
+		let regexp = new RegExp('translations/translation/.*/[(]translations:.*[)]');
 		if(this.router.url.match(regexp)) {
 			console.log('Back button pressed on target url');
 			this.location.back();
@@ -56,7 +56,7 @@ export class TranslationComponent implements OnInit {
 	}
 	
 	matchEndRoute(url: string) {
-		var endRegExp =  new RegExp('/translations/translation/[0-9]+/[(][^]*translations:[0-9]+/[(][0-9]+[)][)]');
+		var endRegExp =  new RegExp('/translations/translation/.*/[(][^]*translations:.*/[(].*[)][)]');
 		return url.match(endRegExp);
 	}
 	
