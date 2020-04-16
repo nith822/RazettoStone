@@ -27,7 +27,7 @@ export class TranslationsComponent implements OnInit {
 	}
 
 	retrievePosts(): void {
-		this.translationService.getAllPosts().subscribe((translations_list) => {
+		this.translationService.search().subscribe((translations_list) => {
 			console.log(translations_list);
 			this.translations = translations_list;
 		});

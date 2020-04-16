@@ -14,6 +14,7 @@ let hoveredIndex: number = -1;
 export class TranslationService {
 	
 	private postsUrl: string = "/api/posts/"
+	private searchUrl: string = "/api/posts/search/";
 	//headers: HttpHeaders  = new HttpHeaders(); 
 
 	originalTextString: string;
@@ -22,12 +23,13 @@ export class TranslationService {
 	originalText: Text;
 	translatedText: Text; 
 
+	searchString: string;
 	translations: Translation[];
 	
 	constructor(private userService: UserService, private http: HttpClient) {   
 	
 	}
-	
+	/*
 	getAllPosts(): Observable<Translation[]>{
 		console.log('component getAllPosts');
 		return this.http.get(this.postsUrl).pipe(
@@ -49,7 +51,7 @@ export class TranslationService {
 				return _translation;
 			});
 		}));
-	}
+	}*/
 	
 	getPost(translationID: string): Observable<Translation> {
 		var translation: Translation;
@@ -109,5 +111,52 @@ export class TranslationService {
 		return of(texts);
 	}
 	
-	
+	// map user id and comments and translation array
+    search(): Observable<Translation[]> {
+		console.log('search string = '+this.searchString)
+		if (this.searchString != undefined && this.searchString.trim())
+		{
+		  return this.http.get(this.searchUrl+this.searchString).pipe(
+			map(res => {
+			let response: any = res;
+			return response.data.map((translation) => {
+					  var _translation = new Translation(null, 
+														  translation.title, 
+														  translation.language, 
+														  null,
+														  translation.upvotes,
+														  translation.downvotes,
+														  translation._id,
+														  translation.dateCreated,
+														  translation.text,
+														  null,
+														  translation.tags);
+			  return _translation;
+		  });
+		}));
+	  }
+	  else
+	  {
+		//let param = new HttpParams()
+		//param.append('postsPerPage', '20');
+		return this.http.get(this.postsUrl).pipe(
+		  map(res => {
+		  let response: any = res;
+		  return response.map((translation) => {
+					var _translation = new Translation(null, 
+														translation.title, 
+														translation.language, 
+														null,
+														translation.upvotes,
+														translation.downvotes,
+														translation._id,
+														translation.dateCreated,
+														translation.previewText,
+														null,
+														translation.tags);
+			return _translation;
+		  });
+		}));
+	  }
+	}
 }
