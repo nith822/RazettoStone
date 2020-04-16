@@ -11,7 +11,7 @@
 		<button class="sidebarOption"(click)="this.sidebarService.toggleSideBar()"><b> &times;</b></button>
 	</div>
 </div>
-<div class="container-div" [ngClass]="{ 'sidebaropened': this.sidebarService.sideBarOpened }">
+<div *ngIf="this.translation" class="container-div" [ngClass]="{ 'sidebaropened': this.sidebarService.sideBarOpened }">
 	<div class="originalText">
 		<h3> Title: {{ translation.getOriginalText(true).title }}</h3>
 		<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines();">
