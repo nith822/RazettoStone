@@ -77,7 +77,7 @@ exports.create = function (req, res, next) {
 
     var newPost = new Post({
         title: req.body.title,
-        language: req.body.language,
+        textLanguage: req.body.language,
         text: req.body.text,
         userID: req.body.userID,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
@@ -109,7 +109,7 @@ exports.view = function (req, res, next) {
             downvotes: post.downvotes,
             tags: post.tags,
             title: post.title,
-            language: post.language,
+            language: post.textLanguage,
             text: post.text,
             userID: post.userID,
             dateCreated: post.dateCreated
@@ -187,7 +187,7 @@ exports.addTranslation = function (req, res, next){
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {translations: {
         text: req.body.text,
         title: req.body.title,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -438,7 +438,7 @@ exports.commentOnPost = function(req,res,next){
     errorMessage = '';
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {comments: {
         text: req.body.text,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -484,7 +484,7 @@ exports.commentOnTranslation = function(req,res,next){
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
     {$push: {"translations.$.comments": {
         text: req.body.text,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -655,7 +655,7 @@ exports.replyToPostComment = function(req,res,next){
     Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
     {$push: {"comments.$.replies":{
         text: req.body.text,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -699,7 +699,7 @@ exports.replyToTranslationComment = function(req,res,next){
    Post.findOneAndUpdate({_id: req.params.post_id, "translations._id": req.params.translation_id},
    {$push: {"translations.$[].comments.$[comment].replies": {
     text: req.body.text,
-    language: req.body.language,
+    textLanguage: req.body.language,
     dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
     userID: req.body.userID,
     upvotes: [req.body.userID],
@@ -897,7 +897,7 @@ exports.listPosts =  function(req,res,next){
        {$project: {
            _id: "$_id",
            title: "$title",
-           language: "$language",
+           language: "$textLanguage",
            tags: "$tags",
            userID: "$userID",
            dateCreated: "$dateCreated",
