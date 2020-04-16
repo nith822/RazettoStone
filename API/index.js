@@ -1,4 +1,5 @@
 let express = require('express')
+let cors = require('cors')
 let bodyParser = require('body-parser')
 let mongoose = require('mongoose')
 
@@ -9,6 +10,7 @@ let userRoutes = require('./users/UserRoutes');
 
 app.get('/', (req, res) => res.send('Welcome to RazettoStone\'s API!'));
 
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

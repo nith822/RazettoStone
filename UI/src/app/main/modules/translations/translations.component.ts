@@ -34,7 +34,7 @@ export class TranslationsComponent implements OnInit {
 	}
 
 	getAllPosts(): Translation[] {
-		//this.retrievePosts();
+		this.retrievePosts();
 		return this.translations;
 	}
 }
