@@ -12,7 +12,7 @@ import { Router, ActivatedRoute, Params, Data } from '@angular/router';
 })
 export class TranslationPreviewComponent implements OnInit {
 
-	translationTexts: Text;
+	translationTexts: Text[];
 	
 	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) {
 
