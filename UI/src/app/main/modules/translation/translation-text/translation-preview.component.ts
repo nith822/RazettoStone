@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Translation } from '../../../translation/translation'
-import { Text } from '../../../translation/text/Text'
+import { Text } from '../../../translation/text/text'
 import { TextLine } from '../../../translation/text/textLine'
 import { TranslationService } from '../../../translation/translation.service';
 import { Router, ActivatedRoute, Params, Data } from '@angular/router';
