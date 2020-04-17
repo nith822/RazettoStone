@@ -126,7 +126,7 @@ export class TranslationService {
 	}
 	
 	// map user id and comments and translation array
-    search(): Observable<Translation[]> {
+    search(page?: number): Observable<Translation[]> {
 		console.log('search string = '+this.searchString)
 		if (this.searchString != undefined && this.searchString.trim())
 		{
@@ -151,9 +151,10 @@ export class TranslationService {
 	  }
 	  else
 	  {
-		//let param = new HttpParams()
-		//param.append('postsPerPage', '20');
-		return this.http.get(this.postsUrl).pipe(
+		let params: HttpParams;
+		if (page != undefined)
+			params = new HttpParams().set('page', page.toString());
+		return this.http.get(this.postsUrl, { params }).pipe(
 		  map(res => {
 		  let response: any = res;
 		  return response.map((translation) => {

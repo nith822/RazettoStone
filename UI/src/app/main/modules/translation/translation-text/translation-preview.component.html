@@ -1,18 +1,23 @@
-
-			<div *ngFor="let translatedText of translationTexts; let i=index"
-				class="container-div"
-				(click)="this.navigate(translatedText.id)"
-				>
-				<h3>
-					<p *ngIf="translatedText.user">
-						Translator: {{ translatedText.user.username }}
-					</p>
-					<br>
-					Title: {{ translatedText.title }}
-					<br>
-					Language: {{ translatedText.language }}
-				</h3>
-				<p>
-					{{this.convertToStringArray(translatedText.getPreviewText())}}
-				</p>
-			</div>
+<div *ngFor="let translatedText of translationTexts; let i=index"
+	class="div-translation-preview"
+	(click)="this.navigate(translatedText.id)">
+	<div class="div-translation-vote">
+		<br>
+		VOTES:
+		<h3> {{translatedText.upvotes.length - translatedText.downvotes.length}}</h3>
+	</div>
+	<div class="div-translation-body">
+		<h3>
+		<p *ngIf="translatedText.user">
+			Translator: {{ translatedText.user.username }}
+		</p>
+		<br>
+		Title: {{ translatedText.title }}
+		<br>
+		Language: {{ translatedText.language }}
+		</h3>
+		<p>
+			{{this.convertToStringArray(translatedText.getPreviewText())}}
+		</p>
+	</div>
+</div>

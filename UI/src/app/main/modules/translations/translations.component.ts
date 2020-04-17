@@ -12,11 +12,13 @@ import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/ro
 export class TranslationsComponent implements OnInit {
 
 	translations: Translation[] = [];
+	page: number;
 	
 	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) { }
 
 	ngOnInit() {
 		console.log("init TranslationsComponent");
+		this.page = 0;
 		const translationID = this.route.snapshot.params['id'];
 		this.retrievePosts();
 	}
@@ -27,7 +29,7 @@ export class TranslationsComponent implements OnInit {
 	}
 
 	retrievePosts(): void {
-		this.translationService.search().subscribe((translations_list) => {
+		this.translationService.search(this.page).subscribe((translations_list) => {
 			console.log(translations_list);
 			this.translations = translations_list;
 		});
@@ -36,5 +38,17 @@ export class TranslationsComponent implements OnInit {
 	getAllPosts(): Translation[] {
 		this.retrievePosts();
 		return this.translations;
+	}
+
+	nextPage(): void {
+		this.page = this.page + 1;
+		console.log("Fetching page " + this.page);
+		this.retrievePosts();
+	}
+
+	prevPage(): void {
+		this.page = this.page - 1;
+		console.log("Fetching page " + this.page);
+		this.retrievePosts();
 	}
 }

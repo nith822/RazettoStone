@@ -4,21 +4,22 @@
 	justify-content: center;
 	transition-property: all;
 	transition-duration: 1s;
+	border-color: white;
 }
 
 .originalText {
 	width: 35%;
 	margin: 1%;
 	overflow: auto;
-	border: 3px solid black;
-	background-color: lightblue;
+	padding: 1%;
 }
 
 .translationPreviews {
 	width: 65%;
 	margin: 1%;
-	border: 3px solid black;
+	border-left: 2px solid black;
 	overflow: auto;
+	padding-left: 1%;
 }
 
 

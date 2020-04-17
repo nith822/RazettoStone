@@ -19,4 +19,10 @@
             </div>
         </div>
     </div>
+    <br>
+    <br>
+    <div class="div-page">
+        <button class="button-page" [disabled]="this.page == 0" (click)="this.prevPage()">&laquo;</button>
+        <button class="button-page" [disabled]="this.translations.length == 0" (click)="this.nextPage()">&raquo;</button>
+    </div>
 </div>

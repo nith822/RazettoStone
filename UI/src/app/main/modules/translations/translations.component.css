@@ -48,3 +48,10 @@
     margin-left: 20%
 }
   
+.button-page {
+}
+
+.div-page {
+    display: flex;
+    justify-content: center;
+}
