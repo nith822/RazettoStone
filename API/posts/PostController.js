@@ -384,6 +384,17 @@ exports.listPosts =  function(req,res,next){
 };
 
 exports.listTranslations = function(req,res,next){
+    // sort by newest 
+    function sortByNewest( a, b ) {
+        if ( a.dateCreated < b.dateCreated ){
+          return 1;
+        }
+        if ( a.dateCreated > b.dateCreated){
+          return -1;
+        }
+        return 0;
+      }
+
     var page;
     var withComments;
     var translationsPerPage;
@@ -412,7 +423,8 @@ exports.listTranslations = function(req,res,next){
             "translations.comments": withComments
         }}                   
      ]).then(function(post){
-        res.send(post[0].translations.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
+        var tempArray = post[0].translations.sort(sortByNewest);
+        res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
      }).catch(next)
 };
 
