@@ -33,12 +33,14 @@ export class SidebarService {
 	
 	getCurrentRouteParams(): RouteParams {
 		//translations/translation/1/(translations:1/(0))
-		var routeParamsArr: any[] = this.router.url.match(/\d+/g);
-		if(routeParamsArr.length == 2) {
-			return new RouteParams(routeParamsArr[1]);
+		//var routeParamsArr: any[] = this.router.url.match(/\d+/g);
+		var translationID = this.router.url.substring(26,26+24);
+		var translationTextID = this.router.url.substring(116,116+24);
+		if(translationID) {
+			return new RouteParams(translationID);
 		}
-		if(routeParamsArr.length == 3) {
-			return new RouteParams(routeParamsArr[1], routeParamsArr[2]);
+		if(translationTextID) {
+			return new RouteParams(translationID, translationTextID);
 		}
 		return undefined;
 	}
@@ -47,20 +49,20 @@ export class SidebarService {
 export class RouteParams {
 	
 	
-		translationID: number = undefined;
-		translationTextID: number = undefined;
+		translationID: string = undefined;
+		translationTextID: string = undefined;
 		translationTextLineID: number = undefined;
 		
-		ids: number[];
+		ids: any[];
 		
-		constructor(translationID?: number, translationTextID?: number, translationTextLineID?: number) {
+		constructor(translationID?: string, translationTextID?: string, translationTextLineID?: number) {
 			if(translationID) { this.translationID = translationID; }
 			if(translationTextID) { this.translationTextID = translationTextID; }
 			if(translationTextLineID) { this.translationTextLineID = translationTextLineID; }
 			this.ids = [this.translationID, this.translationTextID, this.translationTextLineID];
 		}
 		
-		getID(position: number): number {
+		getID(position: string): string {
 			return this.ids[position];
 		}
 		

@@ -1,6 +1,6 @@
 <div *ngFor="let translatedText of translationTexts; let i=index"
 	class="div-translation-preview"
-	(click)="this.navigate(i)">
+	(click)="this.navigate(translatedText.id)">
 	<div class="div-translation-vote">
 		<br>
 		VOTES:

@@ -106,9 +106,23 @@ export class TranslationService {
 		}));
 	}
 
-	getTranslationText(translationID: number, translationTextIDs: number[]): Observable<Text[]> {
-		var texts: Text[];
-		return of(texts);
+	getTranslationText(translationID: string, translationTextID: string): Observable<Text> {
+		return this.http.get(this.postsUrl + "/" + translationID + "/translations/" + translationTextID).pipe(map((_text: any) => {
+			console.log(_text);
+			var _text_ = new Text(
+					null, 
+					_text.title, 
+					_text.language, 
+					null,
+					_text.upvotes,
+					_text.downvotes,
+					_text._id,
+					_text.dateCreated,
+					_text.text,
+					null,
+					_text.tags);
+				return _text_
+			}));
 	}
 	
 	// map user id and comments and translation array
