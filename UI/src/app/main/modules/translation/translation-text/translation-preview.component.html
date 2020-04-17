@@ -1,7 +1,7 @@
 
 			<div *ngFor="let translatedText of translationTexts; let i=index"
 				class="container-div"
-				(click)="this.navigate(i)"
+				(click)="this.navigate(translatedText.id)"
 				>
 				<h3>
 					<p *ngIf="translatedText.user">

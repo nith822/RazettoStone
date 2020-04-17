@@ -14,8 +14,8 @@ import { Observable, combineLatest } from 'rxjs';
 })
 export class TranslationTextComponent implements OnInit {
 
-	translationID: number = -1;
-	translationTextID: number = -1;
+	translationID: string;
+	translationTextID: string;
 	translationText: Text;
 	
 	constructor(private route: ActivatedRoute, private router: Router, public  translationService: TranslationService) {
@@ -25,11 +25,14 @@ export class TranslationTextComponent implements OnInit {
 		console.log("init TranslationTextComponent");
 		
 		combineLatest(this.route.url, this.route.parent.parent.url).subscribe(([translationTextIDUrl, translationIDUrl]) => {
-			this.translationID = +translationIDUrl[0].path;
-			this.translationTextID = +translationTextIDUrl[0].path;
+			this.translationID = translationIDUrl[0].path;
+			this.translationTextID = translationTextIDUrl[0].path;
 			
-			this.translationService.getTranslationText(this.translationID, [this.translationTextID]).subscribe((translationText) => {
-				this.translationText = translationText[0];
+			console.log(this.translationID);
+			console.log(this.translationTextID);
+			
+			this.translationService.getTranslationText(this.translationID, this.translationTextID).subscribe((translationText) => {
+				this.translationText = translationText;
 			});
 		});
 	}

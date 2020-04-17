@@ -903,7 +903,7 @@ exports.listPosts =  function(req,res,next){
            dateCreated: "$dateCreated",
            upvotes: "$upvotes", // do we want user or front end to see who voted?
            downvotes: "$downvotes", // do we want user or front end to see who voted?
-           previewText: {$substr: ["$text",0,sizeOfPreview]},
+           previewText: {$substrCP: ["$text",0,sizeOfPreview]},
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
     ]).then(function(posts){
