@@ -13,6 +13,8 @@ import { SidebarService, RouteParams } from '../../../../sidebar/sidebar.service
 })
 export class CommentsComponent implements OnInit {
 
+	currentCommentText: string;
+	
 	currentComments: Comment[];
 	routeParams: RouteParams;
 	
@@ -26,6 +28,9 @@ export class CommentsComponent implements OnInit {
 		});
 		this.routeParams = this.sidebarService.getCurrentRouteParams();
 	}
-
+	
+	submitComment(text: string): void {
+		this.commentsService.postComment(new Comment(this.userService.getCurrentUser(), text, "english"), this.routeParams.translationID, this.routeParams.translationTextID);
+	}
 }
  

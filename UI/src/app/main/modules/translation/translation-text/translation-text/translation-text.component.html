@@ -1,6 +1,9 @@
-<div class="originalText">
+<div class="originalText" *ngIf="this.translationText">
 	<h3>
-		Translator: {{ this.translationText.user.userName }}
+	
+		<p *ngIf="this.translationText.user">
+			Translator: {{ this.translationText.user.userName }}
+		</p>
 		<br>
 		Title: {{ this.translationText.title }}
 		<br>
