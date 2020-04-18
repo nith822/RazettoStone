@@ -32,6 +32,7 @@ export class UserService {
 	 
 	createUser(user: User): Observable<boolean> {
 		var userCreated: boolean; 
+		this.currentUser = user;
 		this.headers.set('Content-Type', 'application/json');
 		this.http.post(this.usersUrl, user, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
@@ -44,6 +45,7 @@ export class UserService {
 
 	updateUser(user: User): Observable<boolean> {
 		var userUpdated: boolean;
+		this.currentUser = user;
 		this.headers.set('Content-Type', 'application/json');
 		this.http.put(this.usersUrl+'/'+user.getID(), user, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
