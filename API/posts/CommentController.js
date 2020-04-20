@@ -1,3 +1,5 @@
+const cookieParser = require('cookie-parser');
+let auth = require('../auth');
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
@@ -9,11 +11,10 @@ exports.commentOnPost = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');
@@ -54,11 +55,11 @@ exports.commentOnTranslation = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');
@@ -98,11 +99,10 @@ exports.replyToPostComment = function(req,res,next){
     console.log("Replying to post comment " + req.params.comment_id)
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');
@@ -142,11 +142,11 @@ exports.replyToPostComment = function(req,res,next){
 exports.replyToTranslationComment = function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');

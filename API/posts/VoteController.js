@@ -1,3 +1,5 @@
+const cookieParser = require('cookie-parser');
+let auth = require('../auth');
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
@@ -8,11 +10,10 @@ var mongoose = require('mongoose');
 exports.votePost = function (req, res, next){
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -52,11 +53,10 @@ exports.votePost = function (req, res, next){
 exports.voteTranslation = function(req, res, next){
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -93,11 +93,10 @@ exports.votePostComment = function(req, res, next){
     console.log(req.body);
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -133,12 +132,10 @@ exports.votePostComment = function(req, res, next){
 exports.voteTranslationComment = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
-    // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -174,11 +171,10 @@ exports.voteTranslationComment = function(req,res,next){
 exports.votePostCommentReply = function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
@@ -215,11 +211,10 @@ exports.votePostCommentReply = function(req,res,next){
 exports.voteTranslationCommentReply = function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
+    errorMessage = errorMessage.concat(auth.validateUser(req));
+    
     if (req.body.vote == undefined)
     {
         console.log('Request did not have vote');
