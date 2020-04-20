@@ -65,13 +65,13 @@ function validateUser(req){
         if(!result){
 			console.log('Please Log in to make a post');
             erro = erro.concat('Need to log in ');
-			}}
+			}})
     }
     console.log(erro);
     return erro;
 
 
-}
+                 }}
 module.exports.validateUser = validateUser;
 
 
