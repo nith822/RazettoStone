@@ -55,7 +55,7 @@ export class TranslationService {
 	
 	getPost(translationID: string): Observable<Translation> {
 		var translation: Translation;
-		return this.http.get(this.postsUrl + "/" + translationID).pipe(map((translation: any) => {
+		return this.http.get(this.postsUrl + translationID).pipe(map((translation: any) => {
 			//console.log(translation);
 			var _translation = new Translation(
 					null, 
@@ -84,7 +84,7 @@ export class TranslationService {
 	}
 	
 	getTranslationPreview(translationID: string): Observable<Text[]> {
-		return this.http.get(this.postsUrl + "/" + translationID + "/translations").pipe(
+		return this.http.get(this.postsUrl + translationID + "/translations").pipe(
 		map(res => {
 		let response: any = res;
 		return response.map((_text) => {
@@ -107,7 +107,7 @@ export class TranslationService {
 	}
 
 	getTranslationText(translationID: string, translationTextID: string): Observable<Text> {
-		return this.http.get(this.postsUrl + "/" + translationID + "/translations/" + translationTextID).pipe(map((_text: any) => {
+		return this.http.get(this.postsUrl + translationID + "/translations/" + translationTextID).pipe(map((_text: any) => {
 			console.log(_text);
 			var _text_ = new Text(
 					null, 
@@ -173,5 +173,15 @@ export class TranslationService {
 		  });
 		}));
 	  }
+	}
+
+	votePost(postID: string, userID: string, vote: boolean): Observable<any> {
+		return this.http.put(this.postsUrl + postID + "/vote", {"vote": vote, "userID": userID}).pipe(map(res => {
+			console.log(res)
+		}));
+	}
+
+	voteTranslation(postID: string, translationID: string, userID: string, vote: boolean): Observable<any> {
+		return this.http.put(this.postsUrl + postID + "/translations/" + translationID + "/vote", {"vote": vote, "userID": userID})
 	}
 }

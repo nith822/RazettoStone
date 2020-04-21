@@ -5,6 +5,7 @@ import { TranslationsRoutingModule } from './translations-routing.module';
 import { TranslationsComponent } from './translations.component';
 
 import { TranslationService } from '../../translation/translation.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [TranslationsComponent],
@@ -12,6 +13,7 @@ import { TranslationService } from '../../translation/translation.service';
     CommonModule,
     TranslationsRoutingModule
   ],
-  providers: [TranslationService],
+  providers: [TranslationService,
+    CookieService],
 })
 export class TranslationsModule { }

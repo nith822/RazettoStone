@@ -1,12 +1,13 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div *ngFor="let translatedText of translationTexts; let i=index"
-	class="div-translation-preview"
-	(click)="this.navigate(translatedText.id)">
+	class="div-translation-preview">
 	<div class="div-translation-vote">
 		<br>
-		VOTES:
+		<button class="button-upvote" (click)="this.upvoteTranslationText(translatedText.id)"><i class="fa fa-arrow-up"></i></button>
 		<h3> {{translatedText.upvotes.length - translatedText.downvotes.length}}</h3>
+		<button class="button-downvote" (click)="this.downvoteTranslationText(translatedText.id)"><i class="fa fa-arrow-down"></i></button>
 	</div>
-	<div class="div-translation-body">
+	<div class="div-translation-body" (click)="this.navigate(translatedText.id)">
 		<h3>
 		<p *ngIf="translatedText.user">
 			Translator: {{ translatedText.user.username }}
