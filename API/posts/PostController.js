@@ -8,7 +8,7 @@ const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
 // create new post
-exports.create = function (req, res, next) {
+exports.create = async function (req, res, next) {
 
     // this might also work isntead of the code above
     console.log('Attempting to create new post')
@@ -33,7 +33,7 @@ exports.create = function (req, res, next) {
     }
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
@@ -96,7 +96,7 @@ exports.view = function (req, res, next) {
 
 
 
-exports.addTranslation = function (req, res, next){
+exports.addTranslation = async function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
     
@@ -118,7 +118,7 @@ exports.addTranslation = function (req, res, next){
         errorMessage = errorMessage.concat('Need text. ');
     }
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
 
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
@@ -162,7 +162,7 @@ exports.search = function (req, res, next){
 }
 
 // need to check if duplicate
-exports.flagTranslation = function(req,res,next){
+exports.flagTranslation = async function(req,res,next){
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     var errorMessage = '';
@@ -170,7 +170,7 @@ exports.flagTranslation = function(req,res,next){
     
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
 
     // add more check
     if (req.body.flag == undefined)

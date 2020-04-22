@@ -7,13 +7,13 @@ const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
-exports.commentOnPost = function(req,res,next){
+exports.commentOnPost = async function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
     // Checking for required parameters
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {
@@ -49,7 +49,7 @@ exports.commentOnPost = function(req,res,next){
     }).catch(next);
 }
 
-exports.commentOnTranslation = function(req,res,next){
+exports.commentOnTranslation = async function(req,res,next){
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     console.log('Attempting to add comment to post ' + req.params.post_id)
@@ -58,7 +58,7 @@ exports.commentOnTranslation = function(req,res,next){
     
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {
@@ -95,13 +95,13 @@ exports.commentOnTranslation = function(req,res,next){
         }).catch(next)
 }
 
-exports.replyToPostComment = function(req,res,next){
+exports.replyToPostComment = async function(req,res,next){
     console.log("Replying to post comment " + req.params.comment_id)
     var errorMessage = '';
     // Checking for required parameters
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {
@@ -139,13 +139,13 @@ exports.replyToPostComment = function(req,res,next){
         }).catch(next)
 }
 
-exports.replyToTranslationComment = function(req,res,next){
+exports.replyToTranslationComment = async function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
     
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {

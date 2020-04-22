@@ -7,12 +7,12 @@ const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
-exports.votePost = function (req, res, next){
+exports.votePost = async function (req, res, next){
     var errorMessage = '';
     // Checking for required parameters
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.vote == undefined)
     {
@@ -50,12 +50,12 @@ exports.votePost = function (req, res, next){
     }
 }
 
-exports.voteTranslation = function(req, res, next){
+exports.voteTranslation = async function(req, res, next){
     var errorMessage = '';
     // Checking for required parameters
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.vote == undefined)
     {
@@ -89,13 +89,13 @@ exports.voteTranslation = function(req, res, next){
     }
 }
 
-exports.votePostComment = function(req, res, next){
+exports.votePostComment = async function(req, res, next){
     console.log(req.body);
     var errorMessage = '';
     // Checking for required parameters
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.vote == undefined)
     {
@@ -129,12 +129,12 @@ exports.votePostComment = function(req, res, next){
     }
 }
 
-exports.voteTranslationComment = function(req,res,next){
+exports.voteTranslationComment = async function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.vote == undefined)
     {
@@ -168,12 +168,12 @@ exports.voteTranslationComment = function(req,res,next){
     }
 }
 
-exports.votePostCommentReply = function(req,res,next){
+exports.votePostCommentReply = async function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
     
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.vote == undefined)
     {
@@ -208,12 +208,12 @@ exports.votePostCommentReply = function(req,res,next){
     }
 }
 
-exports.voteTranslationCommentReply = function(req,res,next){
+exports.voteTranslationCommentReply = async function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
     
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(auth.validateUser(req));
+    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.vote == undefined)
     {
