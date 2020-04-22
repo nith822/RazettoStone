@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { AuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider, SocialUser} from "angularx-social-login";
 import { stringify } from 'querystring';
-import { CookieService } from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
 				var result = this.registerUser(this.userName, this.email, this.oAuthId);
 				if (result == false)
 					this.loginUser(this.userName, this.email, this.oAuthId);
-				this.cookieService.set('user_auth', this.oAuthId);
 			}
 		});
 		
@@ -59,15 +58,25 @@ export class LoginComponent implements OnInit {
 	// <------------------- register only if new, otherwise don't create user ---------------------------------->
 	registerUser(userName, email, oAuthId): boolean {
 		console.log("Attempting to register user");
-		this.userService.createUser(new User(userName, email, oAuthId));
-
-		this.userService.getAllUsers().subscribe((users) => {
-			/*for(let user of users) {
-				console.log(user.toString());
-			}*/
-			this.users = users;
+		var success = false;
+		this.userService.createUser(new User(userName, email, oAuthId)).subscribe((data: boolean) => {
+			success = data
 		});
-		return false;
+
+		if (success)
+		{
+			this.userService.getAllUsers().subscribe((users) => {
+				for(let user of users) {
+					if (user.userName == userName && user.email == email)
+					{
+						this.cookieService.set("userId", user.id);
+						break;
+					}
+				}
+			});
+		}
+		
+		return success;
 	}
 
 	loginUser(userName, email, oAuthId): boolean {
@@ -80,6 +89,9 @@ export class LoginComponent implements OnInit {
 					user_id = user.id
 					console.log(user_id);
 					this.userService.updateUser(new User(userName, email, oAuthId, null, null, user_id));
+					console.log('saving cookie')
+					this.cookieService.set("userId", user_id);
+					break;
 				}
 			}
 			this.users = users;
