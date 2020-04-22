@@ -133,14 +133,23 @@ exports.view = function (req, res, next) {
             userID: post.userID,
             dateCreated: post.dateCreated
         }
-        User.aggregate([ { $match : { _id: mongoose.Types.ObjectId(temp.userID)}},{$project:{
-            oAuthId: false,
-            email: false
-        }}]
-        ).then(function(user){
-            temp['user_object'] = user;
-            res.send({message: "success!", data: temp })
-        });
+        console.log('Post OP: ' + temp.userID);
+        try {
+            userObjectId = mongoose.Types.ObjectId(temp.userID);
+            console.log(userObjectId);
+            User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+                oAuthId: false,
+                email: false
+            }}]).then(function(user){
+                console.log(user);
+                temp['user_object'] = user;
+                res.send({message: "success!", data: temp });
+            });
+        } catch (exception) {
+            console.log('That post probably did not have a real user ID');
+            console.log(exception);
+            res.send({ message: "success!", data: temp });
+        }
     }).catch(next)
 };
 
@@ -328,14 +337,20 @@ exports.getOneTranslation = function(req,res,next){
     ]).then(function(post){
         var temp = post[0].translation[0];
         delete temp.comments;
-        User.aggregate([ { $match : { _id: mongoose.Types.ObjectId(temp.userID)}},{$project:{
-            oAuthId: false,
-            email: false
-        }}]
-        ).then(function(user){
-            temp['user_object'] = user;
-            res.send(temp)
-        });
+        try {
+            User.aggregate([ { $match : { _id: mongoose.Types.ObjectId(temp.userID)}},{$project:{
+                oAuthId: false,
+                email: false
+            }}]
+            ).then(function(user){
+                temp['user_object'] = user;
+                res.send(temp)
+            });
+        } catch (exception) {
+            console.log('That translation probably did not have a real user ID');
+            console.log(exception);
+            res.send(temp);
+        }
     }).catch(next)
 };
 
