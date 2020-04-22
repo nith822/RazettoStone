@@ -7,6 +7,11 @@ const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
+
+// constant for max length
+const maxLanguageLength = 20;
+const maxCommentLength = 300;
+
 exports.commentOnPost = async function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
@@ -25,6 +30,15 @@ exports.commentOnPost = async function(req,res,next){
         console.log('Request did not have text');
         errorMessage = errorMessage.concat('Need text. ');
     }
+    // check for max length
+    if(req.body.text.length > maxCommentLength){
+        console.log('Text is longer than max length');
+        errorMessage = errorMessage.concat('Text too long. ');
+    }
+    if(req.body.language.length > maxLanguageLength){
+        console.log('Language is longer than max length');
+        errorMessage = errorMessage.concat('Language too long. ');
+    }
     if (errorMessage.length)
     {
         res.status(422).json({
@@ -37,7 +51,7 @@ exports.commentOnPost = async function(req,res,next){
     errorMessage = '';
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {comments: {
         text: req.body.text,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -83,7 +97,7 @@ exports.commentOnTranslation = async function(req,res,next){
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
     {$push: {"translations.$.comments": {
         text: req.body.text,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -126,7 +140,7 @@ exports.replyToPostComment = async function(req,res,next){
     Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
     {$push: {"comments.$.replies":{
         text: req.body.text,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -170,7 +184,7 @@ exports.replyToTranslationComment = async function(req,res,next){
    Post.findOneAndUpdate({_id: req.params.post_id, "translations._id": req.params.translation_id},
    {$push: {"translations.$[].comments.$[comment].replies": {
     text: req.body.text,
-    language: req.body.language,
+    textLanguage: req.body.language,
     dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
     userID: req.body.userID,
     upvotes: [req.body.userID],

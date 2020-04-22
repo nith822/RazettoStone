@@ -4,6 +4,7 @@ import { Text } from '../../../translation/text/text'
 import { TextLine } from '../../../translation/text/textLine'
 import { TranslationService } from '../../../translation/translation.service';
 import { Router, ActivatedRoute, Params, Data } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service'
 
 @Component({
   selector: 'app-translation-preview',
@@ -13,8 +14,9 @@ import { Router, ActivatedRoute, Params, Data } from '@angular/router';
 export class TranslationPreviewComponent implements OnInit {
 
 	translationTexts: Text[];
-	
-	constructor(public  translationService: TranslationService, private route: ActivatedRoute, private router: Router) {
+	userID: string;
+
+	constructor(public  translationService: TranslationService, public cookieService: CookieService, private route: ActivatedRoute, private router: Router) {
 
 	}
 
@@ -23,6 +25,7 @@ export class TranslationPreviewComponent implements OnInit {
 		console.log("init TranslationPreviewComponent");
 		
 		var translationID = this.route.parent.parent.snapshot.params['id'];
+		this.userID = this.cookieService.get("userId");
 		this.translationService.getTranslationPreview(translationID).subscribe((texts) => {
 			this.translationTexts = texts;
 		});
@@ -40,5 +43,23 @@ export class TranslationPreviewComponent implements OnInit {
 			stringArray.push(textLine.getText());
 		}
 		return stringArray;
+	}
+	upvoteTranslationText(translationID: string): void {
+		var postID = this.route.parent.parent.snapshot.params['id'];
+		console.log("Attempting to upvote post.")
+		this.translationService.voteTranslation(postID, translationID, this.userID, true).subscribe();
+		this.translationService.getTranslationPreview(postID).subscribe((texts) => {
+			this.translationTexts = texts;
+		});
+	}
+
+	downvoteTranslationText(translationID: string): void {
+		var postID = this.route.parent.parent.snapshot.params['id'];
+		console.log("Attempting to downvote post.")
+		this.translationService.voteTranslation(postID, translationID, this.userID, false).subscribe((success) => {
+		});
+		this.translationService.getTranslationPreview(postID).subscribe((texts) => {
+			this.translationTexts = texts;
+		});
 	}
 }

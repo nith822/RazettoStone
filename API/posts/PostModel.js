@@ -29,7 +29,7 @@ const PostSchema = new Schema({
         required: [true, 'originalText field is required'],
         text: true
     },
-    language: {
+    textLanguage: {
         type: String,
         required: [true, 'Language field is required']
     },

@@ -9,6 +9,7 @@
     float: left;
     width: 10%;
     text-align: center;
+    align-content: center;
 }
 
 .div-translationBody {
@@ -54,4 +55,14 @@
 .div-page {
     display: flex;
     justify-content: center;
+}
+
+.button-upvote {
+    border-color: transparent;
+    font-size: medium;
+}
+
+.button-downvote {
+    border-color: transparent;
+    font-size: medium;
 }

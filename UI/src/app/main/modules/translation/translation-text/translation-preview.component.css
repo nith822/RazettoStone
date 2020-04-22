@@ -20,3 +20,13 @@
 	border-left: inherit;
     height: inherit;
 }
+
+.button-upvote {
+    border-color: transparent;
+    font-size: medium;
+}
+
+.button-downvote {
+    border-color: transparent;
+    font-size: medium;
+}

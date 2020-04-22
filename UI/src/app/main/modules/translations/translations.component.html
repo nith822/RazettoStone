@@ -6,14 +6,15 @@
     </div>
     <br><br>
     <div class="div-searchResult">
-        <div class="div-translation" *ngFor="let translation of this.translations;" (click)="this.navigate(translation.id)">
+        <div class="div-translation" *ngFor="let translation of this.translations;">
             <div class="div-translationVote">
                 <br>
-                VOTES:
-                <h3> {{translation.upvotes.length - translation.downvotes.length}}</h3>
+                <button class="button-upvote" (click)="this.upvotePost(translation.id)"><i class="fa fa-arrow-up"></i></button>
+                <h3 style="line-height: 0px;"> {{translation.upvotes.length - translation.downvotes.length}}</h3>
+		        <button class="button-downvote" (click)="this.downvotePost(translation.id)"><i class="fa fa-arrow-down"></i></button>     
             </div>
 
-            <div class="div-translationBody">
+            <div class="div-translationBody" (click)="this.navigate(translation.id)">
                 <h4> {{translation.title}} </h4>
                 <p>{{translation.originalText}}</p>
             </div>

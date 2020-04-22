@@ -7,6 +7,12 @@ const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
+// constant for max length
+const maxTextLength = 10000;
+const maxTitleLength = 30;
+const maxLanguageLength = 20;
+const maxTagLength = 20;
+
 // create new post
 exports.create = async function (req, res, next) {
 
@@ -35,6 +41,20 @@ exports.create = async function (req, res, next) {
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
     errorMessage = errorMessage.concat(await auth.validateUser(req));
     
+    // check for max length
+    if(req.body.text.length > maxTextLength){
+        console.log('Text is longer than max length');
+        errorMessage = errorMessage.concat('Text too long. ');
+    }
+    if(req.body.title.length > maxTitleLength){
+        console.log('Title is longer than max length');
+        errorMessage = errorMessage.concat('Title too long. ');
+    }
+    if(req.body.language.length > maxLanguageLength){
+        console.log('language is longer than max length');
+        errorMessage = errorMessage.concat('language too long. ');
+    }
+    
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
         console.log('Request did not have tags');
@@ -54,7 +74,7 @@ exports.create = async function (req, res, next) {
 
     var newPost = new Post({
         title: req.body.title,
-        language: req.body.language,
+        textLanguage: req.body.language,
         text: req.body.text,
         userID: req.body.userID,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
@@ -79,19 +99,37 @@ exports.create = async function (req, res, next) {
 exports.view = function (req, res, next) {
     console.log('Attempting to retrieve post from DB')
     Post.findById(req.params.post_id).then(function(post){
-    // temp fix there is probably a better way to do this
-       var temp = {
-       _id: post._id,
-       upvotes: post.upvotes,
-       downvotes: post.downvotes,
-       tags: post.tags,
-       title: post.title,
-       language: post.language,
-       text: post.text,
-       userID: post.userID,
-       dateCreated: post.dateCreated
-       }
-       res.send({message: "success!", data: temp })    }).catch(next)
+
+        // temp fix there is probably a better way to do this
+        var temp = {
+            _id: post._id,
+            upvotes: post.upvotes,
+            downvotes: post.downvotes,
+            tags: post.tags,
+            title: post.title,
+            language: post.textLanguage,
+            text: post.text,
+            userID: post.userID,
+            dateCreated: post.dateCreated
+        }
+        console.log('Post OP: ' + temp.userID);
+        try {
+            userObjectId = mongoose.Types.ObjectId(temp.userID);
+            console.log(userObjectId);
+            User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+                oAuthId: false,
+                email: false
+            }}]).then(function(user){
+                console.log(user);
+                temp['user_object'] = user;
+                res.send({message: "success!", data: temp });
+            });
+        } catch (exception) {
+            console.log('That post probably did not have a real user ID');
+            console.log(exception);
+            res.send({ message: "success!", data: temp });
+        }
+    }).catch(next)
 };
 
 
@@ -120,6 +158,22 @@ exports.addTranslation = async function (req, res, next){
     //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
     errorMessage = errorMessage.concat(await auth.validateUser(req));
 
+    
+    // check for max length
+    if(req.body.text.length > maxTextLength){
+        console.log('Text is longer than max length');
+        errorMessage = errorMessage.concat('Text too long. ');
+    }
+    if(req.body.title.length > maxTitleLength){
+        console.log('Text is longer than max length');
+        errorMessage = errorMessage.concat('Text too long. ');
+    }
+    if(req.body.language.length > maxLanguageLength){
+        console.log('Text is longer than max length');
+        errorMessage = errorMessage.concat('Text too long. ');
+    }
+    
+
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
         console.log('Request did not have tags');
@@ -139,7 +193,7 @@ exports.addTranslation = async function (req, res, next){
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {translations: {
         text: req.body.text,
         title: req.body.title,
-        language: req.body.language,
+        textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: req.body.userID,
         upvotes: [req.body.userID],
@@ -200,8 +254,6 @@ exports.flagTranslation = async function(req,res,next){
 }
 
 
-// TODO: hide comments
-// TODO: hide user id from upvotes and downvotes ????????
 exports.getOneTranslation = function(req,res,next){
     console.log('Attempting to translation ' + req.params.translation_id + ' from DB')
     Post.aggregate([
@@ -218,10 +270,25 @@ exports.getOneTranslation = function(req,res,next){
           }
         }
     ]).then(function(post){
-        console.log(post)
-            var temp = post[0].translation[0];
-            delete temp.comments;
-            res.send(temp)}).catch(next)};
+
+        var temp = post[0].translation[0];
+        delete temp.comments;
+        try {
+            User.aggregate([ { $match : { _id: mongoose.Types.ObjectId(temp.userID)}},{$project:{
+                oAuthId: false,
+                email: false
+            }}]
+            ).then(function(user){
+                temp['user_object'] = user;
+                res.send(temp)
+            });
+        } catch (exception) {
+            console.log('That translation probably did not have a real user ID');
+            console.log(exception);
+            res.send(temp);
+        }
+    }).catch(next)
+};
 
 
 exports.listPosts =  function(req,res,next){
@@ -250,24 +317,36 @@ exports.listPosts =  function(req,res,next){
     console.log("getting page " + page + " of posts");
     
     Post.aggregate([{$skip: postsPerPage*page},{$limit: postsPerPage},
-                    {$project: {
-                       _id: "$_id",
-                     title: "$title",
-                  language: "$language",
-                      tags: "$tags",
-                    userID: "$userID",
-               dateCreated: "$dateCreated",
-                   upvotes: "$upvotes", // do we want user or front end to see who voted?
-                 downvotes: "$downvotes", // do we want user or front end to see who voted?
-               previewText: {$substrCP: ["$text",0,sizeOfPreview]},
-      numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here
-                    }}
-                    ]).then(function(posts){
-                            res.send(posts);
-                            }).catch(next)
+
+       {$project: {
+           _id: "$_id",
+           title: "$title",
+           language: "$textLanguage",
+           tags: "$tags",
+           userID: "$userID",
+           dateCreated: "$dateCreated",
+           upvotes: "$upvotes", // do we want user or front end to see who voted?
+           downvotes: "$downvotes", // do we want user or front end to see who voted?
+           previewText: {$substrCP: ["$text",0,sizeOfPreview]},
+           numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
+       }}                                 
+    ]).then(function(posts){
+        res.send(posts);
+    }).catch(next)
 };
 
 exports.listTranslations = function(req,res,next){
+    // sort by newest 
+    function sortByNewest( a, b ) {
+        if ( a.dateCreated < b.dateCreated ){
+          return 1;
+        }
+        if ( a.dateCreated > b.dateCreated){
+          return -1;
+        }
+        return 0;
+      }
+
     var page;
     var withComments;
     var translationsPerPage;
@@ -292,10 +371,12 @@ exports.listTranslations = function(req,res,next){
     console.log("getting page " + page + " of translations for post " + req.params.post_id);
     
     Post.aggregate([{ $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
-                    {$project: {
-                    "translations.comments": withComments
-                    }}
-                    ]).then(function(post){
-                            res.send(post[0].translations.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
-                            }).catch(next)
+
+        {$project: {
+            "translations.comments": withComments
+        }}                   
+     ]).then(function(post){
+        var tempArray = post[0].translations.sort(sortByNewest);
+        res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
+     }).catch(next)
 };
