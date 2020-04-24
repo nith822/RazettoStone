@@ -133,14 +133,23 @@ exports.view = function (req, res, next) {
             userID: post.userID,
             dateCreated: post.dateCreated
         }
-        User.aggregate([ { $match : { _id: mongoose.Types.ObjectId(temp.userID)}},{$project:{
-            oAuthId: false,
-            email: false
-        }}]
-        ).then(function(user){
-            temp['user_object'] = user;
-            res.send({message: "success!", data: temp })
-        });
+        console.log('Post OP: ' + temp.userID);
+        try {
+            userObjectId = mongoose.Types.ObjectId(temp.userID);
+            console.log(userObjectId);
+            User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+                oAuthId: false,
+                email: false
+            }}]).then(function(user){
+                console.log(user);
+                temp['user_object'] = user;
+                res.send({message: "success!", data: temp });
+            });
+        } catch (exception) {
+            console.log('That post probably did not have a real user ID');
+            console.log(exception);
+            res.send({ message: "success!", data: temp });
+        }
     }).catch(next)
 };
 
@@ -328,14 +337,20 @@ exports.getOneTranslation = function(req,res,next){
     ]).then(function(post){
         var temp = post[0].translation[0];
         delete temp.comments;
-        User.aggregate([ { $match : { _id: mongoose.Types.ObjectId(temp.userID)}},{$project:{
-            oAuthId: false,
-            email: false
-        }}]
-        ).then(function(user){
-            temp['user_object'] = user;
-            res.send(temp)
-        });
+        try {
+            User.aggregate([ { $match : { _id: mongoose.Types.ObjectId(temp.userID)}},{$project:{
+                oAuthId: false,
+                email: false
+            }}]
+            ).then(function(user){
+                temp['user_object'] = user;
+                res.send(temp)
+            });
+        } catch (exception) {
+            console.log('That translation probably did not have a real user ID');
+            console.log(exception);
+            res.send(temp);
+        }
     }).catch(next)
 };
 
@@ -357,26 +372,26 @@ exports.listPosts =  function(req,res,next){
     var sizeOfPreview;
     var postsPerPage;
 
-    if (req.params.pg == null){
+    if (req.query.page == null){
         page = 0;
     }else{
-        page = req.params.page;
+        page = Number(req.query.page);
     }
 
-    if (req.params.sizeOfPreview == null){
+    if (req.query.sizeOfPreview == null){
         sizeOfPreview = 100;
     }else{
-        sizeOfPreview = req.params.sizeOfPreview;
+        sizeOfPreview = Number(req.query.sizeOfPreview);
     }
 
-    if (req.params.postsPerPage == null){
+    if (req.query.postsPerPage == null){
         postsPerPage = 10;
     }else{
-        postsPerPage = req.params.postsPerPage;
+        postsPerPage = Number(req.query.postsPerPage);
     }
 
     console.log("getting page " + page + " of posts");
-
+    
     Post.aggregate([{$skip: postsPerPage*page},{$limit: postsPerPage},
        {$project: {
            _id: "$_id",
@@ -387,7 +402,7 @@ exports.listPosts =  function(req,res,next){
            dateCreated: "$dateCreated",
            upvotes: "$upvotes", // do we want user or front end to see who voted?
            downvotes: "$downvotes", // do we want user or front end to see who voted?
-           previewText: {$substr: ["$text",0,sizeOfPreview]},
+           previewText: {$substrCP: ["$text",0,sizeOfPreview]},
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
     ]).then(function(posts){
@@ -411,19 +426,19 @@ exports.listTranslations = function(req,res,next){
     var page;
     var withComments;
     var translationsPerPage;
-    if (req.params.page == null){
+    if (req.query.page == null){
         page = 0;
     }else{
-        page = req.params.page;
+        page = Number(req.query.page);
     }
 
-    if (req.params.translationsPerPage == null){
+    if (req.query.translationsPerPage == null){
         translationsPerPage = 10;
     }else{
-        translationsPerPage = req.params.translationsPerPage;
+        translationsPerPage = Number(req.query.translationsPerPage);
     }
 
-    if (req.params.withComments == null){
+    if (req.query.withComments == null){
         withComments = false;
     }else{
         withComments = true;;

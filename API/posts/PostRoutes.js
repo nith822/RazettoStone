@@ -24,7 +24,9 @@ router.route("/:post_id/translations").get(postController.listTranslations);
 // Comments and Replies will be under commentController
 //Comments
 router.route('/:post_id/comments').post(commentController.commentOnPost);
+router.route('/:post_id/comments').get(commentController.listPostComments);
 router.route('/:post_id/translations/:translation_id/comments/').post(commentController.commentOnTranslation);
+router.route('/:post_id/translations/:translation_id/comments/').get(commentController.listTranslationComments);
 //Replies
 router.route('/:post_id/comments/:comment_id/replies').post(commentController.replyToPostComment);
 router.route('/:post_id/translations/:translation_id/comments/:comment_id/replies').post(commentController.replyToTranslationComment);

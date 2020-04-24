@@ -1,3 +1,32 @@
-.container-div {
-	background-color: lightgreen;
+.div-translation-preview {
+	display: inline-block;
+	max-height: 40%;
+    border-color:grey;
+    border-style: solid;
+    border-width: 1px;
+    width: 99%;
+    text-align: center;
+}
+
+.div-translation-vote {
+    float: left;
+    width: 10%;
+	text-align: center;
+	height: inherit;
+}
+
+.div-translation-body {
+    margin-left: 10%;
+	border-left: inherit;
+    height: inherit;
+}
+
+.button-upvote {
+    border-color: transparent;
+    font-size: medium;
+}
+
+.button-downvote {
+    border-color: transparent;
+    font-size: medium;
 }
