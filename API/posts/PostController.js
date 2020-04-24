@@ -391,8 +391,8 @@ exports.listPosts =  function(req,res,next){
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
     ]).then(function(posts){
-        posts.sort(sortByNewest);
-        res.send(posts.slice(page*postsPerPage,page*postsPerPage+postsPerPage))
+        var tempArray = posts.sort(sortByNewest);
+        res.send(tempArray.slice(page*postsPerPage,page*postsPerPage+postsPerPage))
     }).catch(next)
 };
 
@@ -437,7 +437,6 @@ exports.listTranslations = function(req,res,next){
         }}                   
      ]).then(function(post){
         var tempArray = post[0].translations.sort(sortByUpvotes);
-
         res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
      }).catch(next)
 };
