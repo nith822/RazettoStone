@@ -4,8 +4,11 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {map, filter, catchError, mergeMap} from 'rxjs/operators'
+import { CookieService } from 'ngx-cookie-service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserService {
 
 	
@@ -13,14 +16,21 @@ export class UserService {
 	headers: HttpHeaders  = new HttpHeaders(); 
 	
 	currentUser: User;
+	num: number = 0;
 	
 	
 	constructor(private http: HttpClient,) {
-		let mockUser = new User("420yoloswag", "bob.sanders@gmail.com", "123", new Date(), ["JP"], "420");
-		this.currentUser = mockUser;
+		
+	}
+	
+	setCurrentUser(user: User): void {
+		this.currentUser = user;
+		this.num = 1;
+		console.log(this.num);
 	}
 	
 	getCurrentUser(): User {
+		console.log(this.num);
 		return this.currentUser;
 	}
 	
@@ -32,10 +42,10 @@ export class UserService {
 	 
 	createUser(user: User): Observable<boolean> {
 		var userCreated = false; 
-		this.currentUser = user;
 		this.headers.set('Content-Type', 'application/json');
 		this.http.post(this.usersUrl, user, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
+			this.setCurrentUser(user);
 			userCreated = true;
 		}, (err) => {
 			userCreated = false;
@@ -45,7 +55,6 @@ export class UserService {
 
 	updateUser(user: User): Observable<boolean> {
 		var userUpdated: boolean;
-		this.currentUser = user;
 		this.headers.set('Content-Type', 'application/json');
 		this.http.put(this.usersUrl+'/'+user.getID(), user, {headers: this.headers}).subscribe((data) => {
 			console.log("mydata+ " + data);

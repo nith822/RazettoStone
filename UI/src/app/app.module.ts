@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './main/modules/shared/shared.module';
-import { UserService } from './main/user/user.service';
 
 
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
@@ -39,7 +38,7 @@ export function provideConfig() {
 	HttpClientModule,
 	SocialLoginModule
   ],
-  providers: [UserService, 
+  providers: [
   {
 	  provide: AuthServiceConfig,
       useFactory: provideConfig
