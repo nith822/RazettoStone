@@ -391,8 +391,8 @@ exports.listPosts =  function(req,res,next){
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
     ]).then(function(posts){
-        var tempArray = posts.sort(sortByNewest);
-        res.send(tempArray.slice(page*postsPerPage,page*postsPerPage+postsPerPage))
+        //var tempArray = posts.sort(sortByNewest);
+        res.send( posts.sort(sortByNewest));
     }).catch(next)
 };
 
