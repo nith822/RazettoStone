@@ -357,7 +357,7 @@ exports.listPosts =  function(req,res,next){
     var sizeOfPreview;
     var postsPerPage;
 
-    if (req.params.page == null){
+    if (req.params.pg == null){
         page = 0;
     }else{
         page = req.params.page;
