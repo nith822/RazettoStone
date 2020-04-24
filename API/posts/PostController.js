@@ -356,6 +356,18 @@ exports.getOneTranslation = function(req,res,next){
 
 
 exports.listPosts =  function(req,res,next){
+    // sort by newest 
+    function sortByNewest( a, b ) {
+        if ( a.dateCreated < b.dateCreated ){
+            return 1;
+        }
+        if ( a.dateCreated > b.dateCreated){
+            return -1;
+        }
+        return 0;
+        }
+
+    
     var page;
     var sizeOfPreview;
     var postsPerPage;
@@ -394,17 +406,18 @@ exports.listPosts =  function(req,res,next){
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
     ]).then(function(posts){
-        res.send(posts);
+        var tempArray = posts.sort(sortByNewest);
+        res.send(tempArray.slice(page*postsPerPage,page*postsPerPage+postsPerPage))
     }).catch(next)
 };
 
 exports.listTranslations = function(req,res,next){
-    // sort by newest 
-    function sortByNewest( a, b ) {
-        if ( a.dateCreated < b.dateCreated ){
+    // sort by upvotes 
+    function sortByUpvotes( a, b ) {
+        if ( a.upvotes.length - a.downvotes.length < b.upvotes.length - b.downvotes.length ){
           return 1;
         }
-        if ( a.dateCreated > b.dateCreated){
+        if ( a.upvotes.length - a.downvotes.length > b.upvotes.length - b.downvotes.length){
           return -1;
         }
         return 0;
@@ -438,7 +451,7 @@ exports.listTranslations = function(req,res,next){
             "translations.comments": withComments
         }}                   
      ]).then(function(post){
-        var tempArray = post[0].translations.sort(sortByNewest);
+        var tempArray = post[0].translations.sort(sortByUpvotes);
         res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
      }).catch(next)
 };
