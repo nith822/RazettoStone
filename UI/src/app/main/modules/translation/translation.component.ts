@@ -17,7 +17,12 @@ export class TranslationComponent implements OnInit {
 	translation: Translation;
 	
 	hoveredIndex: number = -1;
-	
+
+	isAddingTranslation: boolean = false;
+	title: string;
+	language: string;
+	file: File;
+
 	constructor(private route: ActivatedRoute, private router: Router, private location: Location, 
 	public  translationService: TranslationService, public sidebarService: SidebarService) { }
 
@@ -63,5 +68,27 @@ export class TranslationComponent implements OnInit {
 	
 	onClick(): void {
 		this.sidebarService.toggleSideBar();
+	}
+
+	toggleTranslationForm(): void {
+		this.isAddingTranslation = true;
+		this.file = undefined
+		this.translationService.emptyFile();
+	}
+
+	fileChanged(event: any): void {
+		this.file = event.target.files[0];
+		this.translationService.readFile(event.target.files[0]);
+	}
+
+	addTranslation(): void {
+		console.log('Attempting to add translation to post')
+		this.translationService.saveText(this.title, this.language);
+		this.translationService.addTranslationToPost(this.translation.id, this.translationService.translatedText);
+		this.isAddingTranslation = false;
+		this.translationService.getPost(this.translation.id).subscribe((translation) => {
+			this.translation = translation;
+			console.log(this.translation.getOriginalText(true).getTextLines());
+		});
 	}
 }

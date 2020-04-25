@@ -25,6 +25,9 @@ export class TranslationService {
 
 	searchString: string;
 	translations: Translation[];
+
+	file: File;
+	fileContent: string;
 	
 	constructor(private userService: UserService, private http: HttpClient) {   
 	
@@ -183,5 +186,38 @@ export class TranslationService {
 
 	voteTranslation(postID: string, translationID: string, userID: string, vote: boolean): Observable<any> {
 		return this.http.put(this.postsUrl + postID + "/translations/" + translationID + "/vote", {"vote": vote, "userID": userID})
+	}
+
+	readFile(file: File): void {
+		let fileReader = new FileReader();
+		fileReader.onload = () => {
+			console.log(fileReader.result);
+			this.file = file;
+			this.fileContent = <string>(fileReader.result);
+		};
+		fileReader.readAsText(file);
+	}
+
+	saveText(title: string, language: string): void {
+		this.translatedText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), this.fileContent);
+		console.log(this.translatedText.encodeJSON());
+		console.log("Text created");
+	}
+
+	addTranslationToPost(postID: string, translation): void {
+		this.http.post(this.postsUrl + postID + "/" + "translations",
+				{userID : this.userService.getCurrentUser().id,
+					title: translation.title,
+					language: translation.language,
+					text: translation.text}).subscribe((data) => {
+			console.log(data);
+		}, (err) => {
+			console.log(err);
+		});	
+	}
+
+	emptyFile(): void {
+		this.file = undefined;
+		this.fileContent = "";
 	}
 }

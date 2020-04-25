@@ -1,6 +1,6 @@
 <div class = "sidebar" [ngClass]="{'sidebaropened': this.sidebarService.sideBarOpened}">
 	<p class= "sidebarButton" (click)="onClick();" 
-		*ngIf="!(this.sidebarService.sideBarOpened)" >
+		*ngIf="!(this.sidebarService.sideBarOpened || this.isAddingTranslation) " >
 			&#9776;
 	</p> 
 	<div class="sidebarInner" [ngClass]="{'sidebaropened': this.sidebarService.sideBarOpened}">
@@ -18,9 +18,25 @@
 			{{originalLine.getText()}}
 		</p>
 	</div>
-	<div class="translationPreviews">
+	<div *ngIf="!this.isAddingTranslation" class="translationPreviews">
 		<router-outlet name="translations">
 		</router-outlet>
 	</div>
-
+	<div *ngIf="this.isAddingTranslation" class="div-translationForm">
+		<input class="input-title" placeholder="Title" (input)="this.title = $event.target.value" [value]="this.title ? this.title : ''"><br><br>
+		<input class="input-language" placeholder="Language" (input)="this.language = $event.target.value" [value]="this.language ? this.language : ''"><br><br>
+		<div class="div-upload-text">
+			<label>Text:</label><br>
+			<label>Currently selected: {{ this.file? this.file.name : '' }} </label><br>
+			<input type="file" (change)="fileChanged($event)">
+			<br>
+			<br>
+			<label>Preview Text:</label><br>
+			<p> {{ this.translationService.fileContent }} </p>
+		</div>
+		<button class="button-upload" (click)="this.addTranslation()">Upload </button>
+	</div>
+</div>
+<div class="div-addTranslation">
+	<button class="button-addTranslation" (click)="this.toggleTranslationForm()">Add Translation</button>
 </div>
