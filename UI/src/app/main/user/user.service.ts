@@ -19,25 +19,37 @@ export class UserService {
 	num: number = 0;
 	
 	
-	constructor(private http: HttpClient,) {
-		
+	constructor(private http: HttpClient,private cookieService: CookieService) {
+		this.getUserFromCookies().subscribe((user) => {
+			this.setCurrentUser(user);
+			console.log("Set current user from cookies");
+			console.log(user.toString());
+		});
+	}
+	
+	getUserFromCookies(): Observable<User> {
+		if(this.cookieService.check("userId") && this.cookieService.check("_oAuthId")) {
+			var userId: string = this.cookieService.get("userId");
+			var oAuthId: string = this.cookieService.get("_oAuthId");
+			return this.getUser(userId);
+		}
+	}
+	
+	getUser(userID: string): Observable<User> {
+		return this.http.get(this.usersUrl + "/" + userID).pipe(map((res: any) => {
+			console.log(res);
+			var user = res.data
+			var _user = new User(user.userName, user.email, user.oAuthId, user.dateCreated, user.languages, user._id);
+			return _user;
+		}));
 	}
 	
 	setCurrentUser(user: User): void {
 		this.currentUser = user;
-		this.num = 1;
-		console.log(this.num);
 	}
 	
 	getCurrentUser(): User {
-		console.log(this.num);
 		return this.currentUser;
-	}
-	
-	//use a map
-	getUsers(userIDs?: number[], textIDs?: number[]): Observable<User[]> {
-		var users = [];
-		return of(users);
 	}
 	 
 	createUser(user: User): Observable<boolean> {
@@ -64,10 +76,10 @@ export class UserService {
 		});
 		return of(userUpdated);
 	}
-	
 	/*
-	getAllUsers(): Observable<any> {
-		return this.http.get(this.usersUrl);
+	getUser(user: User): Observable<User> {
+		return of(null);
+		
 	}
 	*/
 	
