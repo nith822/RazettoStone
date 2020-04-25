@@ -6,6 +6,7 @@
     border-width: 1px;
     width: 99%;
     text-align: center;
+    overflow-x: hidden;
 }
 
 .div-translation-vote {
