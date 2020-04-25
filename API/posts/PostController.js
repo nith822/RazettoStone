@@ -392,7 +392,7 @@ exports.listPosts =  function(req,res,next){
 
     console.log("getting page " + page + " of posts");
     
-    Post.aggregate([{$skip: postsPerPage*page},{$limit: postsPerPage},
+    Post.aggregate([
        {$project: {
            _id: "$_id",
            title: "$title",
@@ -406,10 +406,10 @@ exports.listPosts =  function(req,res,next){
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
     ]).then(function(posts){
-        var tempArray = posts.sort(sortByNewest);
-        res.send(tempArray.slice(page*postsPerPage,page*postsPerPage+postsPerPage))
+        res.send(posts.sort(sortByNewest).slice(page*postsPerPage,page*postsPerPage+postsPerPage));
     }).catch(next)
 };
+
 
 exports.listTranslations = function(req,res,next){
     // sort by upvotes 
