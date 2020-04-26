@@ -135,7 +135,7 @@ exports.view = function (req, res, next) {
         }
         console.log('Post OP: ' + temp.userID);
         try {
-            userObjectId = mongoose.Types.ObjectId("5e75532986559b1e8cba2959");
+            userObjectId = mongoose.Types.ObjectId(temp.userID);
             console.log(userObjectId);
             User.aggregate([ { $match : { _id: userObjectId}},{$project:{
                 oAuthId: false,
