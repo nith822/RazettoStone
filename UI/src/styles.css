@@ -7,18 +7,18 @@
 }
 
 
-button {
+button, .div-translation, .div-translation-body {
 	cursor: pointer;
 }
 
-button:hover {
+button:hover, .div-translation:hover, .div-translation-body:hover {
 	-webkit-transform: scale(1.05);
     -ms-transform: scale(1.05);
     transform: scale(1.05);
 	box-shadow: inset 0 0 0 2px #53a7ea;
 }
 
-button:active {
+button:active, .div-translation:active, .div-translation-body:active {
 	box-shadow: 0 3px #666;
 	transform: translateY(2px);
 	box-shadow: inset 0 0 0 2px #53a7ea;
