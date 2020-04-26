@@ -23,8 +23,14 @@ export class UserService {
 		this.getUserFromCookies().subscribe((user) => {
 			this.setCurrentUser(user);
 			console.log("Set current user from cookies");
-			console.log(user.toString());
+			if(user) {
+				console.log(user.toString());
+			}
 		});
+	}
+	
+	isLoggedIn(): boolean {
+		return typeof this.currentUser !== 'undefined';
 	}
 	
 	//currentUser is set to undefined if cookie="userId" && "_oAuthId" are not set
@@ -44,7 +50,7 @@ export class UserService {
 		this.cookieService.deleteAll('/');
 	}
 	
-	getUser(userID: string): Observable<User> {
+	getUser(userID: string): Observable<User> | Observable<any> {
 		return this.http.get(this.usersUrl + "/" + userID).pipe(map((res: any) => {
 			console.log(res);
 			if(res.status == 500) {
@@ -88,12 +94,6 @@ export class UserService {
 		});
 		return of(userUpdated);
 	}
-	/*
-	getUser(user: User): Observable<User> {
-		return of(null);
-		
-	}
-	*/
 	
 	getAllUsers(): Observable<User[]> {
 		return this.http.get(this.usersUrl).pipe(

@@ -4,7 +4,6 @@ import { HeaderComponent } from './header/header.component'
 import { FooterComponent } from './footer/footer.component'
 
 
-import { UserService } from '../../user/user.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
@@ -17,7 +16,6 @@ import { CookieService } from 'ngx-cookie-service';
 	FooterComponent
   ],
   providers: [
-	UserService,
 	CookieService
   ]
 })

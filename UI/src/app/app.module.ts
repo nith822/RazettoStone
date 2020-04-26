@@ -10,6 +10,7 @@ import { SharedModule } from './main/modules/shared/shared.module';
 
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider } from "angularx-social-login";
+import { UserService } from './main/user/user.service';
 
 let config = new AuthServiceConfig([
   {
@@ -38,7 +39,7 @@ export function provideConfig() {
 	HttpClientModule,
 	SocialLoginModule
   ],
-  providers: [
+  providers: [ UserService,
   {
 	  provide: AuthServiceConfig,
       useFactory: provideConfig
