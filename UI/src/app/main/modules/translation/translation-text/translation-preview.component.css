@@ -8,6 +8,20 @@
     text-align: center;
 }
 
+.div-translation-preview:hover {
+	-webkit-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    transform: scale(1.01);
+	box-shadow: inset 0 0 0 2px #53a7ea;
+}
+
+.div-translation-preview:active {
+	-webkit-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    transform: scale(1.01);
+	box-shadow: inset 0 0 0 2px #53a7ea;
+}
+
 .div-translation-vote {
     float: left;
     width: 10%;
