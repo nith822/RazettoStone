@@ -27,17 +27,29 @@ export class UserService {
 		});
 	}
 	
+	//currentUser is set to undefined if cookie="userId" && "_oAuthId" are not set
 	getUserFromCookies(): Observable<User> {
 		if(this.cookieService.check("userId") && this.cookieService.check("_oAuthId")) {
 			var userId: string = this.cookieService.get("userId");
 			var oAuthId: string = this.cookieService.get("_oAuthId");
 			return this.getUser(userId);
+		} else {
+			return of(undefined);
 		}
+	}
+	
+	//clear all cookies as well
+	logOut(): void {
+		this.currentUser = undefined;
+		this.cookieService.deleteAll('/');
 	}
 	
 	getUser(userID: string): Observable<User> {
 		return this.http.get(this.usersUrl + "/" + userID).pipe(map((res: any) => {
 			console.log(res);
+			if(res.status == 500) {
+				return of(undefined);
+			}
 			var user = res.data
 			var _user = new User(user.userName, user.email, user.oAuthId, user.dateCreated, user.languages, user._id);
 			return _user;

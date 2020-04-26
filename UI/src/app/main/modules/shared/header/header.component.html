@@ -1,9 +1,14 @@
 <div class="container-div">
 	<nav class="nav-bar">
-		<button class="nav-button" (click)="this.router.navigateByUrl('')"> Front Page </button >
-		<button class="nav-button" (click)="this.router.navigateByUrl('translations')"> Translation List </button >
-		<button class="nav-button" (click)="this.router.navigateByUrl('upload')"> Upload </button >
-		<button class="nav-button" (click)="this.router.navigateByUrl('homePage')"> HomePage Search</button>
-		<button class="nav-button" style="float:right; background-color:cornflowerblue;" (click)="this.router.navigateByUrl('login')"> Login </button >
+		<button class="nav-button" (click)="this.navigate('')"> Front Page </button >
+		<button class="nav-button" (click)="this.navigate('translations')"> Translation List </button >
+		<button class="nav-button" (click)="this.navigate('upload')"> Upload </button >
+		<button class="nav-button" (click)="this.navigate('homePage')"> HomePage Search</button>
+		<div class="div-login">
+			<div class="div-login-button" *ngIf="!this.userService.getCurrentUser()">
+				<button  class="nav-button"(click)="this.navigate('login')"> Login </button >
+			</div>
+			<button  *ngIf="this.userService.getCurrentUser()" class="nav-button" (click)="this.userService.logOut()"> {{ this.userService.getCurrentUser().userName }} </button>
+		</div>
 	</nav>
 </div>
