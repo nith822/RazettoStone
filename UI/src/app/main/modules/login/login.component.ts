@@ -69,7 +69,8 @@ export class LoginComponent implements OnInit {
 				for(let user of users) {
 					if (user.userName == userName && user.email == email)
 					{
-						this.cookieService.set("userId", user.id);
+						this.cookieService.set("userId", user.id, this.setCookieDate(30));
+						this.cookieService.set("_oAuthId", user.oAuthId, this.setCookieDate(30));
 						break;
 					}
 				}
@@ -89,8 +90,10 @@ export class LoginComponent implements OnInit {
 					user_id = user.id
 					console.log(user_id);
 					this.userService.updateUser(new User(userName, email, oAuthId, null, null, user_id));
+					this.userService.setCurrentUser(new User(userName, email, oAuthId, null, null, user_id));
 					console.log('saving cookie')
-					this.cookieService.set("userId", user_id);
+					this.cookieService.set("userId", user_id, this.setCookieDate(30));
+					this.cookieService.set("_oAuthId", user.oAuthId, this.setCookieDate(30));
 					break;
 				}
 			}
@@ -101,5 +104,11 @@ export class LoginComponent implements OnInit {
 	
 	signInWithFB(): void {
 		this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+	}
+	
+	setCookieDate(numDays: number): Date {
+		var d = new Date();
+		d.setTime(d.getTime() + (numDays*24*60*60*1000));
+		return d;
 	}
 }

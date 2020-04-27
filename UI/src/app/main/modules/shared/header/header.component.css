@@ -1,4 +1,5 @@
 .container-div {
+	display: block;
 }
 
 .nav-button {
@@ -9,6 +10,12 @@
     padding: 10px 15px;
     border: #333;
     font-size: 15px;
+	float:left; 
+}
+
+.div-login .nav-button {
+	float:right; 
+	background-color:cornflowerblue;
 }
 
 .nav-bar {

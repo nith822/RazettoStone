@@ -56,7 +56,7 @@ export class TranslationService {
 	getPost(translationID: string): Observable<Translation> {
 		var translation: Translation;
 		return this.http.get(this.postsUrl + translationID).pipe(map((translation: any) => {
-			//console.log(translation);
+			console.log(translation);
 			var _translation = new Translation(
 					null, 
 					translation.data.title, 

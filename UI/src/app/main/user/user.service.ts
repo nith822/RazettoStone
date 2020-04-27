@@ -4,8 +4,11 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {map, filter, catchError, mergeMap} from 'rxjs/operators'
+import { CookieService } from 'ngx-cookie-service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class UserService {
 
 	
@@ -13,29 +16,66 @@ export class UserService {
 	headers: HttpHeaders  = new HttpHeaders(); 
 	
 	currentUser: User;
+	num: number = 0;
 	
 	
-	constructor(private http: HttpClient,) {
-		let mockUser = new User("420yoloswag", "bob.sanders@gmail.com", "123", new Date(), ["JP"], "420");
-		this.currentUser = mockUser;
+	constructor(private http: HttpClient,private cookieService: CookieService) {
+		this.getUserFromCookies().subscribe((user) => {
+			this.setCurrentUser(user);
+			console.log("Set current user from cookies");
+			if(user) {
+				console.log(user.toString());
+			}
+		});
+	}
+	
+	isLoggedIn(): boolean {
+		return typeof this.currentUser !== 'undefined';
+	}
+	
+	//currentUser is set to undefined if cookie="userId" && "_oAuthId" are not set
+	getUserFromCookies(): Observable<User> {
+		if(this.cookieService.check("userId") && this.cookieService.check("_oAuthId")) {
+			var userId: string = this.cookieService.get("userId");
+			var oAuthId: string = this.cookieService.get("_oAuthId");
+			return this.getUser(userId);
+		} else {
+			return of(undefined);
+		}
+	}
+	
+	//clear all cookies as well
+	logOut(): void {
+		this.currentUser = undefined;
+		this.cookieService.deleteAll('/');
+	}
+	
+	getUser(userID: string): Observable<User> | Observable<any> {
+		return this.http.get(this.usersUrl + "/" + userID).pipe(map((res: any) => {
+			console.log(res);
+			if(res.status == 500) {
+				return of(undefined);
+			}
+			var user = res.data
+			var _user = new User(user.userName, user.email, user.oAuthId, user.dateCreated, user.languages, user._id);
+			return _user;
+		}));
+	}
+	
+	setCurrentUser(user: User): void {
+		this.currentUser = user;
 	}
 	
 	getCurrentUser(): User {
 		return this.currentUser;
 	}
-	
-	//use a map
-	getUsers(userIDs?: number[], textIDs?: number[]): Observable<User[]> {
-		var users = [];
-		return of(users);
-	}
 	 
 	createUser(user: User): Observable<boolean> {
 		var userCreated = false; 
-		this.currentUser = user;
 		this.headers.set('Content-Type', 'application/json');
 		this.http.post(this.usersUrl, user, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
+			this.setCurrentUser(user);
 			userCreated = true;
 		}, (err) => {
 			userCreated = false;
@@ -45,7 +85,6 @@ export class UserService {
 
 	updateUser(user: User): Observable<boolean> {
 		var userUpdated: boolean;
-		this.currentUser = user;
 		this.headers.set('Content-Type', 'application/json');
 		this.http.put(this.usersUrl+'/'+user.getID(), user, {headers: this.headers}).subscribe((data) => {
 			console.log("mydata+ " + data);
@@ -55,12 +94,6 @@ export class UserService {
 		});
 		return of(userUpdated);
 	}
-	
-	/*
-	getAllUsers(): Observable<any> {
-		return this.http.get(this.usersUrl);
-	}
-	*/
 	
 	getAllUsers(): Observable<User[]> {
 		return this.http.get(this.usersUrl).pipe(

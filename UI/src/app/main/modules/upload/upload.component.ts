@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { UploadService } from '../../upload/upload.service';
 
 import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/router';
+import { UserService } from "../../user/user.service";
 
 @Component({
   selector: 'app-upload',
@@ -20,11 +21,16 @@ export class UploadComponent implements OnInit {
 	file: File;
 	
 	constructor(private route: ActivatedRoute, public router: Router,
-		public uploadService: UploadService, public location: Location, ) { 
+		public uploadService: UploadService, public location: Location, public userService: UserService) { 
 	}
 
 	ngOnInit() {
 		console.log("init upload component");
+		console.log(this.userService.getCurrentUser());
+		if(!this.userService.isLoggedIn())  {
+			this.router.navigateByUrl("login");
+			alert("Must be logged in to upload translations");
+		}
 		
 		const translationID = this.route.snapshot.params['id'];
 		if(translationID) {
