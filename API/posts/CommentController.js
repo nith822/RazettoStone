@@ -5,7 +5,8 @@ const router = express.Router();
 const Post = require('./PostModel');
 const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
-var mongoose = require('mongoose');
+const Utility = require('../utility/Utility');
+const mongoose = require('mongoose');
 
 
 // constant for max length
@@ -185,3 +186,62 @@ exports.replyToTranslationComment = function(req,res,next){
     })
        }).catch(next)
 }
+
+
+exports.listPostComments = function(req, res, next) {
+    console.log('Attempting to get post comments ' + req.params.post_id)
+    let errorMessage = '';
+    Post.findOne({_id: req.params.post_id}).then(function(post){
+        post.comments.forEach(comment => {
+            try {
+                userObjectId = mongoose.Types.ObjectId(post.userID);
+                console.log(userObjectId);
+
+                comment['user_object'] = retrieveUserById(userObjectId);
+            } catch (exception) {
+                console.log('That comment probably did not have a real user ID');
+                console.log(exception);
+            }
+        });
+
+        res.send(post.comments);
+    }).catch(next);
+};
+
+exports.listTranslationComments = function(req, res, next) {
+    console.log('Attempting to get translation comments ' + req.params.translation_id)
+    let errorMessage = '';
+    Post.aggregate([
+        { $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
+        { $project : {
+            _id: false,
+            translation: {
+                $filter:{
+                    "input": "$translations",
+                    "as": "translation",
+                    "cond": {"$eq":["$$translation._id", mongoose.Types.ObjectId(req.params.translation_id)]}
+                }
+            }
+          }
+        }
+    ]).then(function(post){
+        if (post.length > 0 && post[0].translation.length > 0) {
+	    post[0].translation[0].comments.forEach(comment => {
+                try {
+                    userObjectId = mongoose.Types.ObjectId(post.userID);
+                    console.log(userObjectId);
+
+                    comment['user_object'] = retrieveUserById(userObjectId);
+                } catch (exception) {
+                    console.log('That comment probably did not have a real user ID');
+                    console.log(exception);
+                }
+            });
+
+            res.send(post[0].translation[0].comments);
+	} else {
+	    // That post probably didn't have any translations
+	    res.send([]);
+	}
+    }).catch(next);
+};

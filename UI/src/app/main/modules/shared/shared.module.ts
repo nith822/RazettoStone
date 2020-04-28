@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component'
 import { FooterComponent } from './footer/footer.component'
 
 
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent],
@@ -13,6 +14,9 @@ import { FooterComponent } from './footer/footer.component'
   exports: [
 	HeaderComponent,
 	FooterComponent
+  ],
+  providers: [
+	CookieService
   ]
 })
 export class SharedModule { }
