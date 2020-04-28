@@ -1,5 +1,5 @@
 const cookieParser = require('cookie-parser'); 
-let auth = require('../auth');
+let GetCookie = require('../GetCookie');
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
@@ -14,7 +14,7 @@ const maxLanguageLength = 20;
 const maxTagLength = 20;
 
 // create new post
-exports.create = async function (req, res, next) {
+exports.create = function (req, res, next) {
 
     // this might also work isntead of the code above
     console.log('Attempting to create new post')
@@ -37,9 +37,6 @@ exports.create = async function (req, res, next) {
         console.log('Request did not have text');
         errorMessage = errorMessage.concat('Need text. ');
     }
-    
-    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     // check for max length
     if(req.body.text.length > maxTextLength){
@@ -76,9 +73,9 @@ exports.create = async function (req, res, next) {
         title: req.body.title,
         textLanguage: req.body.language,
         text: req.body.text,
-        userID: req.body.userID,
+        userID: GetCookie.UID(req),
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        upvotes: [req.body.userID],                             // are we going to make the poster auto upvote their post?
+        upvotes: [GetCookie.UID(req)],                             // are we going to make the poster auto upvote their post?
         downvotes: [],  // on creation there shouldn't be any downvotes
         //tags: req.body.tags,                                   // tags might be not required
         // on creation will not have comments, flags
@@ -134,7 +131,7 @@ exports.view = function (req, res, next) {
 
 
 
-exports.addTranslation = async function (req, res, next){
+exports.addTranslation = function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
     
@@ -155,9 +152,6 @@ exports.addTranslation = async function (req, res, next){
         console.log('Request did not have text');
         errorMessage = errorMessage.concat('Need text. ');
     }
-    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(await auth.validateUser(req));
-
     
     // check for max length
     if(req.body.text.length > maxTextLength){
@@ -195,8 +189,8 @@ exports.addTranslation = async function (req, res, next){
         title: req.body.title,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: [],
         comments: []}}}).then(function(){
         Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -216,15 +210,12 @@ exports.search = function (req, res, next){
 }
 
 // need to check if duplicate
-exports.flagTranslation = async function(req,res,next){
+exports.flagTranslation = function(req,res,next){
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     var errorMessage = '';
     // Checking for required parameters
     
-    
-    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(await auth.validateUser(req));
 
     // add more check
     if (req.body.flag == undefined)
@@ -244,7 +235,7 @@ exports.flagTranslation = async function(req,res,next){
     errorMessage = '';
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
     {$addToSet: {"translations.$.flags": {
-        userID: req.body.userID,
+        userID: GetCookie.UID(req),
         flag: req.body.flag
         }}}).then(function(){
             Post.findOne({_id: req.params.post_id}).then(function(post){

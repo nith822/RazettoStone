@@ -1,5 +1,5 @@
 const cookieParser = require('cookie-parser');
-let auth = require('../auth');
+let GetCookie = require('../GetCookie');
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
@@ -12,13 +12,10 @@ var mongoose = require('mongoose');
 const maxLanguageLength = 20;
 const maxCommentLength = 300;
 
-exports.commentOnPost = async function(req,res,next){
+exports.commentOnPost = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
     // Checking for required parameters
-    
-    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {
@@ -53,8 +50,8 @@ exports.commentOnPost = async function(req,res,next){
         text: req.body.text,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: [],
         }}}).then(function(){
         Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -63,7 +60,7 @@ exports.commentOnPost = async function(req,res,next){
     }).catch(next);
 }
 
-exports.commentOnTranslation = async function(req,res,next){
+exports.commentOnTranslation = function(req,res,next){
     console.log(req.params)
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     console.log('Attempting to add comment to post ' + req.params.post_id)
@@ -71,8 +68,6 @@ exports.commentOnTranslation = async function(req,res,next){
     // Checking for required parameters
     
     
-    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {
@@ -99,8 +94,8 @@ exports.commentOnTranslation = async function(req,res,next){
         text: req.body.text,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: [],
         }}}).then(function(){
             Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -109,13 +104,11 @@ exports.commentOnTranslation = async function(req,res,next){
         }).catch(next)
 }
 
-exports.replyToPostComment = async function(req,res,next){
+exports.replyToPostComment = function(req,res,next){
     console.log("Replying to post comment " + req.params.comment_id)
     var errorMessage = '';
     // Checking for required parameters
     
-    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {
@@ -142,8 +135,8 @@ exports.replyToPostComment = async function(req,res,next){
         text: req.body.text,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: []
     }}
         }).then(function(){
@@ -153,13 +146,10 @@ exports.replyToPostComment = async function(req,res,next){
         }).catch(next)
 }
 
-exports.replyToTranslationComment = async function(req,res,next){
+exports.replyToTranslationComment = function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
     
-    
-    //Validate user will check to see if there is a valid user id, and whether the user Id and Oauth Id match
-    errorMessage = errorMessage.concat(await auth.validateUser(req));
     
     if (req.body.language == undefined || !req.body.language.trim())
     {
@@ -186,8 +176,8 @@ exports.replyToTranslationComment = async function(req,res,next){
     text: req.body.text,
     textLanguage: req.body.language,
     dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-    userID: req.body.userID,
-    upvotes: [req.body.userID],
+    userID: GetCookie.UID(req),
+    upvotes: [GetCookie.UID(req)],
     downvotes: []
 }}}, { arrayFilters: [{ 'comment._id': req.params.comment_id }] }).then(function(){
     Post.findOne({_id: req.params.post_id}).then(function(post){
