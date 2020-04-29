@@ -95,7 +95,7 @@ exports.create = async function (req, res) {
                     if (err) {
                         res.status(500).json(err);
                     } else {
-			res.cookie('oAuthId', user.oAuthId).json({
+			              res/*.cookie('oAuthId', user.oAuthId)*/.json({
                             message: 'New user created!',
                             data: user
                         });
@@ -149,7 +149,7 @@ User.findById(req.params.user_id, function (err, user) {
                 res.status(500).send(err);
                 return res;
             }
-	    res.cookie('oAuthId', user.oAuthId).json({
+	    res/*.cookie('oAuthId', user.oAuthId)*/.json({
 		status: 'success',
                 message: 'User Info updated',
                 data: user

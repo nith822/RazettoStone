@@ -69,7 +69,7 @@ function pullOAuthID(req){
         if(x != undefined)
         {
             var s = x.split("=");
-            if(s[0] == 'oAuthId') value = s[1];
+            if(s[0] == '_oAuthId') value = s[1];
         }
     }
     if(value.charAt(value.length - 1) == ';')
