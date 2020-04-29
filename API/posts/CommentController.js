@@ -2,8 +2,8 @@ const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
 const User = require('../users/UserModel');
-const Translation = require('./translations/TranslationModel')
 const Utility = require('../utility/Utility');
+const Translation = require('./translations/TranslationModel');
 const mongoose = require('mongoose');
 
 // constant for max length
@@ -197,22 +197,35 @@ exports.replyToTranslationComment = function(req,res,next){
 }
 
 exports.listPostComments = function(req, res, next) {
-    console.log('Attempting to get post comments ' + req.params.post_id)
+    console.log('AAAAAAAAAAAAttempting to get post comments ' + req.params.post_id)
     let errorMessage = '';
     Post.findOne({_id: req.params.post_id}).then(function(post){
-        post.comments.forEach(comment => {
+	for (let i = 0; i < post.comments.length; i++) {
             try {
-                userObjectId = mongoose.Types.ObjectId(post.userID);
-                console.log(userObjectId);
+                let userObjectId = mongoose.Types.ObjectId(post.comments[i].userID);
+                console.log('userId from comment: ' + userObjectId);
+		let user;
+	        User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+        	    oAuthId: false,
+        	    email: false
+                }}]).then(function(returnedUser){
+                    //console.log(user);
+                    user = returnedUser;
+		    post.comments[i].user_object = user;
+		    console.log(user);
+		    console.log('choo choo here comes the user');
+		    console.log(post.comments[i].user_object);
 
-                comment['user_object'] = retrieveUserById(userObjectId);
+		    //res.send(post.comments);
+                });
             } catch (exception) {
                 console.log('That comment probably did not have a real user ID');
                 console.log(exception);
             }
-        });
+        }
 
-        res.send(post.comments);
+        console.log(post.comments);
+	res.send(post.comments);
     }).catch(next);
 };
 
@@ -234,17 +247,19 @@ exports.listTranslationComments = function(req, res, next) {
         }
     ]).then(function(post){
         if (post.length > 0 && post[0].translation.length > 0) {
-	    post[0].translation[0].comments.forEach(comment => {
+	    for (let i = 0; i < post[0].translation[0].comments.length; i++) {
                 try {
-                    userObjectId = mongoose.Types.ObjectId(post.userID);
+                    userObjectId = mongoose.Types.ObjectId(post[0].translation[0].comments[i].userID);
                     console.log(userObjectId);
 
-                    comment['user_object'] = retrieveUserById(userObjectId);
+                    post[0].translation[0].comments[i]['user_object'] = Utility.retrieveUserById(userObjectId);
+		    console.log('vroomz!');
+		    console.log(post[0].translation[0].comment[i]['user_object']);
                 } catch (exception) {
                     console.log('That comment probably did not have a real user ID');
                     console.log(exception);
                 }
-            });
+            }
 
             res.send(post[0].translation[0].comments);
 	} else {

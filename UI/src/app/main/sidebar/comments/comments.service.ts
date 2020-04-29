@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { map, filter, catchError, mergeMap } from 'rxjs/operators'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Comment } from './comment';
+import { Translation } from '../../translation/translation'
 
 import { User } from '../../user/user';
 import { UserService } from '../../user/user.service';
@@ -18,8 +20,62 @@ export class CommentsService {
 	constructor(private http: HttpClient, private userService: UserService) { 
 	}
 	
-	getComments(translationID: number): Observable<Comment[]>{
-		return of(this.comments);
+	getComments(postID: string): Observable<Comment[]>{
+		console.log("GET COMMENTS " + postID);
+		//if(!translationID) {
+			return this.http.get(this.postsUrl + "/" + postID + "/comments", {headers: this.headers}).pipe(
+				map(function(res) {
+					let response: any = res;
+					console.log("ASDF");
+					console.log("response: " + response);
+					this.comments = response.map(comment => {
+						if (comment.user_object) {
+							return new Comment(comment.user_object, comment.text, comment.language);
+						} else {
+							console.log('that comment didn\'t have a user');
+							return new Comment(null, comment.text, comment.language);
+						}
+					});
+					return this.comments;
+				}));
+
+			console.log("weird debugging");
+			console.log(this.http.get(this.postsUrl).pipe(
+		map(res => {
+		let response: any = res;
+		return response.map((translation) => {
+			var _translation = new Translation(
+					null, 
+					translation.title, 
+					translation.language, 
+					null,
+					translation.upvotes,
+					translation.downvotes,
+					translation._id,
+					translation.dateCreated,
+					translation.previewText,
+					null,
+					translation.tags);
+				//console.log(translation);
+				return _translation;
+			});
+		})));
+
+			console.log("BRUH");
+			/*}, (err) => {
+				console.log(err);
+			});*/
+		/*} else {
+			this.http.post(this.postsUrl + "/" + postID + "/translations" + "/" + translationID + "/comments", {headers: this.headers}).subscribe((data) => {
+				console.log("comments: " + data);
+				this.comments = data;
+			}, (err) => {
+				console.log(err);
+			});	
+		}*/
+
+		//console.log(this.comments);
+		//return of(this.comments);
 	}
 	
 	postComment(comment: Comment, postID: string, translationID?: string): void {
