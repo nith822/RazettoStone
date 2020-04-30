@@ -35,7 +35,9 @@ async function validateUser(req, res, next){
         async function validate(UID, OID)
         {
             console.log('user ID: ' + UID + ' OID: ' + OID);
-            const val = await User.exists({_id: UID, oAuthId: OID});
+            const exists = await User.findOne({_id: UID, oAuthId: OID});
+            console.log(exists);
+            val = Date.now() < exists.oAuthExpiration;
             console.log(val);
             return val;
         }
