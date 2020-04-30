@@ -64,4 +64,8 @@ export class TranslationComponent implements OnInit {
 	onClick(): void {
 		this.sidebarService.toggleSideBar();
 	}
+
+	navigate(comp: string): void {
+		this.router.navigateByUrl(comp);
+	}
 }

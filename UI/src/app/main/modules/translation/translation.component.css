@@ -56,3 +56,12 @@
 	cursor: pointer;
 }
 
+.button-addTranslation {
+	padding: 0.7vh 2vh;
+    background-size: 7vh;
+    text-align: center;
+    background-color: cornflowerblue;
+    color: white;
+    font-size: 15px;
+    margin: 1vh
+}

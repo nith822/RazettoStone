@@ -8,6 +8,7 @@ import { Comment } from '../sidebar/comments/comment';
 import { Translation } from '../translation/translation';
 
 import { UserService } from '../user/user.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class UploadService {
 	
 	tags: string;
 	
-	constructor(private http: HttpClient, private userService: UserService) { 
+	constructor(private http: HttpClient, private userService: UserService, private router: Router) { 
   
 	}
 	
@@ -42,8 +43,10 @@ export class UploadService {
 			console.log(post.encodeJSON());
 			this.uploadPost(post.encodeJSON());
 		} else {
+			this.translatedText.user = this.userService.getCurrentUser();
 			this.addTranslationToPost(postID, this.translatedText);
 		}
+		this.router.navigateByUrl('/translations');
 	}
 	
 	
@@ -59,7 +62,10 @@ export class UploadService {
 	
 	//add translation to post
 	addTranslationToPost(postID: string, translation): void {
-		this.http.post(this.postsUrl + "/" + postID + "/" + "translations", translation, {headers: this.headers}).subscribe((data) => {
+		this.http.post(this.postsUrl + "/" + postID + "/" + "translations", {userID: translation.user.id,
+																				title: translation.title,
+																				language: translation.language,
+																				text: translation.text}, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
 		}, (err) => {
 			console.log(err);
