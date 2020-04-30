@@ -34,9 +34,9 @@ async function validateUser(req, res, next){
     // Checks Id against Oauth Token to make sure user is valid
         async function validate(UID, OID)
         {
-            console.log('user ID: ' + UID + ' OID: ' + OID);
-            const val = await User.exists({_id: UID, oAuthId: OID});
-            console.log(val);
+            const exists = await User.findOne({_id: UID, oAuthId: OID});
+            val = Date.now() < exists.oAuthExpiration;
+            console.log('user Verification Status: ' + val);
             return val;
         }
         var ths = await validate(getCookie.UID(req), getCookie.OID(req));

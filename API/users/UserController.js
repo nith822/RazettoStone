@@ -46,7 +46,8 @@ exports.create = async function (req, res) {
         email: req.body.email,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         languages: req.body.languages,
-        oAuthId: req.body.oAuthId
+        oAuthId: req.body.oAuthId,
+        oAuthExpiration: (Date.now()+1000*60*60*24)
     });
     
     var isAuthenticated = await auth.verify(user.oAuthId);
@@ -142,7 +143,9 @@ User.findById(req.params.user_id, function (err, user) {
         if (req.body.email) user.email = req.body.email
         // Send the whole language array for adding or removing languages
         if (req.body.languages) user.languages = req.body.languages
-        if (req.body.oAuthId) user.oAuthId = req.body.oAuthId
+        if (req.body.oAuthId)
+              {user.oAuthId = req.body.oAuthId;
+              user.oAuthExpiration = (Date.now()+1000*60*60*24)}
 
         user.save(function (err) {
             if (err)
