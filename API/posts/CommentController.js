@@ -1,3 +1,5 @@
+const cookieParser = require('cookie-parser');
+let GetCookie = require('../GetCookie');
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
@@ -5,6 +7,7 @@ const User = require('../users/UserModel');
 const Translation = require('./translations/TranslationModel')
 const Utility = require('../utility/Utility');
 const mongoose = require('mongoose');
+
 
 // constant for max length
 const maxLanguageLength = 20;
@@ -14,11 +17,7 @@ exports.commentOnPost = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');
@@ -52,8 +51,8 @@ exports.commentOnPost = function(req,res,next){
         text: req.body.text,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: [],
         }}}).then(function(){
         Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -68,11 +67,9 @@ exports.commentOnTranslation = function(req,res,next){
     console.log('Attempting to add comment to post ' + req.params.post_id)
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');
@@ -98,8 +95,8 @@ exports.commentOnTranslation = function(req,res,next){
         text: req.body.text,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: [],
         }}}).then(function(){
             Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -112,11 +109,8 @@ exports.replyToPostComment = function(req,res,next){
     console.log("Replying to post comment " + req.params.comment_id)
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');
@@ -142,8 +136,8 @@ exports.replyToPostComment = function(req,res,next){
         text: req.body.text,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: []
     }}
         }).then(function(){
@@ -156,11 +150,8 @@ exports.replyToPostComment = function(req,res,next){
 exports.replyToTranslationComment = function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
+    
     if (req.body.language == undefined || !req.body.language.trim())
     {
         console.log('Request did not have language');
@@ -186,8 +177,8 @@ exports.replyToTranslationComment = function(req,res,next){
     text: req.body.text,
     textLanguage: req.body.language,
     dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-    userID: req.body.userID,
-    upvotes: [req.body.userID],
+    userID: GetCookie.UID(req),
+    upvotes: [GetCookie.UID(req)],
     downvotes: []
 }}}, { arrayFilters: [{ 'comment._id': req.params.comment_id }] }).then(function(){
     Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -195,6 +186,7 @@ exports.replyToTranslationComment = function(req,res,next){
     })
        }).catch(next)
 }
+
 
 exports.listPostComments = function(req, res, next) {
     console.log('Attempting to get post comments ' + req.params.post_id)

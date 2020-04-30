@@ -1,5 +1,5 @@
 const cookieParser = require('cookie-parser'); 
-
+let GetCookie = require('../GetCookie');
 const express = require ('express');
 const router = express.Router();
 const Post = require('./PostModel');
@@ -37,11 +37,7 @@ exports.create = function (req, res, next) {
         console.log('Request did not have text');
         errorMessage = errorMessage.concat('Need text. ');
     }
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
     // check for max length
     if(req.body.text.length > maxTextLength){
         console.log('Text is longer than max length');
@@ -55,29 +51,7 @@ exports.create = function (req, res, next) {
         console.log('language is longer than max length');
         errorMessage = errorMessage.concat('language too long. ');
     }
-    else
-    {
-	var cook = req.headers.cookie;
-	var comp = cook.split(" ");
-	var x;
-	var value;
-	for(x of comp)
-	{
-		var s = x.split("=");
-		if(s[0] == 'oAuthId') value = s[1];
-	}
-	if(!value)
-	{
-	console.log('Request did not have Auth ID');
-	console.log(comp);
-	errorMessage = errorMessage.concat('Need authID. ');
-	}
-        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
-        {
-	console.log('Please Log in to make a post');
-	errorMessage = errorMessage.concat('Need to log in ');
-        }
-    }
+    
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
         console.log('Request did not have tags');
@@ -85,6 +59,7 @@ exports.create = function (req, res, next) {
     }
     if (errorMessage.length)
     {
+        console.log(errorMessage);
         res.status(422).json({
             message: errorMessage,
             status: 'failed'
@@ -98,9 +73,9 @@ exports.create = function (req, res, next) {
         title: req.body.title,
         textLanguage: req.body.language,
         text: req.body.text,
-        userID: req.body.userID,
+        userID: GetCookie.UID(req),
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        upvotes: [req.body.userID],                             // are we going to make the poster auto upvote their post?
+        upvotes: [GetCookie.UID(req)],                             // are we going to make the poster auto upvote their post?
         downvotes: [],  // on creation there shouldn't be any downvotes
         //tags: req.body.tags,                                   // tags might be not required
         // on creation will not have comments, flags
@@ -116,11 +91,12 @@ exports.create = function (req, res, next) {
     }).catch(next);
 };
 
-
+// TODO: project out comments
 // view post by id
 exports.view = function (req, res, next) {
     console.log('Attempting to retrieve post from DB')
     Post.findById(req.params.post_id).then(function(post){
+
         // temp fix there is probably a better way to do this
         var temp = {
             _id: post._id,
@@ -153,6 +129,8 @@ exports.view = function (req, res, next) {
     }).catch(next)
 };
 
+
+
 exports.addTranslation = function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
@@ -174,11 +152,7 @@ exports.addTranslation = function (req, res, next){
         console.log('Request did not have text');
         errorMessage = errorMessage.concat('Need text. ');
     }
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
+    
     // check for max length
     if(req.body.text.length > maxTextLength){
         console.log('Text is longer than max length');
@@ -192,29 +166,7 @@ exports.addTranslation = function (req, res, next){
         console.log('Text is longer than max length');
         errorMessage = errorMessage.concat('Text too long. ');
     }
-    else
-    {
-	var cook = req.headers.cookie;
-	var comp = cook.split(" ");
-	var x;
-	var value;
-	for(x of comp)
-	{
-		var s = x.split("=");
-		if(s[0] == 'oAuthId') value = s[1];
-	}
-	if(!value)
-	{
-	console.log('Request did not have Auth ID');
-	console.log(comp);
-	errorMessage = errorMessage.concat('Need authID. ');
-	}
-        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
-        {
-	console.log('Please Log in to make a post');
-	errorMessage = errorMessage.concat('Need to log in ');
-        }
-    }
+    
 
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
     {
@@ -237,8 +189,8 @@ exports.addTranslation = function (req, res, next){
         title: req.body.title,
         textLanguage: req.body.language,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
-        userID: req.body.userID,
-        upvotes: [req.body.userID],
+        userID: GetCookie.UID(req),
+        upvotes: [GetCookie.UID(req)],
         downvotes: [],
         comments: []}}}).then(function(){
         Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -263,34 +215,7 @@ exports.flagTranslation = function(req,res,next){
     console.log('Attempting to add comment to translation ' + req.params.translation_id)
     var errorMessage = '';
     // Checking for required parameters
-    if (req.body.userID == undefined || !req.body.userID.trim())
-    {
-        console.log('Request did not have userID');
-        errorMessage = errorMessage.concat('Need userID. ');
-    }
-    else
-    {
-	var cook = req.headers.cookie;
-	var comp = cook.split(" ");
-	var x;
-	var value;
-	for(x of comp)
-	{
-		var s = x.split("=");
-		if(s[0] == 'oAuthId') value = s[1];
-	}
-	if(!value)
-	{
-	console.log('Request did not have Auth ID');
-	console.log(comp);
-	errorMessage = errorMessage.concat('Need authID. ');
-	}
-        else if(!User.exists({_id: req.body.userID, oAuthId: value}))
-        {
-	console.log('Please Log in to make a post');
-	errorMessage = errorMessage.concat('Need to log in ');
-        }
-    }
+    
 
     // add more check
     if (req.body.flag == undefined)
@@ -310,7 +235,7 @@ exports.flagTranslation = function(req,res,next){
     errorMessage = '';
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
     {$addToSet: {"translations.$.flags": {
-        userID: req.body.userID,
+        userID: GetCookie.UID(req),
         flag: req.body.flag
         }}}).then(function(){
             Post.findOne({_id: req.params.post_id}).then(function(post){
@@ -318,6 +243,7 @@ exports.flagTranslation = function(req,res,next){
             })
         }).catch(next)
 }
+
 
 exports.getOneTranslation = function(req,res,next){
     console.log('Attempting to translation ' + req.params.translation_id + ' from DB')
@@ -335,6 +261,7 @@ exports.getOneTranslation = function(req,res,next){
           }
         }
     ]).then(function(post){
+
         var temp = post[0].translation[0];
         delete temp.comments;
         try {
@@ -371,27 +298,28 @@ exports.listPosts =  function(req,res,next){
     var page;
     var sizeOfPreview;
     var postsPerPage;
-
+    
     if (req.query.page == null){
         page = 0;
     }else{
         page = Number(req.query.page);
     }
-
+    
     if (req.query.sizeOfPreview == null){
         sizeOfPreview = 100;
     }else{
         sizeOfPreview = Number(req.query.sizeOfPreview);
     }
-
+    
     if (req.query.postsPerPage == null){
         postsPerPage = 10;
     }else{
         postsPerPage = Number(req.query.postsPerPage);
     }
-
+    
     console.log("getting page " + page + " of posts");
     
+
     Post.aggregate([
        {$project: {
            _id: "$_id",
@@ -431,22 +359,23 @@ exports.listTranslations = function(req,res,next){
     }else{
         page = Number(req.query.page);
     }
-
+    
     if (req.query.translationsPerPage == null){
         translationsPerPage = 10;
     }else{
         translationsPerPage = Number(req.query.translationsPerPage);
     }
-
+    
     if (req.query.withComments == null){
         withComments = false;
     }else{
         withComments = true;;
     }
-
+    
     console.log("getting page " + page + " of translations for post " + req.params.post_id);
     
     Post.aggregate([{ $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
+
         {$project: {
             "translations.comments": withComments
         }}                   
@@ -455,4 +384,3 @@ exports.listTranslations = function(req,res,next){
         res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
      }).catch(next)
 };
-
