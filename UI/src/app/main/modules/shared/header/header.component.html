@@ -6,7 +6,7 @@
 		<button class="nav-button" (click)="this.navigate('homePage')"> HomePage Search</button>
 		<div class="div-login">
 			<button  *ngIf="!this.userService.getCurrentUser()" class="nav-button"(click)="this.navigate('login')"> Login </button >
-			<button  *ngIf="this.userService.getCurrentUser()" class="nav-button" (click)="this.userService.logOut()"> {{ this.userService.getCurrentUser().userName }} </button>
+			<button  *ngIf="this.userService.getCurrentUser()" class="nav-button-logout" (click)="this.userService.logOut()"> <span>{{ this.userService.getCurrentUser().userName }}</span> </button>
 		</div>
 	</nav>
 </div>

@@ -25,3 +25,22 @@
     overflow: hidden;
     background-color: #333;
 }
+
+.nav-button-logout {
+    /* display: block; */
+    color: white;
+    text-align: center;
+    padding: 10px 15px;
+    border: #333;
+    font-size: 15px;
+    float:right; 
+	background-color:cornflowerblue;
+}
+
+.nav-button-logout:hover::before {
+    content: "Logout";
+}
+
+.nav-button-logout:hover span {
+    display: none;
+}
