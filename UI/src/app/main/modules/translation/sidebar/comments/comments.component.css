@@ -1,0 +1,14 @@
+.div-add-comment {
+    border: 1px;
+    border-style: outset;
+    display: flex;
+}
+
+.input-comment {
+    width: 90%;
+}
+
+.button-comment {
+    background-color: rgb(220, 106, 243);
+    font-size: small;
+}

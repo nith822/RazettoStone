@@ -33,9 +33,8 @@
 .sidebarInner {
 	width: 25vw;
 	height: 80vh;
-	border: 2px solid purple;
-	background-image: linear-gradient(#F73CDE, #FA69E7, #FEA9F3);
-	
+	background-image: linear-gradient(rgb(252, 150, 238), rgb(250, 183, 241), rgb(250, 229, 248));
+	border-radius: 10px;
 	position: fixed;
 	top: 10vh;
 	left: -26vw;
@@ -64,4 +63,11 @@
     color: white;
     font-size: 15px;
     margin: 1vh
+}
+
+.sidebarOption {
+	float: right; 
+	border-top-right-radius: 10px; 
+	padding: 2%;
+	background-color: rgb(220, 106, 243);
 }
