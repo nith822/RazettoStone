@@ -9,6 +9,8 @@
     text-align: center;
     font-size: 15px;
     background-size: 5vh;
+    width: 30%;
+    box-sizing: border-box;
 }
 
 .button-login {
@@ -18,4 +20,6 @@
     background-color: cornflowerblue;
     color: white;
     font-size: 15px;
+    width: 30%;
+    box-sizing: border-box;
 }
