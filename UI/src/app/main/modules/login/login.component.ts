@@ -8,6 +8,7 @@ import { AuthService } from "angularx-social-login";
 import { FacebookLoginProvider, GoogleLoginProvider, SocialUser} from "angularx-social-login";
 import { stringify } from 'querystring';
 import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -27,9 +28,10 @@ export class LoginComponent implements OnInit {
 	
 	users: User[] ;
 	
-	constructor(public userService: UserService, private authService: AuthService, private cookieService: CookieService) { }
+	constructor(public router: Router, public userService: UserService, private authService: AuthService, private cookieService: CookieService) { }
 
 	ngOnInit(): void {
+		this.signInWithFB();
 		this.authService.authState.subscribe((user) => {
 			this.user = user;
 			this.loggedIn = (user != null);
@@ -41,9 +43,9 @@ export class LoginComponent implements OnInit {
 				var result = this.registerUser(this.userName, this.email, this.oAuthId);
 				if (result == false)
 					this.loginUser(this.userName, this.email, this.oAuthId);
+				this.router.navigateByUrl('/translations');
 			}
 		});
-		
 		//mock
 		/*
 		this.userService.getAllUsers().subscribe((users) => {
