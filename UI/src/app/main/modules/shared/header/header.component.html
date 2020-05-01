@@ -1,7 +1,6 @@
 <div class="container-div">
 	<nav class="nav-bar">
-		<button class="nav-button" (click)="this.navigate('')"> Front Page </button >
-		<button class="nav-button" (click)="this.navigate('translations')"> Translation List </button >
+		<button class="nav-button-Home" (click)="this.navigate('translations')"> RazettoStone </button >
 		<button class="nav-button" (click)="this.navigate('upload')"> Upload </button >
 		<div class="div-login">
 			<button  *ngIf="!this.userService.getCurrentUser()" class="nav-button"(click)="this.navigate('login')"> Login </button >
