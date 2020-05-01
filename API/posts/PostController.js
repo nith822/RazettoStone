@@ -419,7 +419,7 @@ exports.listPosts =  function(req,res,next){
                 }}]).then(function(user){
                     console.log(user);
                     temp[post]['user_object'] = user;
-                    console.log("hoho");
+                    //console.log("hoho");
                 })
                 await promise;
             } catch (exception) {
@@ -429,7 +429,7 @@ exports.listPosts =  function(req,res,next){
             }
         }
         Promise.all(promises).then(function(){
-            console.log("hehe");
+            //console.log("hehe");
             res.send(temp.sort(sortByNewest).slice(page*postsPerPage,page*postsPerPage+postsPerPage));
     });
     }).catch(next)
@@ -475,9 +475,34 @@ exports.listTranslations = function(req,res,next){
         {$project: {
             "translations.comments": withComments
         }}                   
-     ]).then(function(post){
+     ]).then(async function(post){
         var tempArray = post[0].translations.sort(sortByUpvotes);
-        res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
+        var promises = [];
+        for (var post in tempArray){
+            console.log("REEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            try {
+                userObjectId = mongoose.Types.ObjectId(tempArray[post].userID);
+                console.log(userObjectId);
+                promise = User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+                    oAuthId: false,
+                    email: false
+                }}]).then(function(user){
+                    console.log(user);
+                    tempArray[post]['user_object'] = user;
+                    //console.log("hoho");
+                })
+                await promise;
+            } catch (exception) {
+                console.log('That post probably did not have a real user ID ');
+                console.log(exception);
+                tempArray[post]['user_object'] = null;
+            }
+        }
+        Promise.all(promises).then(function(){
+            //console.log("hehe");
+            res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
+        });
+
      }).catch(next)
 };
 
