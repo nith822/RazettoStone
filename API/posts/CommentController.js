@@ -199,33 +199,22 @@ exports.replyToTranslationComment = function(req,res,next){
 exports.listPostComments = function(req, res, next) {
     console.log('AAAAAAAAAAAAttempting to get post comments ' + req.params.post_id)
     let errorMessage = '';
-    Post.findOne({_id: req.params.post_id}).then(function(post){
+
+    Post.findOne({_id: req.params.post_id}).then(async function(post){
 	for (let i = 0; i < post.comments.length; i++) {
             try {
                 let userObjectId = mongoose.Types.ObjectId(post.comments[i].userID);
                 console.log('userId from comment: ' + userObjectId);
-		let user;
-	        User.aggregate([ { $match : { _id: userObjectId}},{$project:{
-        	    oAuthId: false,
-        	    email: false
-                }}]).then(function(returnedUser){
-                    //console.log(user);
-                    user = returnedUser;
-		    post.comments[i].user_object = user;
-		    console.log(user);
-		    console.log('choo choo here comes the user');
-		    console.log(post.comments[i].user_object);
-
-		    //res.send(post.comments);
-                });
+        
+                post.comments[i].user_object = await User.findById(userObjectId);
             } catch (exception) {
                 console.log('That comment probably did not have a real user ID');
                 console.log(exception);
             }
+            console.log(post.comments[i].user_object)
         }
-
-        console.log(post.comments);
-	res.send(post.comments);
+        console.log('outta for loop')
+        res.send(post.comments)
     }).catch(next);
 };
 

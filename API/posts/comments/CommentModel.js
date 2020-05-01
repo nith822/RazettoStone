@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');;
 const Schema = mongoose.Schema;
 let ReplySchema = require('./ReplyModel');
-
+let userSchema = require('../../users/UserModel')
 
 var CommentSchema = new Schema({
     text: {
@@ -30,7 +30,8 @@ var CommentSchema = new Schema({
     },
     replies:{
         type: [ReplySchema]
-    }
+    },
+    user_object:{}
 });
 
 
