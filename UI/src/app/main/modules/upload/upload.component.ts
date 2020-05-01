@@ -36,6 +36,9 @@ export class UploadComponent implements OnInit {
 		if(translationID) {
 			this.uploadOriginalText = false;
 			if(this.uploadService.translatedText) {
+				if (this.uploadService.translatedText.user == null || this.uploadService.translatedText.user.id == null)
+					this.uploadService.translatedText.user = this.userService.getCurrentUser();
+				console.log('setting user ' + this.uploadService.translatedText.user.id)
 				this.title = this.uploadService.translatedText.title;
 				this.language = this.uploadService.translatedText.language;
 				this.file = this.uploadService.translatedTextFile;
@@ -43,6 +46,8 @@ export class UploadComponent implements OnInit {
 		} else {
 			this.uploadOriginalText = true;
 			if(this.uploadService.originalText) {
+				if (this.uploadService.originalText.user == null || this.uploadService.originalText.user.id == null)
+					this.uploadService.originalText.user = this.userService.getCurrentUser();
 				this.title = this.uploadService.originalText.title;
 				this.language = this.uploadService.originalText.language;
 				this.tags = this.uploadService.tags;

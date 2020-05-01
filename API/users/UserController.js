@@ -132,7 +132,7 @@ exports.view = function (req, res) {
 };
 
 exports.update = function (req, res) {
-User.findById(req.params.user_id, function (err, user) {
+User.findById(req.params.user_id, async function (err, user) {
         console.log("Attempting to update user")
         if (err)
         {
@@ -144,21 +144,44 @@ User.findById(req.params.user_id, function (err, user) {
         // Send the whole language array for adding or removing languages
         if (req.body.languages) user.languages = req.body.languages
         if (req.body.oAuthId)
-              {user.oAuthId = req.body.oAuthId;
-              user.oAuthExpiration = (Date.now()+1000*60*60*24)}
-
-        user.save(function (err) {
-            if (err)
-            {
-                res.status(500).send(err);
-                return res;
-            }
-          res.clearCookie('_oAuthId');
-          res.cookie('_oAuthId', user.oAuthId, {expire: (Date.now+1000*60*60*24)}).json({
-		status: 'success',
-                message: 'User Info updated',
-                data: user
+        {
+            user.oAuthId = req.body.oAuthId;
+            user.oAuthExpiration = (Date.now()+1000*60*60*24)
+        }
+        else
+        {
+            console.log('no OAuthID given')
+            res.status(422).send('Need OAuthId.');
+            return res;
+        }
+        
+        var isAuthenticated = await auth.verify(user.oAuthId, user.email);
+        if (isAuthenticated)
+        {
+            console.log("User update authenticated")
+            user.save(function (err) {
+                if (err)
+                {
+                    res.status(500).send(err);
+                    return res;
+                }
+              res.clearCookie('_oAuthId');
+              res.cookie('_oAuthId', user.oAuthId, {expire: (Date.now+1000*60*60*24)}).json({
+                    status: 'success',
+                    message: 'User Info updated',
+                    data: user
+                });
             });
-        });
+        }
+        else
+        {
+            console.log("User update not authenticated")
+            res.status(401).json({
+                status: 'failed',
+                message: 'User could not be validated'
+            })
+        }
+    }).catch(function(err) {
+        console.log(err)
     });
 };

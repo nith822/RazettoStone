@@ -46,6 +46,7 @@ export class UserService {
 	
 	//clear all cookies as well
 	logOut(): void {
+		console.log('logging out user')
 		this.currentUser = undefined;
 		this.cookieService.deleteAll('/');
 	}

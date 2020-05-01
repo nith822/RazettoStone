@@ -168,11 +168,6 @@ exports.addTranslation = function (req, res, next){
     }
     
 
-    if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
-    {
-        console.log('Request did not have tags');
-        errorMessage = errorMessage.concat('Need tags. ');
-    }
     if (errorMessage.length)
     {
         res.status(422).json({

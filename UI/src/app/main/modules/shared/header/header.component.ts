@@ -19,4 +19,9 @@ export class HeaderComponent implements OnInit {
 	navigate(path: string): void {
 		this.router.navigateByUrl(path);
 	}
+
+	canLogout(value): void {
+		if (value == "logout")
+			this.userService.logOut()
+	}
 }

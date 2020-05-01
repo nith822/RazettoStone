@@ -1,9 +1,7 @@
-<p> comments for Post::{{ this.routeParams.translationID }} </p>
-<p *ngIf="this.routeParams.translationTextID"> comments for Translation:: {{ this.routeParams.translationTextID }} </p>
-
- <input class="input-title" placeholder="Write a comment..." (input)="this.currentCommentText = $event.target.value"><br><br>
- <button (click)="this.submitComment(this.currentCommentText)"> submit </button>
- 
+<div class="div-add-comment">
+ 	<input class="input-comment" placeholder="Write a comment..." (input)="this.currentCommentText = $event.target.value"><br><br>
+ 	<button class="button-comment" (click)="this.submitComment(this.currentCommentText)"> submit </button>
+</div>
  <div *ngFor="let comment of this.currentComments">
 	<p> {{ comment.user.username }} </p>
 	<p> {{ comment.text }} </p>
