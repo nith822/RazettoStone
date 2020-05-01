@@ -97,7 +97,7 @@ exports.create = async function (req, res) {
                         res.status(500).json(err);
                     } else {
                           res.clearCookie('_oAuthId');
-                          res.cookie('_oAuthId', user.oAuthId, {expire: (Date.now+1000*60*60*24)}).json({
+                          res.cookie('_oAuthId', user.oAuthId, {expires: (Date.now+1000*60*60*24)}).json({
                             message: 'New user created!',
                             data: user
                         });
@@ -166,7 +166,7 @@ User.findById(req.params.user_id, async function (err, user) {
                     return res;
                 }
               res.clearCookie('_oAuthId');
-              res.cookie('_oAuthId', user.oAuthId, {expire: (Date.now+1000*60*60*24)}).json({
+              res.cookie('_oAuthId', user.oAuthId, {expires: (Date.now+1000*60*60*24)}).json({
                     status: 'success',
                     message: 'User Info updated',
                     data: user
