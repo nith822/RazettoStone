@@ -21,6 +21,9 @@ var userSchema = mongoose.Schema({
     oAuthId: {
         type: String,
         select: false
+    },
+    oAuthExpiration: {
+        type: Date
     }
 });
 // Export User model
