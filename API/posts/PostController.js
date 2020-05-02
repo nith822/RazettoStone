@@ -68,7 +68,14 @@ exports.create = function (req, res, next) {
     }
     // Resetting error message for future use
     errorMessage = '';
-
+    // Adding textLanguage field for the mongoose schema
+    var translations = [];
+    for (var i=0; i<Array.from(req.body.translations).length; i++)
+    {
+        translations[i] = req.body.translations[i];
+        translations[i].textLanguage = req.body.translations[i].language
+    }
+    
     var newPost = new Post({
         title: req.body.title,
         textLanguage: req.body.language,
@@ -81,7 +88,7 @@ exports.create = function (req, res, next) {
         // on creation will not have comments, flags
         // it might be easier to just create a post with no translation then have the user
         // to add translation once the post is created.
-        translations: req.body.translations,
+        translations: translations,
         tags: req.body.tags
     });
 
@@ -134,7 +141,6 @@ exports.view = function (req, res, next) {
 exports.addTranslation = function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
-    
     var errorMessage = '';
     // Checking for required parameters
     if (req.body.title == undefined || !req.body.title.trim())
@@ -178,7 +184,6 @@ exports.addTranslation = function (req, res, next){
     }
     // Resetting error message for future use
     errorMessage = '';
-
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {translations: {
         text: req.body.text,
         title: req.body.title,
@@ -376,6 +381,9 @@ exports.listTranslations = function(req,res,next){
         }}                   
      ]).then(function(post){
         var tempArray = post[0].translations.sort(sortByUpvotes);
+        // Adding language field
+        for(var i=0; i<tempArray.length; i++)
+            tempArray[i].language = tempArray[i].textLanguage;
         res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
      }).catch(next)
 };
