@@ -155,7 +155,7 @@ User.findById(req.params.user_id, async function (err, user) {
             return res;
         }
         
-        var isAuthenticated = await auth.verify(user.oAuthId, user.email);
+        var isAuthenticated = await auth.verify(user.oAuthId);
         if (isAuthenticated)
         {
             console.log("User update authenticated")

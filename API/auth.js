@@ -26,21 +26,6 @@ async function verify(token) {
   }
 }
 
-async function verify(token, email) {
-    const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: CLIENT_ID, 
-    });
-    const payload = ticket.getPayload();
-    const userid = payload['sub'];
-    console.log(userid);
-    if(payload && email == payload['email']) {
-          console.log(payload['name']);
-          console.log(payload['email']);
-          return true;
-    }
-}
-
 module.exports.verify = verify;
 
 async function validateUser(req, res, next){
