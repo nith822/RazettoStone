@@ -30,8 +30,7 @@ var CommentSchema = new Schema({
     },
     replies:{
         type: [ReplySchema]
-    },
-    user_object:{}
+    }
 });
 
 

@@ -198,29 +198,43 @@ exports.replyToTranslationComment = function(req,res,next){
 
 exports.listPostComments = function(req, res, next) {
     console.log('AAAAAAAAAAAAttempting to get post comments ' + req.params.post_id)
-    let errorMessage = '';
-
     Post.findOne({_id: req.params.post_id}).then(async function(post){
+        let temp = [];
+	let promises = [];
 	for (let i = 0; i < post.comments.length; i++) {
             try {
                 let userObjectId = mongoose.Types.ObjectId(post.comments[i].userID);
                 console.log('userId from comment: ' + userObjectId);
-        
-                post.comments[i].user_object = await User.findById(userObjectId);
+
+                let promise = User.aggregate([ { $match : { _id: userObjectId }},{$project:{
+                    oAuthId: false,
+                    email: false
+                }}]).then(function(user){
+                    //console.log(user);
+                    post.comments[i]['user_object'] = user;
+		    temp.push(post.comments[i]);
+		    console.log(temp[i].user_object);
+                });
+		promises.push(promise);
+		await promise;
             } catch (exception) {
                 console.log('That comment probably did not have a real user ID');
                 console.log(exception);
             }
-            console.log(post.comments[i].user_object)
         }
+	while (promises.length === 0){
+	    // empty - busy wait
+	}
+        Promise.all(promises).then(function(){
+	    console.log(temp);
+            res.send(temp);
+	});
         console.log('outta for loop')
-        res.send(post.comments)
     }).catch(next);
 };
 
 exports.listTranslationComments = function(req, res, next) {
     console.log('Attempting to get translation comments ' + req.params.translation_id)
-    let errorMessage = '';
     Post.aggregate([
         { $match : { _id: mongoose.Types.ObjectId(req.params.post_id)}},
         { $project : {
@@ -234,23 +248,30 @@ exports.listTranslationComments = function(req, res, next) {
             }
           }
         }
-    ]).then(function(post){
+    ]).then(async function(post){
         if (post.length > 0 && post[0].translation.length > 0) {
-	    for (let i = 0; i < post[0].translation[0].comments.length; i++) {
+	    let temp = post[0];
+	    for (let i = 0; i < temp.translation[0].comments.length; i++) {
                 try {
-                    userObjectId = mongoose.Types.ObjectId(post[0].translation[0].comments[i].userID);
+                    userObjectId = mongoose.Types.ObjectId(temp.translation[0].comments[i].userID);
                     console.log(userObjectId);
 
-                    post[0].translation[0].comments[i]['user_object'] = Utility.retrieveUserById(userObjectId);
-		    console.log('vroomz!');
-		    console.log(post[0].translation[0].comment[i]['user_object']);
+		    await User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+                        oAuthId: false,
+                        email: false
+                    }}]).then(function(user){
+                        console.log(user);
+                        temp.translation[0].comments[i]['user_object'] = user;
+                    });
+		    //console.log('vroomz!');
+		    //console.log(post[0].translation[0].comment[i]['user_object']);
                 } catch (exception) {
                     console.log('That comment probably did not have a real user ID');
                     console.log(exception);
                 }
             }
 
-            res.send(post[0].translation[0].comments);
+            res.send(temp.translation[0].comments);
 	} else {
 	    // That post probably didn't have any translations
 	    res.send([]);
