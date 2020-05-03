@@ -70,12 +70,14 @@ exports.create = function (req, res, next) {
     errorMessage = '';
     // Adding textLanguage field for the mongoose schema
     var translations = [];
-    for (var i=0; i<Array.from(req.body.translations).length; i++)
+    if (req.body.translations != undefined)
     {
-        translations[i] = req.body.translations[i];
-        translations[i].textLanguage = req.body.translations[i].language
+        for (var i=0; i<Array.from(req.body.translations).length; i++)
+        {
+            translations[i] = req.body.translations[i];
+            translations[i].textLanguage = req.body.translations[i].language
+        }
     }
-    
     var newPost = new Post({
         title: req.body.title,
         textLanguage: req.body.language,
