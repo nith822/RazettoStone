@@ -74,14 +74,14 @@ exports.voteTranslation = function(req, res, next){
         Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
         {$addToSet: {"translations.$.upvotes": GetCookie.UID(req)},
             $pull: {"translations.$.downvotes": GetCookie.UID(req)}}).then(function(){
-                res.send({"message": GetCookie.UID(req)+ ' upvoted transaltion ' + req.params.translation_id})
+                res.send({"message": GetCookie.UID(req)+ ' upvoted translation ' + req.params.translation_id})
             })
     }else{
         console.log(GetCookie.UID(req)+ ' downvoting transaltion ' + req.params.translation_id)
         Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
         {$pull: {"translations.$.upvotes": GetCookie.UID(req)},
             $addToSet: {"translations.$.downvotes": GetCookie.UID(req)}}).then(function(){
-                res.send({"message": GetCookie.UID(req)+ ' downvoted transaltion ' + req.params.translation_id})
+                res.send({"message": GetCookie.UID(req)+ ' downvoted translation ' + req.params.translation_id})
             })
     }
 }

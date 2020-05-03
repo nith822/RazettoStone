@@ -136,41 +136,109 @@ describe("Testing the posts endpoint", () => {
         expect(response.status).toBe(200);
         expect(response.body[0].title).toEqual('Test translation 1');
     })
-    /*
-    it("cannot add post without title", async () => {
-		const response = await supertest(app).post('/posts')
-			.send({text: "testing wefn2. 2onwsn..fnd \n wrnd.",
-                language: "english",
-                dateCreated: "2020-03-25T03:52:32.187Z",
-                userID: userIdtemp,
-                tags: ["Test tag", "new tag"]})
 
-		expect(response.status).toBe(422);
-        expect(response.body.message).toEqual("Need title. ");
-        expect(response.body.status).toEqual("failed");
-    });
-    
-    it("cannot add post without all required input", async () => {
-		const response = await supertest(app).post('/posts/'+userIdtemp)
-			.send({dateCreated: "2020-03-25T03:52:32.187Z"})
+    it("can add comment to post", async () => {
+        const response = await supertest(app).post('/posts/'+postId+'/comments')
+                                    .send({language: "English",
+                                            text: "example of comment."});
 
-		expect(response.status).toBe(422);
-        expect(response.body.message).toEqual("Need title. Need language. Need text. Need userID. Need tags. ");
-        expect(response.body.status).toEqual("failed");
-    });
-*/
-    /*it("can fetch single post successfully", async () => {
-		const response = await supertest(app).get('/posts')
+        commentId = response.body.comments[0]._id;
 
         expect(response.status).toBe(200);
-        expect(response.body.message).toEqual("success!");
-        expect(response.body.data.title).toEqual("Test Post");
-        expect(response.body.data.language).toEqual("english");
-        expect(response.body.data.tags).toEqual(["Test tag", "new tag"]);
-        expect(response.body.data.text).toEqual("testing wefn2. 2onwsn..fnd \n wrnd.");
-        expect(response.body.data.userID).toEqual(userIdtemp);
-        expect(response.body.data.dateCreated).toEqual("2020-03-25T03:52:32.187Z");
-    });*/
+        expect(response.body.title).toEqual('Test Post');
+        expect(response.body.comments[0].text).toEqual('example of comment.');
+    })
+
+    it("can fetch comment from post", async () => {
+        const response = await supertest(app).get('/posts/'+postId+'/comments');
+
+        expect(response.status).toBe(200);
+        expect(response.body[0].text).toEqual("example of comment.");
+        //expect(response.body[0].textLanguage).toEqual('English');
+    })
+
+    it("can add comment to translation", async () => {
+        const response = await supertest(app).post('/posts/'+postId+'/translations/'+translationId+'/comments')
+                                            .send({language: 'English',
+                                                    text: "example of comment on translation"});
+
+        translationCommentId = response.body.translations[0].comments[0]._id;
+
+        expect(response.status).toBe(200);
+        expect(response.body.title).toEqual('Test Post');
+        expect(response.body.translations[0].comments[0].text).toEqual('example of comment on translation');
+    })
+
+    it("can list comments from translation", async () => {
+        const response = await supertest(app).get('/posts/'+postId+'/translations/'+translationId+'/comments')
+
+        expect(response.status).toBe(200);
+        expect(response.body[0].text).toEqual('example of comment on translation');
+    })
+
+    it("can upvote on post", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/vote')
+                                        .send({vote: true});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' upvoted post '+postId);
+    })
+
+    it("can downvote on post", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/vote')
+                                        .send({vote: false});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' downvoted post '+postId);
+    })
+
+    it("can upvote on translation", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/translations/'+translationId+'/vote')
+                                        .send({vote: true});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' upvoted translation '+translationId);
+    })
+
+    it("can downvote on translation", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/translations/'+translationId+'/vote')
+                                        .send({vote: false});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' downvoted translation '+translationId);
+    })
+
+    it("can upvote on post comment", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/comments/'+commentId+'/vote')
+                                        .send({vote: true});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' upvoted post comment '+commentId);
+    })
+
+    it("can downvote on post comment", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/comments/'+commentId+'/vote')
+                                        .send({vote: false});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' downvoted post comment '+commentId);
+    })
+
+    it("can upvote on post comment", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/translations/'+translationId+'/comments/'+translationCommentId+'/vote')
+                                        .send({vote: true});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' upvoted translation comment '+translationCommentId);
+    })
+
+    it("can downvote on post comment", async () => {
+        const response = await supertest(app).put('/posts/'+postId+'/translations/'+translationId+'/comments/'+translationCommentId+'/vote')
+                                        .send({vote: false});
+
+        expect(response.status).toBe(200);
+        expect(response.body.message).toEqual(userId+' downvoted translation comment '+translationCommentId);
+    })
 })
 
 // Tear Down stage
