@@ -13,13 +13,13 @@ export class Text extends Interactible {	//Translations
 	//not in toString yet
 	flags: string[][];
 	
-	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
+	constructor(user?: User, title?: string, textLanguage?: string, comments?: Comment[], 
 				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
 				text?: string, flags?: string[][], 
 				enableProd?: boolean) {
 		
-		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
+		super(user, title, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		if(!text) { this.textLines = []	} else { this.text = text; this.textLines = this.parseText(text) };		
 		if(flags) { this.flags = flags; }
 		

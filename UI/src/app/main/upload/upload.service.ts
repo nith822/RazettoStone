@@ -36,7 +36,7 @@ export class UploadService {
 	//COUPLED
 	submit(postID?: string): void { 
 		if(this.originalText) {
-			var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.language, this.originalText.comments, 
+			var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.textLanguage, this.originalText.comments, 
 					this.originalText.upvotes, this.originalText.downvotes, 
 					this.originalText.id, this.originalText.dateCreated, 
 					this.originalText, [this.translatedText], this.tags.split(','));
@@ -64,7 +64,7 @@ export class UploadService {
 	addTranslationToPost(postID: string, translation): void {
 		this.http.post(this.postsUrl + "/" + postID + "/" + "translations", {userID: translation.user.id,
 																				title: translation.title,
-																				language: translation.language,
+																				textLanguage: translation.textLanguage,
 																				text: translation.text}, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
 		}, (err) => {
@@ -74,17 +74,17 @@ export class UploadService {
 	
 	
 	//don't create a text if the user has not uploaded a file yet
-	saveText(isOriginal: boolean, title: string, language: string, tags: string): void {
+	saveText(isOriginal: boolean, title: string, textLanguage: string, tags: string): void {
 		if(!isOriginal) {
 			if(!this.translatedTextString) {
 				return;
 			}
-			this.translatedText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), this.translatedTextString);
+			this.translatedText = new Text(this.userService.getCurrentUser(), title, textLanguage, [], [], [], undefined, new Date(), this.translatedTextString);
 		} else {
 			if(!this.originalTextString) {
 				return;
 			}
-			this.originalText = new Text(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), this.originalTextString);
+			this.originalText = new Text(this.userService.getCurrentUser(), title, textLanguage, [], [], [], undefined, new Date(), this.originalTextString);
 			this.tags = tags;
 			console.log(this.originalText.encodeJSON());
 		}

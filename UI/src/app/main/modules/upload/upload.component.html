@@ -3,7 +3,7 @@
 <div class="div-upload">
     <input class="input-title" placeholder="Title" (input)="this.title = $event.target.value" [value]="this.title ? this.title : ''"><br><br>
 
-    <input class="input-language" placeholder="Language" (input)="this.language = $event.target.value" [value]="this.language ? this.language : ''"><br><br>
+    <input class="input-language" placeholder="Language" (input)="this.textLanguage = $event.target.value" [value]="this.textLanguage ? this.textLanguage : ''"><br><br>
 
     <div *ngIf="this.uploadOriginalText">
         <input class="input-tags" placeholder="Tag1, Tag2, ..." (input)="this.tags = $event.target.value" [value]="this.tags ? this.tags : ''"><br><br>

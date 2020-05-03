@@ -31,7 +31,7 @@ const PostSchema = new Schema({
     },
     textLanguage: {
         type: String,
-        required: [true, 'Language field is required']
+        required: [true, 'textLanguage field is required']
     },
     title: {
         type: String,

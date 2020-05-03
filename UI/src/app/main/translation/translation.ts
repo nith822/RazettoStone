@@ -16,13 +16,13 @@ export class Translation extends Interactible {	//Post
 	 
 	currentTranslatedText: Text;
 	
-	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
+	constructor(user?: User, title?: string, textLanguage?: string, comments?: Comment[], 
 				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
 				originalText?: Text, translations?: Text[], tags?: string[],
 				enableProd?: boolean) {
 			
-		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
+		super(user, title, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		if(!originalText && enableProd) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
 		
 		if(tags) { this.tags = tags; }

@@ -23,7 +23,7 @@ describe("Testing the posts endpoint", () => {
 		const response = await supertest(app).post('/posts')
 			.send({title: "Test Post",
 				text: "testing wefn2. 2onwsn..fnd \n wrnd.",
-                language: "english",
+                textLanguage: "english",
                 dateCreated: "2020-03-25T03:52:32.187Z",
                 userID: userId,
                 tags: ["Test tag", "new tag"]})
@@ -42,13 +42,13 @@ describe("Testing the posts endpoint", () => {
 
     it("can add post successfully with translation", async () => {
         translations = [{title: 'Test translation 2',
-                        language: 'French',
+                        textLanguage: 'French',
                         text: 'newtranslationtext.',
                         userID: userId}]
 		const response = await supertest(app).post('/posts')
 			.send({title: "Test Post 2",
 				text: "newpost \n wrnd.",
-                language: "english",
+                textLanguage: "english",
                 dateCreated: "2020-04-25T03:52:32.187Z",
                 userID: userId,
                 tags: ["Test tag", "new tag"],
@@ -70,7 +70,7 @@ describe("Testing the posts endpoint", () => {
 
     it("can add translation to existing post", async () => {
         translations = {title: 'Test translation 1',
-                        language: 'French',
+                        textLanguage: 'French',
                         text: 'randomtranslationtext.',
                         userID: userId}
 		const response = await supertest(app).post('/posts/'+postId+'/translations')
@@ -94,7 +94,7 @@ describe("Testing the posts endpoint", () => {
         expect(response.body.data.title).toEqual("Test Post");
 		expect(response.body.data.text).toEqual("testing wefn2. 2onwsn..fnd \n wrnd.");
 		expect(response.body.data.dateCreated).toEqual("2020-03-25T03:52:32.187Z");
-		expect(response.body.data.language).toEqual("english");
+		expect(response.body.data.textLanguage).toEqual("english");
         expect(response.body.data.userID).toEqual(userId);
         expect(response.body.data.tags).toEqual(["Test tag", "new tag"]);
     })
@@ -139,7 +139,7 @@ describe("Testing the posts endpoint", () => {
 
     it("can add comment to post", async () => {
         const response = await supertest(app).post('/posts/'+postId+'/comments')
-                                    .send({language: "English",
+                                    .send({textLanguage: "English",
                                             text: "example of comment."});
 
         commentId = response.body.comments[0]._id;
@@ -154,12 +154,12 @@ describe("Testing the posts endpoint", () => {
 
         expect(response.status).toBe(200);
         expect(response.body[0].text).toEqual("example of comment.");
-        //expect(response.body[0].textLanguage).toEqual('English');
+        expect(response.body[0].textLanguage).toEqual('English');
     })
 
     it("can add comment to translation", async () => {
         const response = await supertest(app).post('/posts/'+postId+'/translations/'+translationId+'/comments')
-                                            .send({language: 'English',
+                                            .send({textLanguage: 'English',
                                                     text: "example of comment on translation"});
 
         translationCommentId = response.body.translations[0].comments[0]._id;

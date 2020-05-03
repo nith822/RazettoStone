@@ -10,7 +10,7 @@ describe('Comment', () => {
 	it('should create a valid Comment with all attributes', () => {
 		let user: User = new User("420yoloswag", "bob.sanders@gmail.com", "123");
 		let text: string = "hello world"
-		let language: string = "Ok";
+		let textLanguage: string = "Ok";
 		let comments: Comment[] = [];
 		
 		let upvotes: string[] = [];
@@ -21,7 +21,7 @@ describe('Comment', () => {
 		
 		let enableProd: boolean = true;
 		
-		let comment = new Comment(user, text, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
+		let comment = new Comment(user, text, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
 
 		expect(comment).toBeTruthy();
 	});

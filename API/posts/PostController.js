@@ -27,10 +27,10 @@ exports.create = function (req, res, next) {
         console.log('Request did not have title');
         errorMessage = errorMessage.concat('Need title. ');
     }
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -47,9 +47,9 @@ exports.create = function (req, res, next) {
         console.log('Title is longer than max length');
         errorMessage = errorMessage.concat('Title too long. ');
     }
-    if(req.body.language.length > maxLanguageLength){
-        console.log('language is longer than max length');
-        errorMessage = errorMessage.concat('language too long. ');
+    if(req.body.textLanguage.length > maxLanguageLength){
+        console.log('textLanguage is longer than max length');
+        errorMessage = errorMessage.concat('textLanguage too long. ');
     }
     
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
@@ -68,19 +68,10 @@ exports.create = function (req, res, next) {
     }
     // Resetting error message for future use
     errorMessage = '';
-    // Adding textLanguage field for the mongoose schema
-    var translations = [];
-    if (req.body.translations != undefined)
-    {
-        for (var i=0; i<Array.from(req.body.translations).length; i++)
-        {
-            translations[i] = req.body.translations[i];
-            translations[i].textLanguage = req.body.translations[i].language
-        }
-    }
+    
     var newPost = new Post({
         title: req.body.title,
-        textLanguage: req.body.language,
+        textLanguage: req.body.textLanguage,
         text: req.body.text,
         userID: GetCookie.UID(req),
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
@@ -90,7 +81,7 @@ exports.create = function (req, res, next) {
         // on creation will not have comments, flags
         // it might be easier to just create a post with no translation then have the user
         // to add translation once the post is created.
-        translations: translations,
+        translations: req.body.translations,
         tags: req.body.tags
     });
 
@@ -113,7 +104,7 @@ exports.view = function (req, res, next) {
             downvotes: post.downvotes,
             tags: post.tags,
             title: post.title,
-            language: post.textLanguage,
+            textLanguage: post.textLanguage,
             text: post.text,
             userID: post.userID,
             dateCreated: post.dateCreated
@@ -150,10 +141,10 @@ exports.addTranslation = function (req, res, next){
         console.log('Request did not have title');
         errorMessage = errorMessage.concat('Need title. ');
     }
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -170,7 +161,7 @@ exports.addTranslation = function (req, res, next){
         console.log('Text is longer than max length');
         errorMessage = errorMessage.concat('Text too long. ');
     }
-    if(req.body.language.length > maxLanguageLength){
+    if(req.body.textLanguage.length > maxLanguageLength){
         console.log('Text is longer than max length');
         errorMessage = errorMessage.concat('Text too long. ');
     }
@@ -189,7 +180,7 @@ exports.addTranslation = function (req, res, next){
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {translations: {
         text: req.body.text,
         title: req.body.title,
-        textLanguage: req.body.language,
+        textLanguage: req.body.textLanguage,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: GetCookie.UID(req),
         upvotes: [GetCookie.UID(req)],
@@ -326,7 +317,7 @@ exports.listPosts =  function(req,res,next){
        {$project: {
            _id: "$_id",
            title: "$title",
-           language: "$textLanguage",
+           textLanguage: "$textLanguage",
            tags: "$tags",
            userID: "$userID",
            dateCreated: "$dateCreated",
@@ -383,9 +374,6 @@ exports.listTranslations = function(req,res,next){
         }}                   
      ]).then(function(post){
         var tempArray = post[0].translations.sort(sortByUpvotes);
-        // Adding language field
-        for(var i=0; i<tempArray.length; i++)
-            tempArray[i].language = tempArray[i].textLanguage;
         res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
      }).catch(next)
 };

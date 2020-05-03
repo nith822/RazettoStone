@@ -29,7 +29,7 @@ describe('CommentsService', () => {
 	it('should comment on a post', () => {
 		let user: User = new User("420yoloswag", "bob.sanders@gmail.com", "123", new Date(), [], "123");
 		let text: string = "hello world"
-		let language: string = "Ok";
+		let textLanguage: string = "Ok";
 		let comments: Comment[] = [];
 		
 		let upvotes: string[] = [];
@@ -41,14 +41,14 @@ describe('CommentsService', () => {
 		let enableProd: boolean = true;
 		
 		let postID = "5e7e7eec02288e09c8f4a5fa";
-		let comment = new Comment(user, text, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
+		let comment = new Comment(user, text, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		commentsService.postComment(comment, postID);
 	});
 	
 	it('should comment on a translation', () => {
 		let user: User = new User("420yoloswag", "bob.sanders@gmail.com", "123", new Date(), [], "123");
 		let text: string = "hello world"
-		let language: string = "Ok";
+		let textLanguage: string = "Ok";
 		let comments: Comment[] = [];
 		
 		let upvotes: string[] = [];
@@ -61,7 +61,7 @@ describe('CommentsService', () => {
 		
 		let postID = "5e7e7eec02288e09c8f4a5fa";
 		let translationID = "5e7e7eec02288e09c8f4a5fb";
-		let comment = new Comment(user, text, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
+		let comment = new Comment(user, text, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		commentsService.postComment(comment, postID, translationID);
 	});
 });
