@@ -27,7 +27,7 @@ export class UploadService {
 	originalText: Text;
 	translatedText: Text; 
 	
-	tags: string;
+	tags: string = "henlo";
 	
 	constructor(private http: HttpClient, private userService: UserService, private router: Router,) { 
   
