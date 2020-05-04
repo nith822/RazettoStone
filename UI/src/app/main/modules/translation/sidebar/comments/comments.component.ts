@@ -24,17 +24,14 @@ export class CommentsComponent implements OnInit {
 
 	ngOnInit() {
 		this.routeParams = this.sidebarService.getCurrentRouteParams();
-		console.log("init commentsComponent");
-		this.commentsService.getComments(this.routeParams.translationID).subscribe((comments) => {
-			console.log('in get comments subscribe');
-			console.log(comments);
-			console.log('that was comments');
-			this.currentComments = comments;
-		});
+		//console.log("init commentsComponent");
+		this.retrieveComments();
 	}
 	
 	submitComment(text: string): void {
 		this.commentsService.postComment(new Comment(this.userService.getCurrentUser(), text, "english"), this.routeParams.translationID, this.routeParams.translationTextID);
+    setTimeout(null, 500);// we need to wait for the post request to go through
+    this.retrieveComments();
 	}
 
 	retrieveComments(): Comment[] {
