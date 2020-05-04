@@ -206,7 +206,7 @@ exports.listPostComments = function(req, res, next) {
                 let userObjectId = mongoose.Types.ObjectId(post.comments[i].userID);
                 console.log('userId from comment: ' + userObjectId);
         
-                post.comments[i].user_object = await User.findById(userObjectId);
+                post.comments[i].user_object = await User.findById(userObjectId, 'userName dateCreated languages');
             } catch (exception) {
                 console.log('That comment probably did not have a real user ID');
                 console.log(exception);
@@ -241,7 +241,7 @@ exports.listTranslationComments = function(req, res, next) {
                     userObjectId = mongoose.Types.ObjectId(post[0].translation[0].comments[i].userID);
                     console.log(userObjectId);
 
-                    post[0].translation[0].comments[i]['user_object'] = Utility.retrieveUserById(userObjectId);
+                    post[0].translation[0].comments[i]['user_object'] = Utility.retrieveUserById(userObjectId, 'userName dateCreated languages');
 		    console.log('vroomz!');
 		    console.log(post[0].translation[0].comment[i]['user_object']);
                 } catch (exception) {
