@@ -27,7 +27,7 @@ export abstract class Interactible {
 		if(downvotes) { this.downvotes = downvotes } else { this.downvotes = []}
 		
 		if(!id && enableProd) { this.id = undefined; } else { this.id = id  }
-		if(dateCreated) { this.dateCreated = dateCreated; } else { this.dateCreated = new Date() }
+		if(dateCreated) { this.dateCreated = new Date(dateCreated); } else { this.dateCreated = new Date() }
 	}
 	
 	setLanguage(textLanguage: string): void {

@@ -2,10 +2,10 @@
 	<h3>
 	
 		<p *ngIf="this.translationText.user">
-			Translator: {{ this.translationText.user.userName }}
+			Uploader: {{ this.translationText.user.userName }}
 		</p>
 		<br>
-		Title: {{ this.translationText.title }}
+		<b> {{ this.translationText.title }} </b>
 		<br>
 	</h3>
 	<p *ngFor="let translatedText of this.convertToStringArray(this.translationText.getTextLines());">

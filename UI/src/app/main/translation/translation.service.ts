@@ -58,7 +58,7 @@ export class TranslationService {
 		return this.http.get(this.postsUrl + translationID).pipe(map((translation: any) => {
 			console.log(translation);
 			var _translation = new Translation(
-					null, 
+					this.createUserFromJSON(translation.data.user_object), 
 					translation.data.title, 
 					translation.data.textLanguage, 
 					null,
@@ -66,7 +66,7 @@ export class TranslationService {
 					translation.data.downvotes,
 					translation.data._id,
 					translation.data.dateCreated,
-					new Text(null, 
+					new Text(this.createUserFromJSON(translation.user_object), 
 						translation.data.title, 
 						translation.data.textLanguage, 
 						null,
@@ -90,9 +90,9 @@ export class TranslationService {
 		return response.map((_text) => {
 			console.log(_text);
 			var _text_ = new Text(
-					null, 
+					this.createUserFromJSON(_text.user_object), 
 					_text.title, 
-					_text.textLanguage, 
+					_text.language, 
 					null,
 					_text.upvotes,
 					_text.downvotes,
@@ -110,7 +110,7 @@ export class TranslationService {
 		return this.http.get(this.postsUrl + translationID + "/translations/" + translationTextID).pipe(map((_text: any) => {
 			console.log(_text);
 			var _text_ = new Text(
-					null, 
+					this.createUserFromJSON(_text.user_object), 
 					_text.title, 
 					_text.textLanguage, 
 					null,
@@ -134,7 +134,7 @@ export class TranslationService {
 			map(res => {
 			let response: any = res;
 			return response.data.map((translation) => {
-					  var _translation = new Translation(null, 
+					  var _translation = new Translation(this.createUserFromJSON(translation.user_object), 
 														  translation.title, 
 														  translation.textLanguage, 
 														  null,
@@ -158,7 +158,10 @@ export class TranslationService {
 		  map(res => {
 		  let response: any = res;
 		  return response.map((translation) => {
-					var _translation = new Translation(null, 
+					//console.log(translation);
+					//first null is comments
+					//second null is texts
+					var _translation = new Translation(this.createUserFromJSON(translation.user_object), 
 														translation.title, 
 														translation.textLanguage, 
 														null,
@@ -183,5 +186,15 @@ export class TranslationService {
 
 	voteTranslation(postID: string, translationID: string, userID: string, vote: boolean): Observable<any> {
 		return this.http.put(this.postsUrl + postID + "/translations/" + translationID + "/vote", {"vote": vote, "userID": userID})
+	}
+	
+	//user sends as an array
+	createUserFromJSON(_userJSON: any): User {
+		if(_userJSON) {
+			var userJSON = _userJSON[0];
+			return new User(userJSON.userName, null, null, null, userJSON.dateCreated, null, userJSON.id);
+		} else {
+			return new User("Anonymous", null, null, null, null, null, null);
+		}
 	}
 }

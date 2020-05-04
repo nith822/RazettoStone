@@ -15,6 +15,9 @@
 <div *ngIf="this.translation" class="container-div" [ngClass]="{ 'sidebaropened': this.sidebarService.sideBarOpened }">
 	<div class="originalText">
 		<h3> Title: {{ translation.getOriginalText(true).title }}</h3>
+		<p > Uploader:: {{translation.user.userName }} </p>
+		<p> Language: {{ translation.textLanguage }} </p>
+		<p> {{ translation.dateCreated.toDateString() }} </p>
 		<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines();">
 			{{originalLine.getText()}}
 		</p>

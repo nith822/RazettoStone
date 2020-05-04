@@ -1,3 +1,6 @@
+
+
+
 .div-translation-preview {
 	display: inline-block;
 	max-height: 40%;
@@ -6,6 +9,8 @@
     border-width: 1px;
     width: 99%;
     text-align: center;
+	overflow: scroll;
+	overflow-x: hidden;
 }
 
 .div-translation-preview:hover {
@@ -34,6 +39,7 @@
 	border-left: inherit;
     height: inherit;
 }
+
 
 .button-upvote {
     border-color: transparent;

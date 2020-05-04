@@ -8,15 +8,11 @@
 		<button class="button-downvote" (click)="this.downvoteTranslationText(translatedText.id)"><i class="fa fa-arrow-down"></i></button>
 	</div>
 	<div class="div-translation-body" (click)="this.navigate(translatedText.id)">
-		<h3>
-		<p *ngIf="translatedText.user">
-			Translator: {{ translatedText.user.username }}
-		</p>
-		<br>
-		Title: {{ translatedText.title }}
-		<br>
-		Language: {{ translatedText.textLanguage }}
-		</h3>
+		
+        <p> <b> {{translatedText.title}} </b> </p>
+		<p > Uploader:: {{translatedText.user.userName }} </p>
+		<p> {{ translatedText.dateCreated.toDateString() }} </p>
+		<p> Language: {{ translatedText.textLanguage }} </p>
 		<p>
 			{{this.convertToStringArray(translatedText.getPreviewText())}}
 		</p>
