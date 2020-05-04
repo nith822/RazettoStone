@@ -1,5 +1,4 @@
 .container-div {
-	border: solid 2px black
 }
 
 .label {
@@ -22,4 +21,23 @@ button:active, .div-translation:active {
 	box-shadow: 0 3px #666;
 	transform: translateY(2px);
 	box-shadow: inset 0 0 0 2px #53a7ea;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }

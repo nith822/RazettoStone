@@ -15,7 +15,9 @@
             </div>
 
             <div class="div-translationBody" (click)="this.navigate(translation.id)">
-                <h4> {{translation.title}} </h4>
+                <p> <b> {{translation.title}} </b> </p>
+				<p > Uploader:: {{translation.user.userName }} </p>
+				<p> {{ translation.dateCreated.toDateString() }} </p>
                 <p>{{translation.originalText}}</p>
             </div>
         </div>

@@ -1,9 +1,7 @@
 <div class="div-preview">
-<label>Original Text:</label><br>
-<p> {{ this.uploadService.originalTextString }} </p>
-<label>Translated Text:</label><br>
-<p> {{ this.uploadService.translatedTextString }} </p>
-</div>
+<h1> Preview </h1>
+
+<translation [previewTranslation]="this.uploadService.originalText" [previewTranslationText]="this.uploadService.translatedText"> </translation> 
 <button class="button-preview" (click)="this.location.back()"> Back </button>
 
 <button class="button-preview" (click)="this.uploadService.submit(translationID)"> Submit </button>

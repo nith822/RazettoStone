@@ -1,4 +1,4 @@
-<div class = "sidebar" [ngClass]="{'sidebaropened': this.sidebarService.sideBarOpened}">
+<div *ngIf="!this.previewTranslation && !this.previewTranslationText" class = "sidebar" [ngClass]="{'sidebaropened': this.sidebarService.sideBarOpened}">
 	<p class= "sidebarButton" (click)="onClick();" 
 		*ngIf="!(this.sidebarService.sideBarOpened)" >
 			&#9776;
@@ -14,16 +14,22 @@
 </div>
 <div *ngIf="this.translation" class="container-div" [ngClass]="{ 'sidebaropened': this.sidebarService.sideBarOpened }">
 	<div class="originalText">
-		<h3> Title: {{ translation.getOriginalText(true).title }}</h3>
+		<h3> {{ translation.title  }}</h3>
+		<p > Uploader:: {{translation.user.userName }} </p>
+		<p> Language: {{ translation.textLanguage }} </p>
+		<p> {{ translation.dateCreated.toDateString() }} </p>
 		<p *ngFor="let originalLine of translation.getOriginalText(true).getTextLines();">
 			{{originalLine.getText()}}
 		</p>
 	</div>
-	<div class="translationPreviews">
-		<router-outlet name="translations">
+	<div *ngIf="!this.previewTranslation && !this.previewTranslationText" class="translationPreviews">
+		<router-outlet  name="translations">
 		</router-outlet>
+	</div>
+	<div *ngIf="this.previewTranslation" class="translationPreviews">
+		<translation-text [previewTranslationText]="this.previewTranslationText"> </translation-text>
 	</div>
 </div>
 <div>
-	<button class="button-addTranslation" (click)="this.navigate('/upload/'+this.translation.id)">Add Translation</button>
+	<button *ngIf="!this.previewTranslation && !this.previewTranslationText" class="button-addTranslation" (click)="this.navigate('upload/'+this.translation.id)">Add Translation</button>
 </div>

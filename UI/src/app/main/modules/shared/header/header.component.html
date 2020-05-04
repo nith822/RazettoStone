@@ -2,6 +2,7 @@
 	<nav class="nav-bar">
 		<button class="nav-button-Home" (click)="this.navigate('translations')"> RazettoStone </button >
 		<button class="nav-button" (click)="this.navigate('upload')"> Upload </button >
+		<input class="nav-button" type="color" [value]="this.cookieService.get('color')" (input)="this.changeBackgroundColor($event.target.value)">
 		<div class="div-login">
 			<button  *ngIf="!this.userService.getCurrentUser()" class="nav-button"(click)="this.navigate('login')"> Login </button >
 			<button  *ngIf="this.userService.getCurrentUser()" class="nav-button-logout" (click)="this.userService.logOut()"> <span>{{ this.userService.getCurrentUser().userName }}</span> </button>

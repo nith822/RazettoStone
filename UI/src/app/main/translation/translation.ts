@@ -23,7 +23,7 @@ export class Translation extends Interactible {	//Post
 				enableProd?: boolean) {
 			
 		super(user, title, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
-		if(!originalText && enableProd) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
+		if(!originalText) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
 		
 		if(tags) { this.tags = tags; }
 		
