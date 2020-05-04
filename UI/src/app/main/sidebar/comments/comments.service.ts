@@ -38,30 +38,6 @@ export class CommentsService {
 					});
 					return this.comments;
 				}));
-
-			console.log("weird debugging");
-			console.log(this.http.get(this.postsUrl).pipe(
-		map(res => {
-		let response: any = res;
-		return response.map((translation) => {
-			var _translation = new Translation(
-					null, 
-					translation.title, 
-					translation.language, 
-					null,
-					translation.upvotes,
-					translation.downvotes,
-					translation._id,
-					translation.dateCreated,
-					translation.previewText,
-					null,
-					translation.tags);
-				//console.log(translation);
-				return _translation;
-			});
-		})));
-
-			console.log("BRUH");
 			/*}, (err) => {
 				console.log(err);
 			});*/
