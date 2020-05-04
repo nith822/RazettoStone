@@ -29,7 +29,7 @@ export class UploadService {
 	
 	tags: string;
 	
-	constructor(private http: HttpClient, private userService: UserService, private router: Router) { 
+	constructor(private http: HttpClient, private userService: UserService, private router: Router,) { 
   
 	}
 	

@@ -17,14 +17,7 @@ export class TranslationService {
 	private searchUrl: string = "/api/posts/search/";
 	//headers: HttpHeaders  = new HttpHeaders(); 
 
-	originalTextString: string;
-	translatedTextString: string; 
-
-	originalText: Text;
-	translatedText: Text; 
-
 	searchString: string;
-	translations: Translation[];
 	
 	constructor(private userService: UserService, private http: HttpClient) {   
 	

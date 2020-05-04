@@ -5,10 +5,12 @@ import { TranslationService } from '../../../../translation/translation.service'
 import { Text } from '../../../../translation/text/text';
 import { TextLine } from '../../../../translation/text/textLine'
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs'; 
+
+import { Input } from '@angular/core';
 
 @Component({
-  selector: 'app-translation-text',
+  selector: 'translation-text',
   templateUrl: './translation-text.component.html',
   styleUrls: ['./translation-text.component.css'],
 })
@@ -18,11 +20,18 @@ export class TranslationTextComponent implements OnInit {
 	translationTextID: string;
 	translationText: Text;
 	
+	@Input() previewTranslationText: Text;
+	
 	constructor(private route: ActivatedRoute, private router: Router, public  translationService: TranslationService) {
 	}
 
 	ngOnInit() {
 		console.log("init TranslationTextComponent");
+		
+		if(this.previewTranslationText) {
+			this.translationText = this.previewTranslationText;
+			return;
+		}
 		
 		combineLatest(this.route.url, this.route.parent.parent.url).subscribe(([translationTextIDUrl, translationIDUrl]) => {
 			this.translationID = translationIDUrl[0].path;
@@ -35,6 +44,7 @@ export class TranslationTextComponent implements OnInit {
 				this.translationText = translationText;
 			});
 		});
+		
 	}
 	
 	convertToStringArray(textLines: TextLine[]): string[] {

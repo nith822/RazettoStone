@@ -7,6 +7,9 @@ import { SidebarService } from '../../sidebar/sidebar.service';
 
 import { Observable, BehaviorSubject } from 'rxjs';
 
+import { Input } from '@angular/core'
+import { Text } from '../../translation/text/text';
+
 @Component({
   selector: 'translation',
   templateUrl: './translation.component.html',
@@ -14,6 +17,9 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class TranslationComponent implements OnInit {
 
+	@Input() previewTranslation: Text;
+	@Input() previewTranslationText: Text;
+	
 	translation: Translation;
 	
 	hoveredIndex: number = -1;
@@ -23,7 +29,18 @@ export class TranslationComponent implements OnInit {
 
 	ngOnInit() {
 		console.log("init TranslationComponent");
+		
+		
+		
+		
+		if(this.previewTranslation) {
+			this.translation = new Translation(this.previewTranslation.user, this.previewTranslation.title, null, null, null, null, null, null, this.previewTranslation);
+			console.log(this.translation);
+			return;
+		}
+		
 		const translationID = this.route.snapshot.params['id'];
+		
 		this.translationService.getPost(translationID).subscribe((translation) => {
 			this.translation = translation;
 			console.log(this.translation.getOriginalText(true).getTextLines());

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { UploadService } from '../../upload/upload.service';
+import { TranslationService } from '../../translation/translation.service';
 
 import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/router';
 import { UserService } from "../../user/user.service";
@@ -21,7 +22,7 @@ export class UploadComponent implements OnInit {
 	file: File;
 	
 	constructor(private route: ActivatedRoute, public router: Router,
-		public uploadService: UploadService, public location: Location, public userService: UserService) { 
+		public uploadService: UploadService, public location: Location, public userService: UserService, public translationService: TranslationService) { 
 	}
 
 	ngOnInit() {
@@ -33,8 +34,14 @@ export class UploadComponent implements OnInit {
 		}
 		
 		const translationID = this.route.snapshot.params['id'];
+		console.log(translationID);
 		if(translationID) {
 			this.uploadOriginalText = false;
+			if(translationID != -1) {
+				this.translationService.getPost(translationID).subscribe((translation) => {
+					this.uploadService.originalText = translation.originalText;
+				});
+			}
 			if(this.uploadService.translatedText) {
 				if (this.uploadService.translatedText.user == null || this.uploadService.translatedText.user.id == null)
 					this.uploadService.translatedText.user = this.userService.getCurrentUser();
