@@ -326,8 +326,33 @@ exports.listPosts =  function(req,res,next){
            previewText: {$substrCP: ["$text",0,sizeOfPreview]},
            numberOfTranslations: {$size: "$translations"}   // may or may not be needed but its here 
        }}                                 
-    ]).then(function(posts){
-        res.send(posts.sort(sortByNewest).slice(page*postsPerPage,page*postsPerPage+postsPerPage));
+    ]).then(async function(posts){
+        var temp = posts;
+        var promises = [];
+        for (var post in temp){
+            console.log("REEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            try {
+                userObjectId = mongoose.Types.ObjectId(temp[post].userID);
+                console.log(userObjectId);
+                promise = User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+                    oAuthId: false,
+                    email: false
+                }}]).then(function(user){
+                    console.log(user);
+                    temp[post]['user_object'] = user;
+                    //console.log("hoho");
+                })
+                await promise;
+            } catch (exception) {
+                console.log('That post probably did not have a real user ID ');
+                console.log(exception);
+                temp[post]['user_object'] = null;
+            }
+        }
+        Promise.all(promises).then(function(){
+            //console.log("hehe");
+            res.send(temp.sort(sortByNewest).slice(page*postsPerPage,page*postsPerPage+postsPerPage));
+    });
     }).catch(next)
 };
 
@@ -372,8 +397,33 @@ exports.listTranslations = function(req,res,next){
         {$project: {
             "translations.comments": withComments
         }}                   
-     ]).then(function(post){
+     ]).then(async function(post){
         var tempArray = post[0].translations.sort(sortByUpvotes);
-        res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
+        var promises = [];
+        for (var post in tempArray){
+            console.log("REEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            try {
+                userObjectId = mongoose.Types.ObjectId(tempArray[post].userID);
+                console.log(userObjectId);
+                promise = User.aggregate([ { $match : { _id: userObjectId}},{$project:{
+                    oAuthId: false,
+                    email: false
+                }}]).then(function(user){
+                    console.log(user);
+                    tempArray[post]['user_object'] = user;
+                    //console.log("hoho");
+                })
+                await promise;
+            } catch (exception) {
+                console.log('That post probably did not have a real user ID ');
+                console.log(exception);
+                tempArray[post]['user_object'] = null;
+            }
+        }
+        Promise.all(promises).then(function(){
+            //console.log("hehe");
+            res.send(tempArray.slice(page*translationsPerPage,page*translationsPerPage+translationsPerPage))
+        });
+
      }).catch(next)
 };
