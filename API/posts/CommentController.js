@@ -18,10 +18,10 @@ exports.commentOnPost = function(req,res,next){
     var errorMessage = '';
     // Checking for required parameters
     
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -33,9 +33,9 @@ exports.commentOnPost = function(req,res,next){
         console.log('Text is longer than max length');
         errorMessage = errorMessage.concat('Text too long. ');
     }
-    if(req.body.language.length > maxLanguageLength){
-        console.log('Language is longer than max length');
-        errorMessage = errorMessage.concat('Language too long. ');
+    if(req.body.textLanguage.length > maxLanguageLength){
+        console.log('textLanguage is longer than max length');
+        errorMessage = errorMessage.concat('textLanguage too long. ');
     }
     if (errorMessage.length)
     {
@@ -49,7 +49,7 @@ exports.commentOnPost = function(req,res,next){
     errorMessage = '';
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {comments: {
         text: req.body.text,
-        textLanguage: req.body.language,
+        textLanguage: req.body.textLanguage,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: GetCookie.UID(req),
         upvotes: [GetCookie.UID(req)],
@@ -70,10 +70,10 @@ exports.commentOnTranslation = function(req,res,next){
     
     
     
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -93,7 +93,7 @@ exports.commentOnTranslation = function(req,res,next){
     Post.findOneAndUpdate({_id: req.params.post_id, "translations._id" : req.params.translation_id},
     {$push: {"translations.$.comments": {
         text: req.body.text,
-        textLanguage: req.body.language,
+        textLanguage: req.body.textLanguage,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: GetCookie.UID(req),
         upvotes: [GetCookie.UID(req)],
@@ -111,10 +111,10 @@ exports.replyToPostComment = function(req,res,next){
     // Checking for required parameters
     
     
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -134,7 +134,7 @@ exports.replyToPostComment = function(req,res,next){
     Post.findOneAndUpdate({_id: req.params.post_id, "comments._id": req.params.comment_id},
     {$push: {"comments.$.replies":{
         text: req.body.text,
-        textLanguage: req.body.language,
+        textLanguage: req.body.textLanguage,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: GetCookie.UID(req),
         upvotes: [GetCookie.UID(req)],
@@ -152,10 +152,10 @@ exports.replyToTranslationComment = function(req,res,next){
     // Checking for required parameters
     
     
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -175,7 +175,7 @@ exports.replyToTranslationComment = function(req,res,next){
    Post.findOneAndUpdate({_id: req.params.post_id, "translations._id": req.params.translation_id},
    {$push: {"translations.$[].comments.$[comment].replies": {
     text: req.body.text,
-    textLanguage: req.body.language,
+    textLanguage: req.body.textLanguage,
     dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
     userID: GetCookie.UID(req),
     upvotes: [GetCookie.UID(req)],

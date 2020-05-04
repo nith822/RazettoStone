@@ -35,7 +35,6 @@ describe("Testing the users endpoint", () => {
 		expect(response.body.data.email).toEqual("TestUser1@email.com");
 		expect(response.body.data.dateCreated).toEqual("2020-03-25T03:52:32.187Z");
 		expect(response.body.data.languages).toEqual(["english"]);
-		expect(response.body.data.oAuthId).toEqual("TestUser1_OAuthId");
 	});
 
 	it("cannot add user without username", async () => {
@@ -125,7 +124,6 @@ describe("Testing the users endpoint", () => {
 		expect(response.body.data[0].email).toEqual("TestUser1@email.com");
 		expect(response.body.data[0].dateCreated).toEqual("2020-03-25T03:52:32.187Z");
 		expect(response.body.data[0].languages).toEqual(["english"]);
-		expect(response.body.data[0].oAuthId).toEqual("TestUser1_OAuthId");
 	});
 
 	it("fetch single user successfully", async () => {
@@ -139,13 +137,13 @@ describe("Testing the users endpoint", () => {
 		expect(response.body.data.email).toEqual("TestUser1@email.com");
 		expect(response.body.data.dateCreated).toEqual("2020-03-25T03:52:32.187Z");
 		expect(response.body.data.languages).toEqual(["english"]);
-		expect(response.body.data.oAuthId).toEqual("TestUser1_OAuthId");
 	});
 
-	it("update single user successfully", async () => {
+	it("can update single user successfully", async () => {
 
 		const response = await supertest(app).put('/users/'+userId)
-			.send({email: "newEmail@gmail.com"});
+			.send({email: "newEmail@gmail.com",
+					oAuthId: 'exampleoauth'});
 
 		expect(response.status).toBe(200);
         expect(response.body.status).toBe("success");
@@ -154,8 +152,14 @@ describe("Testing the users endpoint", () => {
 		expect(response.body.data.email).toEqual("newEmail@gmail.com");
 		expect(response.body.data.dateCreated).toEqual("2020-03-25T03:52:32.187Z");
 		expect(response.body.data.languages).toEqual(["english"]);
-		expect(response.body.data.oAuthId).toEqual("TestUser1_OAuthId");
 	});
+
+	it("cannot update single user without oAuthId", async () => {
+		const response = await supertest(app).put('/users/'+userId)
+			.send({email: "newEmail@gmail.com"});
+
+		expect(response.status).toBe(422);
+	})
 });
 /*
 describe("Testing the posts endpoint", () => {

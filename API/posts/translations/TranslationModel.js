@@ -15,9 +15,9 @@ const TranslationSchema = new Schema({
         required: [true, 'text field is required'],
         text: true
     },
-    language: {
+    textLanguage: {
         type: String,
-        required: [true, 'Language field is required']
+        required: [true, 'textLanguage field is required']
     },
     dateCreated:{
         type: Date,

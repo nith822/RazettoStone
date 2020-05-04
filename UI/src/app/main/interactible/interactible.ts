@@ -5,7 +5,7 @@ export abstract class Interactible {
 	
 	user: User;
 	title: string;
-	language: string;
+	textLanguage: string;
 	comments: Comment[];
 	 
 	upvotes: string[];
@@ -14,13 +14,13 @@ export abstract class Interactible {
 	id: string;
 	dateCreated: Date;
 	
-	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
+	constructor(user?: User, title?: string, textLanguage?: string, comments?: Comment[], 
 				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
 				enableProd?: boolean) {
 		if(!user && enableProd) { throw new Error('No user for Text') } else { this.user = user }
 		if(!title && enableProd) { throw new Error('No title for Text') } else { this.title = title }
-		if(!language && enableProd) { throw new Error('No language for Text') } else { this.setLanguage(language) }
+		if(!textLanguage && enableProd) { throw new Error('No textLanguage for Text') } else { this.setLanguage(textLanguage) }
 		if(comments) { this.comments = comments } else { this.comments = [] }
 		
 		if(upvotes) { this.upvotes = upvotes } else { this.upvotes = [] }
@@ -30,8 +30,8 @@ export abstract class Interactible {
 		if(dateCreated) { this.dateCreated = dateCreated; } else { this.dateCreated = new Date() }
 	}
 	
-	setLanguage(language: string): void {
-		this.language = language;
+	setLanguage(textLanguage: string): void {
+		this.textLanguage = textLanguage;
 	}
 	
 	
@@ -47,7 +47,7 @@ export abstract class Interactible {
 		return {
 			userID: this.user.id,
 			title: this.title,
-			language: this.language,
+			textLanguage: this.textLanguage,
 			comments: commentsJSON,
 	
 			upvotes: this.upvotes,
@@ -73,7 +73,7 @@ export abstract class Interactible {
 		return "[" + "Attributes for interactible:: " + "\n" 
 			+ "user: " + this.user.toString() + "\n"
 			+ "title: " + this.title + "\n"
-			+ "language: " + this.language + "\n"
+			+ "textLanguage: " + this.textLanguage + "\n"
 			+ "comments: " + this.comments + "\n"
 			+ "upvotes: " + buildString(this.upvotes) +"\n"
 			+ "downvotes: " + buildString(this.downvotes) + "\n"

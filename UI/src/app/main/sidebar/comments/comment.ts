@@ -6,11 +6,11 @@ export class Comment extends Interactible {
 	
 	text: string;
 	
-	constructor(user?: User, text?: string, language?: string, comments?: Comment[], 
+	constructor(user?: User, text?: string, textLanguage?: string, comments?: Comment[], 
 				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
 				enableProd?: boolean) {
-		super(user, text, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
+		super(user, text, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
 		this.text = text;
 	}
 	

@@ -23,7 +23,7 @@ const ReplySchema = new Schema({
         type: Date,
         required: [true, 'dateCreated field is required']
     },
-    language:{
+    textLanguage:{
         type: String
     }
 });

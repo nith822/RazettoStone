@@ -15,7 +15,7 @@ export class UploadComponent implements OnInit {
 	uploadOriginalText: boolean;
 	
 	title: string;
-	language: string;
+	textLanguage: string;
 	tags: string;
 	
 	file: File;
@@ -40,7 +40,7 @@ export class UploadComponent implements OnInit {
 					this.uploadService.translatedText.user = this.userService.getCurrentUser();
 				console.log('setting user ' + this.uploadService.translatedText.user.id)
 				this.title = this.uploadService.translatedText.title;
-				this.language = this.uploadService.translatedText.language;
+				this.textLanguage = this.uploadService.translatedText.textLanguage;
 				this.file = this.uploadService.translatedTextFile;
 			}
 		} else {
@@ -49,7 +49,7 @@ export class UploadComponent implements OnInit {
 				if (this.uploadService.originalText.user == null || this.uploadService.originalText.user.id == null)
 					this.uploadService.originalText.user = this.userService.getCurrentUser();
 				this.title = this.uploadService.originalText.title;
-				this.language = this.uploadService.originalText.language;
+				this.textLanguage = this.uploadService.originalText.textLanguage;
 				this.tags = this.uploadService.tags;
 				this.file = this.uploadService.originalTextFile;
 			}
@@ -73,7 +73,7 @@ export class UploadComponent implements OnInit {
 	
 	navigate(path: string):void {
 		//file is saved asynch when it is uploaded in fileChanged function
-		this.uploadService.saveText(this.uploadOriginalText, this.title, this.language, this.tags);
+		this.uploadService.saveText(this.uploadOriginalText, this.title, this.textLanguage, this.tags);
 		if(path === "back") {
 			this.location.back();
 			return;

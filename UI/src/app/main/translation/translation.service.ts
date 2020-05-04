@@ -60,7 +60,7 @@ export class TranslationService {
 			var _translation = new Translation(
 					null, 
 					translation.data.title, 
-					translation.data.language, 
+					translation.data.textLanguage, 
 					null,
 					translation.data.upvotes,
 					translation.data.downvotes,
@@ -68,7 +68,7 @@ export class TranslationService {
 					translation.data.dateCreated,
 					new Text(null, 
 						translation.data.title, 
-						translation.data.language, 
+						translation.data.textLanguage, 
 						null,
 						translation.data.upvotes,
 						translation.data.downvotes,
@@ -92,7 +92,7 @@ export class TranslationService {
 			var _text_ = new Text(
 					null, 
 					_text.title, 
-					_text.language, 
+					_text.textLanguage, 
 					null,
 					_text.upvotes,
 					_text.downvotes,
@@ -112,7 +112,7 @@ export class TranslationService {
 			var _text_ = new Text(
 					null, 
 					_text.title, 
-					_text.language, 
+					_text.textLanguage, 
 					null,
 					_text.upvotes,
 					_text.downvotes,
@@ -136,7 +136,7 @@ export class TranslationService {
 			return response.data.map((translation) => {
 					  var _translation = new Translation(null, 
 														  translation.title, 
-														  translation.language, 
+														  translation.textLanguage, 
 														  null,
 														  translation.upvotes,
 														  translation.downvotes,
@@ -160,7 +160,7 @@ export class TranslationService {
 		  return response.map((translation) => {
 					var _translation = new Translation(null, 
 														translation.title, 
-														translation.language, 
+														translation.textLanguage, 
 														null,
 														translation.upvotes,
 														translation.downvotes,

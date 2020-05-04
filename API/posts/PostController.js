@@ -27,10 +27,10 @@ exports.create = function (req, res, next) {
         console.log('Request did not have title');
         errorMessage = errorMessage.concat('Need title. ');
     }
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -47,9 +47,9 @@ exports.create = function (req, res, next) {
         console.log('Title is longer than max length');
         errorMessage = errorMessage.concat('Title too long. ');
     }
-    if(req.body.language.length > maxLanguageLength){
-        console.log('language is longer than max length');
-        errorMessage = errorMessage.concat('language too long. ');
+    if(req.body.textLanguage.length > maxLanguageLength){
+        console.log('textLanguage is longer than max length');
+        errorMessage = errorMessage.concat('textLanguage too long. ');
     }
     
     if (req.body.tags == undefined || !Array.isArray(req.body.tags) || !req.body.tags.length)
@@ -68,10 +68,10 @@ exports.create = function (req, res, next) {
     }
     // Resetting error message for future use
     errorMessage = '';
-
+    
     var newPost = new Post({
         title: req.body.title,
-        textLanguage: req.body.language,
+        textLanguage: req.body.textLanguage,
         text: req.body.text,
         userID: GetCookie.UID(req),
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
@@ -104,7 +104,7 @@ exports.view = function (req, res, next) {
             downvotes: post.downvotes,
             tags: post.tags,
             title: post.title,
-            language: post.textLanguage,
+            textLanguage: post.textLanguage,
             text: post.text,
             userID: post.userID,
             dateCreated: post.dateCreated
@@ -134,7 +134,6 @@ exports.view = function (req, res, next) {
 exports.addTranslation = function (req, res, next){
     console.log(req.params)
     console.log('Attempting to add translation to post ' + req.params.post_id)
-    
     var errorMessage = '';
     // Checking for required parameters
     if (req.body.title == undefined || !req.body.title.trim())
@@ -142,10 +141,10 @@ exports.addTranslation = function (req, res, next){
         console.log('Request did not have title');
         errorMessage = errorMessage.concat('Need title. ');
     }
-    if (req.body.language == undefined || !req.body.language.trim())
+    if (req.body.textLanguage == undefined || !req.body.textLanguage.trim())
     {
-        console.log('Request did not have language');
-        errorMessage = errorMessage.concat('Need language. ');
+        console.log('Request did not have textLanguage');
+        errorMessage = errorMessage.concat('Need textLanguage. ');
     }
     if (req.body.text == undefined || !req.body.text.trim())
     {
@@ -162,7 +161,7 @@ exports.addTranslation = function (req, res, next){
         console.log('Text is longer than max length');
         errorMessage = errorMessage.concat('Text too long. ');
     }
-    if(req.body.language.length > maxLanguageLength){
+    if(req.body.textLanguage.length > maxLanguageLength){
         console.log('Text is longer than max length');
         errorMessage = errorMessage.concat('Text too long. ');
     }
@@ -178,11 +177,10 @@ exports.addTranslation = function (req, res, next){
     }
     // Resetting error message for future use
     errorMessage = '';
-
     Post.findByIdAndUpdate({_id:req.params.post_id}, {$push: {translations: {
         text: req.body.text,
         title: req.body.title,
-        textLanguage: req.body.language,
+        textLanguage: req.body.textLanguage,
         dateCreated: req.body.dateCreated ? Date.parse(req.body.dateCreated) : Date.now(),
         userID: GetCookie.UID(req),
         upvotes: [GetCookie.UID(req)],
@@ -319,7 +317,7 @@ exports.listPosts =  function(req,res,next){
        {$project: {
            _id: "$_id",
            title: "$title",
-           language: "$textLanguage",
+           textLanguage: "$textLanguage",
            tags: "$tags",
            userID: "$userID",
            dateCreated: "$dateCreated",
