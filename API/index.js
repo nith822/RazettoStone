@@ -15,7 +15,7 @@ const swaggerOptions = {
 			contact: {
 				name: 'https://github.com/nith822'
 			},
-			servers: ['http://localhost:8080']
+			servers: ['http://localhost:8080', 'http:razettostone.com']
 		}
 	},
 	apis: ['index.js', 'posts/PostRoutes.js', 'users/UserRoutes.js']
