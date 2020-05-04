@@ -3,6 +3,7 @@
  	<button class="button-comment" (click)="this.submitComment(this.currentCommentText)"> submit </button>
 </div>
  <div *ngFor="let comment of this.currentComments">
-	<p> {{ comment.user.username }} </p>
+	<p *ngIf="comment.user" > {{ comment.user.userName }} : </p>
 	<p> {{ comment.text }} </p>
+	<br>
  </div>

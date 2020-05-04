@@ -1,5 +1,7 @@
+const User = require('../users/UserModel');
+
 /// Get a user object (excluding email and OAuthID)
-function retrieveUserById(id){
+exports.retrieveUserById = function(id){
     let returnValue;
     User.aggregate([ { $match : { _id: id}},{$project:{
         oAuthId: false,
@@ -8,5 +10,7 @@ function retrieveUserById(id){
         //console.log(user);
         returnValue = user;
     });
+    console.log(returnValue);
     return returnValue;
 }
+
