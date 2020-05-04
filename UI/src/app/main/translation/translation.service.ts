@@ -85,7 +85,7 @@ export class TranslationService {
 			var _text_ = new Text(
 					this.createUserFromJSON(_text.user_object), 
 					_text.title, 
-					_text.language, 
+					_text.textLanguage, 
 					null,
 					_text.upvotes,
 					_text.downvotes,
