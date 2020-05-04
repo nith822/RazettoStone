@@ -2,10 +2,30 @@ let express = require('express')
 let cors = require('cors')
 let bodyParser = require('body-parser')
 let mongoose = require('mongoose')
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 var port = process.env.PORT || 8080;
 
+const swaggerOptions = {
+	swaggerDefinition: {
+		info: {
+			title: 'RazettoStone API',
+			description: 'Available features for RazettoStone',
+			contact: {
+				name: 'https://github.com/nith822'
+			},
+			servers: ['http://localhost:8080', 'http:razettostone.com']
+		}
+	},
+	apis: ['index.js', 'posts/PostRoutes.js', 'users/UserRoutes.js']
+}
+
 let app = express();
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 let userRoutes = require('./users/UserRoutes');
 
 app.get('/', (req, res) => res.send('Welcome to RazettoStone\'s API!'));
