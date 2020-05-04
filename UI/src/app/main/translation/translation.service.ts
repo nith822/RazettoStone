@@ -192,9 +192,9 @@ export class TranslationService {
 	createUserFromJSON(_userJSON: any): User {
 		if(_userJSON) {
 			var userJSON = _userJSON[0];
-			return new User(userJSON.userName, null, null, null, userJSON.dateCreated, null, userJSON.id);
+			return new User(userJSON.userName, null, null, userJSON.dateCreated, null, userJSON.id);
 		} else {
-			return new User("Anonymous", null, null, null, null, null, null);
+			return new User("Anonymous", null, null, null, null, null);
 		}
 	}
 }
