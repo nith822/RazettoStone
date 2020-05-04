@@ -36,7 +36,7 @@ export class UploadService {
 	//COUPLED
 	submit(postID?: string): void { 
 		//if(this.originalText) {
-		if(postID == -1) {
+		if(postID == "-1") {
 			var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.textLanguage, this.originalText.comments, 
 					this.originalText.upvotes, this.originalText.downvotes, 
 					this.originalText.id, this.originalText.dateCreated, 
