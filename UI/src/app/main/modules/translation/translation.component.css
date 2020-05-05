@@ -40,6 +40,13 @@
 	left: -26vw;
 	transition-property: all;
 	transition-duration: 1s;
+	overflow: scroll;
+	padding-left: 1%;
+	padding-right: 1%;
+}
+
+.sidebarInner::-webkit-scrollbar {
+	display: none;
 }
 
 .sidebar.sidebaropened .sidebarInner {
@@ -66,8 +73,8 @@
 }
 
 .sidebarOption {
-	float: right; 
-	border-top-right-radius: 10px; 
+	width: 100%;
+	border-radius: 6px; 
 	padding: 2%;
 	background-color: rgb(220, 106, 243);
 }
