@@ -29,9 +29,9 @@ export class CommentsComponent implements OnInit {
 	}
 	
 	submitComment(text: string): void {
-		this.commentsService.postComment(new Comment(this.userService.getCurrentUser(), text, "english"), this.routeParams.translationID, this.routeParams.translationTextID);
-    setTimeout(null, 500);// we need to wait for the post request to go through
-    this.retrieveComments();
+		this.commentsService.postComment(new Comment(this.userService.getCurrentUser(), text, "english"), this.routeParams.translationID, this.routeParams.translationTextID).subscribe((success)=> {this.retrieveComments()});
+    //setTimeout(null, 500); we need to wait for the post request to go through
+    //this.retrieveComments();
 	}
 
 	retrieveComments(): Comment[] {
