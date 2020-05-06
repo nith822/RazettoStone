@@ -8,10 +8,10 @@ const Translation = require('./translations/TranslationModel')
 var mongoose = require('mongoose');
 
 // constant for max length
-const maxTextLength = 10000;
-const maxTitleLength = 30;
-const maxLanguageLength = 20;
-const maxTagLength = 20;
+const maxTextLength = 100000;
+const maxTitleLength = 300;
+const maxLanguageLength = 200;
+const maxTagLength = 200;
 
 // create new post
 exports.create = function (req, res, next) {
