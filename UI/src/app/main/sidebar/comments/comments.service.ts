@@ -54,20 +54,15 @@ export class CommentsService {
 		//return of(this.comments);
 	}
 	
-	postComment(comment: Comment, postID: string, translationID?: string): void {
+	postComment(comment: Comment, postID: string, translationID?: string): Observable<any> {
 		if(!translationID) {
-			this.http.post(this.postsUrl + "/" + postID + "/comments", comment.encodeJSON(), {headers: this.headers}).subscribe((data) => {
-				console.log(data);
-			}, (err) => {
-				console.log(err);
-			});	
+			return this.http.post(this.postsUrl + "/" + postID + "/comments", comment.encodeJSON(), {headers: this.headers}).pipe(map(res => {
+			console.log(res)
+		}));	
 		} else {
-			this.http.post(this.postsUrl + "/" + postID + "/translations" + "/" + translationID + "/comments", comment.encodeJSON(), {headers: this.headers}).subscribe((data) => {
-				console.log("translation");
-				console.log(data);
-			}, (err) => {
-				console.log(err);
-			});	
+			return this.http.post(this.postsUrl + "/" + postID + "/translations" + "/" + translationID + "/comments", comment.encodeJSON(), {headers: this.headers}).pipe(map(res => {
+			console.log(res)
+		}));	
 		}
 	}
 }
