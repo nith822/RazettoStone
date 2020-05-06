@@ -57,14 +57,16 @@ export class TranslationsComponent implements OnInit {
 
 	upvotePost(translationID: string): void {
 		console.log("Attempting to upvote post.")
-		this.translationService.votePost(translationID, this.userID, true).subscribe();
-		this.retrievePosts();
+		this.translationService.votePost(translationID, this.userID, true).subscribe((success) => {this.retrievePosts()});
+    //setTimeout(null, 500); we need to wait for the put request to go through
+		//this.retrievePosts();
 	}
 
 	downvotePost(translationID: string): void {
 		console.log("Attempting to downvote post.")
-		this.translationService.votePost(translationID, this.userID, false).subscribe((success) => {
+		this.translationService.votePost(translationID, this.userID, false).subscribe((success) => {this.retrievePosts()
 		});
-		this.retrievePosts()
+    //setTimeout(null, 1000); we need to wait for the put request to go through
+		//this.retrievePosts()
 	}
 }
