@@ -16,14 +16,14 @@ export class Translation extends Interactible {	//Post
 	 
 	currentTranslatedText: Text;
 	
-	constructor(user?: User, title?: string, language?: string, comments?: Comment[], 
+	constructor(user?: User, title?: string, textLanguage?: string, comments?: Comment[], 
 				upvotes?: string[], downvotes?: string[], 
 				id?: string, dateCreated?: Date, 
 				originalText?: Text, translations?: Text[], tags?: string[],
 				enableProd?: boolean) {
 			
-		super(user, title, language, comments, upvotes, downvotes, id, dateCreated, enableProd);
-		if(!originalText && enableProd) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
+		super(user, title, textLanguage, comments, upvotes, downvotes, id, dateCreated, enableProd);
+		if(!originalText) { throw new Error('No user for originalText Tranlsation Post'); } else { this.originalText = originalText;	};
 		
 		if(tags) { this.tags = tags; }
 		
@@ -51,6 +51,20 @@ export class Translation extends Interactible {	//Post
 	
 	addTag(tag: string): void {
 		this.tags.push(tag);
+	}
+	
+	encodeJSON(): any {
+		let translationsJSON: any[] = [];
+		for(let translation of this.translations) {
+			if(translation) {
+				translationsJSON.push(translation.encodeJSON());
+			}
+		}
+		return Object.assign({}, super.encodeJSON(), {
+			text: this.originalText.text,
+			tags: this.tags,
+			translations: translationsJSON,
+		});
 	}
 	
 	toString(): string {

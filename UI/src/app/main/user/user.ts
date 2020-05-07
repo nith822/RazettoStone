@@ -50,8 +50,8 @@ export class User {
 			+ "username:: " + this.userName + "\n"
 			+ "id:: " + this.id  + "\n"
 			+ "email:: " + this.email  + "\n"
-			+ "dateCreated on" + this.dateCreated + "\n"
-			+ "languages" + this.languages;
-			+ "oAuthId" + this.oAuthId;
+			+ "dateCreated on:: " + this.dateCreated + "\n"
+			+ "languages:: " + this.languages + "\n"
+			+ "oAuthId:: " + this.oAuthId;
 	}
 }

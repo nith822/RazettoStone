@@ -7,6 +7,9 @@ import { SidebarService } from '../../sidebar/sidebar.service';
 
 import { Observable, BehaviorSubject } from 'rxjs';
 
+import { Input } from '@angular/core'
+import { Text } from '../../translation/text/text';
+
 @Component({
   selector: 'translation',
   templateUrl: './translation.component.html',
@@ -14,6 +17,9 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class TranslationComponent implements OnInit {
 
+	@Input() previewTranslation: Text;
+	@Input() previewTranslationText: Text;
+	
 	translation: Translation;
 	
 	hoveredIndex: number = -1;
@@ -23,11 +29,22 @@ export class TranslationComponent implements OnInit {
 
 	ngOnInit() {
 		console.log("init TranslationComponent");
-		const translationID = this.route.snapshot.params['id'];
-		this.translationService.getTranslations([translationID]).subscribe(translations =>
-			this.translation = translations[translationID - 1],
-		);
 		
+		
+		
+		
+		if(this.previewTranslation) {
+			this.translation = new Translation(this.previewTranslation.user, this.previewTranslation.title, null, null, null, null, null, null, this.previewTranslation);
+			console.log(this.translation);
+			return;
+		}
+		
+		const translationID = this.route.snapshot.params['id'];
+		
+		this.translationService.getPost(translationID).subscribe((translation) => {
+			this.translation = translation;
+			console.log(this.translation.getOriginalText(true).getTextLines());
+		});
 		
 		this.sidebarService.setRouterAndRoute(this.router, this.route);
 		
@@ -49,7 +66,7 @@ export class TranslationComponent implements OnInit {
 	
 	@HostListener('window:popstate', ['$event'])
 	onPopState(event) {
-		let regexp = new RegExp('translations/translation/[0-9]+/[(]translations:[0-9]+[)]');
+		let regexp = new RegExp('translations/translation/.*/[(]translations:.*[)]');
 		if(this.router.url.match(regexp)) {
 			console.log('Back button pressed on target url');
 			this.location.back();
@@ -57,11 +74,15 @@ export class TranslationComponent implements OnInit {
 	}
 	
 	matchEndRoute(url: string) {
-		var endRegExp =  new RegExp('/translations/translation/[0-9]+/[(][^]*translations:[0-9]+/[(][0-9]+[)][)]');
+		var endRegExp =  new RegExp('/translations/translation/.*/[(][^]*translations:.*/[(].*[)][)]');
 		return url.match(endRegExp);
 	}
 	
 	onClick(): void {
 		this.sidebarService.toggleSideBar();
+	}
+
+	navigate(comp: string): void {
+		this.router.navigateByUrl(comp);
 	}
 }

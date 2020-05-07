@@ -1,2 +1,58 @@
 .container-div {
+	display: block;
+}
+
+.nav-button {
+    background-color: #333;
+    /* display: block; */
+    color: white;
+    text-align: center;
+    padding: 10px 15px;
+    border: #333;
+    font-size: 15px;
+	float:left; 
+}
+
+.div-login .nav-button {
+	float:right; 
+	background-color:cornflowerblue;
+}
+
+.nav-bar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.nav-button-logout {
+    /* display: block; */
+    color: white;
+    text-align: center;
+    padding: 11px 6px;
+    border: #333;
+    font-size: 15px;
+    float:right; 
+	background-color:cornflowerblue;
+}
+
+.nav-button-logout:hover::before {
+    content: "Logout";
+}
+
+.nav-button-logout:hover span {
+    display: none;
+}
+
+.nav-button-Home {
+    background-color: #333;
+    /* display: block; */
+    color: white;
+    text-align: center;
+    padding: 5px 15px;
+    border: #333;
+    font-size: 19px;
+    float:left; 
+    font-family: cursive;
 }

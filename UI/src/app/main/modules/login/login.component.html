@@ -1,20 +1,8 @@
-<p>login works!</p>
-
-
-<label>userName:</label><br>
-<input [value]="userName" (input)="userName = $event.target.value"><br><br>
-
-<label>email:</label><br>
-<input [value]="email" (input)="email = $event.target.value"><br><br>
-
-<label>oAuthId:</label><br>
-<input [value]="oAuthId" (input)="oAuthId = $event.target.value"><br><br>
-
 <!--
-<button (click)="registerUser()"> register </button>
--->
-<button (click)="signInWithFB()"> register </button>
+<div class="div-login">
+	<input class="input-login" placeholder="User Name" (input)="userName = $event.target.value"><br>
+	<input class="input-login" placeholder="Email" (input)="email = $event.target.value"><br>
 
-<div *ngFor="let user of this.users">
-	<p > {{ user.userName }} <br>{{ user.email}} </p> 
+	<button class="button-login" (click)="signInWithFB()"> Register </button>
 </div>
+-->

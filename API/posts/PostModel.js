@@ -24,17 +24,19 @@ const RepliesSchema = new Schema({
 */
 
 const PostSchema = new Schema({
-    originalText: {
+    text: {
         type: String,
-        required: [true, 'originalText field is required']
+        required: [true, 'originalText field is required'],
+        text: true
     },
-    language: {
+    textLanguage: {
         type: String,
-        required: [true, 'Language field is required']
+        required: [true, 'textLanguage field is required']
     },
     title: {
         type: String,
-        required: [true, 'Title field is required']
+        required: [true, 'Title field is required'],
+        text: true
     },
     userID:{
         type: String,
@@ -55,11 +57,14 @@ const PostSchema = new Schema({
     },
     tags:{
         type: [String],
-        required: [true, 'tags field is required']          //if there is no tag just input empty array, []
+        required: [true, 'tags field is required'],          //if there is no tag just input empty array, []
+        text: true
     },
     comments: [CommentSchema],
     translations: [TranslationSchema]
 });
+
+PostSchema.index( { post: 1 }, {unique: false} );
 
 const Post = mongoose.model('post', PostSchema);
 module.exports = Post;

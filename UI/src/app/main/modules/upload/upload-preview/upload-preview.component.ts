@@ -5,6 +5,7 @@ import { UploadService } from '../../../upload/upload.service';
 
 import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/router';
 
+
 @Component({
   selector: 'upload-preview',
   templateUrl: './upload-preview.component.html',
@@ -12,6 +13,7 @@ import { Router, ActivatedRoute, Params, Data, NavigationEnd } from '@angular/ro
 })
 export class UploadPreviewComponent implements OnInit {
 
+	translationID: string;
 	
 	constructor(private route: ActivatedRoute, public router: Router,
 		public uploadService: UploadService, public location: Location, ) {
@@ -20,6 +22,8 @@ export class UploadPreviewComponent implements OnInit {
 
 	ngOnInit() {
 		console.log("init upload-preview component");
+		this.translationID = this.route.snapshot.params['id'];
+		console.log(this.translationID);
 	}
 	
 }

@@ -11,6 +11,8 @@ import { TranslationTextComponent } from './translation-text/translation-text.co
   imports: [
     CommonModule,
     TranslationTextRoutingModule
-  ]
+  ],
+  
+  exports: [TranslationTextComponent],
 })
 export class TranslationTextModule { }

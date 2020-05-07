@@ -30,6 +30,12 @@ module.exports = function (config) {
       suppressSkipped: true,  // do not print information about skipped tests
       showSpecTiming: false // print the time elapsed for each spec
     },
+	proxies: {
+      '/api': {
+        'target': 'http://localhost:8080/',
+        'changeOrigin': true
+      }
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

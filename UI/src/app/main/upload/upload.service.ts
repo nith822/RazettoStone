@@ -8,7 +8,7 @@ import { Comment } from '../sidebar/comments/comment';
 import { Translation } from '../translation/translation';
 
 import { UserService } from '../user/user.service';
-import { Post, PostTranslation } from './serializer';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -25,50 +25,69 @@ export class UploadService {
 	translatedTextString: string; 
 	
 	originalText: Text;
-	translatedText: Text;
+	translatedText: Text; 
 	
-	tags: string;
+	tags: string = "henlo";
 	
-	constructor(private http: HttpClient, private userService: UserService) { 
+	constructor(private http: HttpClient, private userService: UserService, private router: Router,) { 
   
 	}
 	
 	//COUPLED
-	//why is the string a seperate variable
-	submit(originalText?: Text, originalTextString?: string, 
-			tags?: string, 
-			translatedText?: Text, translatedTextString?: string): void { 
-		var post: Post;
-		var translation: PostTranslation = undefined;
-		if(this.translatedText) {
-			translation = new PostTranslation(this.translatedText.title, this.translatedText.language, this.translatedTextString, this.translatedText.user.id, this.translatedText.dateCreated, 
-									this.translatedText.upvotes, this.translatedText.downvotes, );
-		} 
-		post = new Post(this.originalText.title, this.originalText.language, this.originalTextString, this.originalText.user.id, this.originalText.dateCreated, 
-									this.originalText.upvotes, this.originalText.downvotes, this.tags.split(","), translation,);
-		this.uploadPost(post);
+	submit(postID?: string): void { 
+		//if(this.originalText) {
+		if(!postID || postID == "-1") {
+			var post: Translation = new Translation(this.originalText.user, this.originalText.title, this.originalText.textLanguage, this.originalText.comments, 
+					this.originalText.upvotes, this.originalText.downvotes, 
+					this.originalText.id, this.originalText.dateCreated, 
+					this.originalText, [this.translatedText], this.tags.split(','));
+			console.log(post.encodeJSON());
+			this.uploadPost(post.encodeJSON());
+		} else {
+			this.translatedText.user = this.userService.getCurrentUser();
+			this.addTranslationToPost(postID, this.translatedText);
+		}
+		this.router.navigateByUrl('/translations');
 	}
 	
 	
 	//refactor later
+	//create post
 	uploadPost(post): void {
 		this.http.post(this.postsUrl, post, {headers: this.headers}).subscribe((data) => {
 			console.log(data);
 		}, (err) => {
-			
+			console.log(err);
 		});		
 	}
 	
+	//add translation to post
+	addTranslationToPost(postID: string, translation): void {
+		this.http.post(this.postsUrl + "/" + postID + "/" + "translations", {userID: translation.user.id,
+																				title: translation.title,
+																				textLanguage: translation.textLanguage,
+																				text: translation.text}, {headers: this.headers}).subscribe((data) => {
+			console.log(data);
+		}, (err) => {
+			console.log(err);
+		});	
+	}
 	
-	saveText(isOriginal: boolean, title: string, language: string, tags: string): void {
+	
+	//don't create a text if the user has not uploaded a file yet
+	saveText(isOriginal: boolean, title: string, textLanguage: string, tags: string): void {
 		if(!isOriginal) {
-			this.translatedText = this.createText(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
-									this.translatedTextString);
+			if(!this.translatedTextString) {
+				return;
+			}
+			this.translatedText = new Text(this.userService.getCurrentUser(), title, textLanguage, [], [], [], undefined, new Date(), this.translatedTextString);
 		} else {
-			this.originalText = this.createText(this.userService.getCurrentUser(), title, language, [], [], [], undefined, new Date(), 
-									this.originalTextString);
-									
+			if(!this.originalTextString) {
+				return;
+			}
+			this.originalText = new Text(this.userService.getCurrentUser(), title, textLanguage, [], [], [], undefined, new Date(), this.originalTextString);
 			this.tags = tags;
+			console.log(this.originalText.encodeJSON());
 		}
 		console.log("Text created");
 	}
@@ -88,23 +107,4 @@ export class UploadService {
 		};
 		fileReader.readAsText(file);
 	}
-	
-	createTranslation(user?: User, title?: string, language?: string, comments?: Comment[], 
-				upvotes?: string[], downvotes?: string[], 
-				id?: string, dateCreated?: Date, 
-				originalText?: Text, translations?: Text[], tags?: string[]): Translation {
-					
-		return new Translation(user, title, language, comments, upvotes, downvotes, id, dateCreated, originalText, translations, tags);
-		
-	}
-	
-	createText(user?: User, title?: string, language?: string, comments?: Comment[], 
-				upvotes?: string[], downvotes?: string[], 
-				id?: string, dateCreated?: Date, 
-				text?: string, flags?: string[][]): Text {
-					
-		return new Text(user, title, language, comments, upvotes, downvotes, id, dateCreated, text, flags);			
-					
-	}
-	
 }

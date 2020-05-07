@@ -24,33 +24,40 @@ https://docs.google.com/document/d/1I0BHaT3fQC0xmHqalZHGjKzAR1xYOkqas1qF2mdjKOI/
 
 ### Posts 
 - [x] Model
-- [ ] Model for replies
-- [ ] GET /posts/                   // get post previews
+- [x] Model for replies
+- [x] GET /posts/                   // get post previews
 - [x] POST /posts/
 - [s] GET /posts/preview 
 - [x] GET /posts/{postid}           // get preview of one post, contains full text and preview of trans
 
 ### Translations
 - [x] Model
-- [?] GET /posts/{postid}/translations/{translationId}
+- [x] GET /posts/{postid}/translations/                          // this gets translation previews
+- [x] GET /posts/{postid}/translations/{translationId}
 - [x] POST /posts/{PostId}/translations
-- [ ] POST /posts/{postid}/translations/{TranslationID}/flag
+- [x] POST /posts/{postid}/translations/{TranslationID}/flag
 
 ### Comments
 - [x] Model
 - [x] POST /posts/{postid}/comments
 - [x] POST /posts/{postid}/translations/{TranslationID}/comments/
-- [ ] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies
+
+
+### Replies
+- [!] POST /posts/{postid}/comments/{commentID}/replies                                 // dateCreated will show up as int if we do nested on commentModel, and _id not generated
+- [!] POST /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies    // For now I'm doing two layered comments- comment and reply only
 
 ### Flags
 - [x] Model
+- [!] PUT  /posts/{postid}/translations/{translationId}/flag    // need to make sure a person cant put the same flag twice 
 
 ### Votes
 - [x] PUT /posts/{postid}/vote
 - [x] PUT /posts/{postid}/comments/{commentID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/vote
 - [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/vote
-- [ ] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{commentID}/vote
+- [x] PUT /posts/{postid}/comments/{commentID}/replies/{replyID}/vote
+- [x] PUT /posts/{postid}/translations/{TranslationID}/comments/{commentID}/replies/{replyID}/vote
 
 ### Search
-- [ ] GET /search
+- [x] GET /search

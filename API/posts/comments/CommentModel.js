@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');;
 const Schema = mongoose.Schema;
+let ReplySchema = require('./ReplyModel');
+let userSchema = require('../../users/UserModel')
 
-const CommentSchema = new Schema({
+var CommentSchema = new Schema({
     text: {
         type: String,
-        required: [true, 'text field is required']
+        required: [true, 'text field is required'],
+        text: true
     },
     upvotes:{
         type: [String],
@@ -22,9 +25,13 @@ const CommentSchema = new Schema({
         type: Date,
         required: [true, 'dateCreated field is required']
     },
-    language:{
+    textLanguage:{
         type: String
-    }
+    },
+    replies:{
+        type: [ReplySchema]
+    },
+    user_object:{}
 });
 
 
